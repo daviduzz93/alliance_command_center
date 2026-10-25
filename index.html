@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111111">
+  <title>Alliance Command Center | LADG</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div id="config-warning" class="config-warning hidden"></div>
+  <section id="login-screen" class="login-screen hidden">
+    <div class="login-card">
+      <div class="brand-mark">L</div>
+      <p class="eyebrow">LAST WAR · SERVER 2010</p>
+      <h1>Alliance Command Center</h1>
+      <p class="muted" data-i18n="loginSubtitle">Gestione operativa dell’alleanza LADG.</p>
+      <form id="login-form">
+        <label for="email" data-i18n="email">Email</label>
+        <input id="email" type="email" autocomplete="username" required placeholder="nome@esempio.it">
+        <label for="password" data-i18n="password">Password</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+        <button class="btn btn-primary full" type="submit" data-i18n="login">Accedi</button>
+        <p id="login-error" class="error" role="alert"></p>
+      </form>
+      <p class="tiny muted" data-i18n="accessNote">Accesso riservato agli utenti autorizzati.</p>
+    </div>
+  </section>
+
+  <div id="app-shell" class="app-shell hidden">
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div class="brand-mark small">L</div>
+        <div><strong>ALLIANCE</strong><span>COMMAND CENTER</span></div>
+        <button id="close-menu" class="icon-button mobile-only" aria-label="Chiudi menu">×</button>
+      </div>
+      <div class="server-chip"><span class="status-dot"></span><span id="alliance-label">LADG</span><span class="server-number">#2010</span></div>
+      <nav class="nav">
+        <button class="nav-item active" data-page="home"><span class="nav-icon">⌂</span><span data-i18n="home">Home</span></button>
+        <button class="nav-item" data-page="members"><span class="nav-icon">♙</span><span data-i18n="members">Membri</span></button>
+        <button class="nav-item future" data-page="registrations"><span class="nav-icon">☑</span><span data-i18n="registrations">Iscrizioni</span><span class="soon" data-i18n="soon">In arrivo</span></button>
+        <button class="nav-item future" data-page="formations"><span class="nav-icon">▦</span><span data-i18n="formations">Formazioni DS</span><span class="soon" data-i18n="soon">In arrivo</span></button>
+        <button class="nav-item future" data-page="history"><span class="nav-icon">◷</span><span data-i18n="history">Storico</span><span class="soon" data-i18n="soon">In arrivo</span></button>
+        <button class="nav-item future" data-page="stats"><span class="nav-icon">▥</span><span data-i18n="stats">Stats</span><span class="soon" data-i18n="soon">In arrivo</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="user-mini"><div class="avatar">L</div><div class="user-info"><strong id="user-email">Utente</strong><span id="user-role">Owner</span></div></div>
+        <button id="logout-button" class="logout-button"><span>↪</span><span data-i18n="logout">Esci</span></button>
+        <div class="signature">Created by Daviduzz<br><span>v0.1 · Base membri</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="open-menu" class="icon-button mobile-only" aria-label="Apri menu">☰</button>
+        <div><p class="eyebrow" id="top-eyebrow">LADG / OVERVIEW</p><h1 id="page-title" data-i18n="dashboard">Dashboard</h1></div>
+        <div class="top-actions"><span class="connection"><span class="status-dot"></span><span data-i18n="connected">Database connesso</span></span>
+          <select id="language-select" aria-label="Lingua"><option value="it">IT</option><option value="en">EN</option><option value="fr">FR</option></select>
+        </div>
+      </header>
+
+      <section id="home-page" class="page">
+        <div class="welcome-panel">
+          <div><p class="eyebrow orange" data-i18n="commandCenter">CENTRO DI COMANDO</p><h2><span data-i18n="welcome">Bentornato nell’alleanza,</span><br><span id="welcome-alliance">LADG.</span></h2><p class="muted" data-i18n="homeIntro">La base operativa è pronta. Da qui si parte con la gestione dei membri.</p>
+            <button class="btn btn-primary" id="go-members" data-i18n="manageMembers">Gestisci membri <span>→</span></button>
+          </div>
+          <div class="welcome-emblem"><div class="emblem-ring"><span>L</span></div><small>LOYALTY · DISCIPLINE · GLORY</small></div>
+        </div>
+        <div class="section-heading"><div><p class="eyebrow" data-i18n="overview">PANORAMICA</p><h2 data-i18n="allianceStatus">Stato alleanza</h2></div></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span data-i18n="activeMembers">Membri attivi</span><span class="stat-symbol">♙</span></div><strong id="active-count">—</strong><p class="muted" data-i18n="activeMembersDesc">Giocatori registrati nell’alleanza</p></article>
+          <article class="stat-card"><div class="stat-top"><span data-i18n="registeredMembers">Membri totali</span><span class="stat-symbol">◎</span></div><strong id="total-count">—</strong><p class="muted" data-i18n="registeredMembersDesc">Inclusi i membri inattivi</p></article>
+          <article class="stat-card"><div class="stat-top"><span data-i18n="yourRole">Il tuo ruolo</span><span class="stat-symbol">♜</span></div><strong id="role-card">—</strong><p class="muted" data-i18n="yourRoleDesc">Permessi sul database condiviso</p></article>
+        </div>
+        <div class="notice"><span class="notice-icon">i</span><div><strong data-i18n="firstMilestone">Prima versione operativa</strong><p data-i18n="firstMilestoneText">Login e gestione membri sono il primo blocco. Iscrizioni, formazioni, storico e statistiche saranno collegati nei passaggi successivi, senza fingere che pulsanti vuoti siano funzionalità.</p></div></div>
+      </section>
+
+      <section id="members-page" class="page hidden">
+        <div class="page-intro"><div><p class="eyebrow orange" data-i18n="roster">ROSTER ALLEANZA</p><h2 data-i18n="membersDirectory">Elenco membri</h2><p class="muted" data-i18n="membersIntro">Gestisci nickname, grado e potenza tattica. Le modifiche vengono salvate nel database condiviso.</p></div><button id="add-member" class="btn btn-primary"><span>＋</span> <span data-i18n="addMember">Aggiungi membro</span></button></div>
+        <div class="toolbar"><div class="search-wrap"><span>⌕</span><input id="member-search" type="search" data-i18n-placeholder="searchMembers" placeholder="Cerca un membro..."></div>
+          <select id="rank-filter" aria-label="Filtro grado"><option value="" data-i18n="allRanks">Tutti i gradi</option><option>R5</option><option>R4</option><option>R3</option><option>R2</option><option>R1</option></select>
+          <select id="status-filter" aria-label="Filtro stato"><option value="active" data-i18n="activeOnly">Solo attivi</option><option value="all" data-i18n="allStatuses">Tutti gli stati</option><option value="inactive" data-i18n="inactiveOnly">Solo inattivi</option></select>
+        </div>
+        <div class="table-card">
+          <div class="table-head"><div><strong data-i18n="memberList">Membri registrati</strong><span id="member-count-label" class="muted">0</span></div><button id="refresh-members" class="btn btn-ghost">↻ <span data-i18n="refresh">Aggiorna</span></button></div>
+          <div class="table-scroll"><table><thead><tr><th data-i18n="player">Giocatore</th><th data-i18n="rank">Grado</th><th data-i18n="tacticalPower">Potenza tattica</th><th data-i18n="status">Stato</th><th data-i18n="actions">Azioni</th></tr></thead><tbody id="members-tbody"><tr><td colspan="5" class="empty-state" data-i18n="loading">Caricamento membri...</td></tr></tbody></table></div>
+          <p id="members-message" class="inline-message" role="status"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="member-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-backdrop" data-close-modal></div><div class="modal-card">
+      <div class="modal-heading"><div><p class="eyebrow orange" data-i18n="memberRecord">SCHEDA MEMBRO</p><h2 id="modal-title" data-i18n="addMember">Aggiungi membro</h2></div><button class="icon-button" data-close-modal aria-label="Chiudi">×</button></div>
+      <form id="member-form">
+        <input id="member-id" type="hidden">
+        <label for="game-name" data-i18n="gameNickname">Nickname in gioco</label><input id="game-name" required maxlength="40" placeholder="Es. Daviduzz">
+        <div class="form-row"><div><label for="member-rank" data-i18n="rank">Grado</label><select id="member-rank"><option>R1</option><option>R2</option><option>R3</option><option>R4</option><option>R5</option></select></div>
+        <div><label for="member-power" data-i18n="tacticalPower">Potenza tattica</label><select id="member-power"><option value="1">★☆☆☆☆ · 1</option><option value="2">★★☆☆☆ · 2</option><option value="3" selected>★★★☆☆ · 3</option><option value="4">★★★★☆ · 4</option><option value="5">★★★★★ · 5</option></select></div></div>
+        <label for="member-notes" data-i18n="notesOptional">Note (facoltative)</label><textarea id="member-notes" rows="3" maxlength="500" placeholder="Note interne sul membro"></textarea>
+        <label class="check-row"><input id="member-active" type="checkbox" checked><span data-i18n="activeMember">Membro attivo</span></label>
+        <p id="member-form-error" class="error" role="alert"></p><div class="modal-actions"><button type="button" class="btn btn-ghost" data-close-modal data-i18n="cancel">Annulla</button><button type="submit" class="btn btn-primary" data-i18n="saveMember">Salva membro</button></div>
+      </form>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>
