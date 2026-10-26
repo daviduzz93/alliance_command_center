@@ -1,4 +1,4 @@
-# Alliance Command Center v0.6 — multi-alleanza
+# Alliance Command Center v0.6.1 — multi-alleanza
 
 Questa versione aggiunge il flusso registrazione, creazione alleanza, scelta server (solo durante la creazione), ingresso tramite codice invito e dashboard con i quattro menu principali.
 
@@ -28,7 +28,7 @@ Questa versione aggiunge il flusso registrazione, creazione alleanza, scelta ser
 - Do not run SQL migrations for this UI update.
 
 
-## Versione 0.6 — navigazione e identità visiva
+## Versione 0.6.1 — navigazione e identità visiva
 
 - Riordinato il menu: Home, Membri, Gestione DS, Gestione Treni, Notifiche, Guide, Impostazioni.
 - Membri è una sezione autonoma, non un sottomenu della Desert Storm.

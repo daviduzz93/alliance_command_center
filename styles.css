@@ -101,3 +101,7 @@ button,.card,.choice,.home-tile{border-radius:var(--radius-md)}
 #page-settings .language-options{left:0;right:auto;width:100%}
 .header-right .language-current{background:transparent;min-width:76px}
 @media(max-width:620px){#language-wrap{padding:6px}#language-wrap .language-current{min-width:78px;padding:7px 8px}.header-right .language-current{min-width:68px;padding:7px}}
+
+/* v0.6.1: title hierarchy matching approved visual reference */
+.auth-intro{width:min(100%,650px);margin:0 auto 4px;text-align:left}.auth-intro h2,.home-hero h2{display:flex;flex-direction:column;gap:2px;line-height:1.25;margin:0 0 14px}.auth-intro h2{font-size:28px}.accent-line{display:block;color:var(--orange)}.auth-intro .muted{max-width:620px;font-size:15px;margin:0}.home-hero h2{font-size:29px}.home-hero .muted{font-size:15px}
+@media(max-width:800px){.auth-intro h2,.home-hero h2{font-size:24px}.auth-intro{max-width:430px}}
