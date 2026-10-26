@@ -108,3 +108,25 @@ button,.card,.choice,.home-tile{border-radius:var(--radius-md)}
 
 /* Section title hierarchy: first line white, second line accent orange. */
 .auth-intro{text-align:center}.auth-intro .muted{margin-left:auto;margin-right:auto}.auth-intro h2{align-items:center}.section-heading{display:flex;flex-direction:column;gap:2px;line-height:1.25;margin:0 0 14px}.section-heading>span:first-child{color:#f4f4f4}.section-heading .accent-line{color:var(--orange)}
+
+/* Navigation and header refinement: keep the desktop canvas spacious. */
+#sidebar{transform:translateX(-105%);transition:transform .22s ease;box-shadow:15px 0 40px #0008}
+#sidebar.open{transform:translateX(0)}
+.content{margin-left:0;padding:0 32px 35px;max-width:none}
+.menu-toggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:42px;height:42px;font-size:20px}
+header{justify-content:flex-start;gap:18px}
+.header-title{min-width:180px}
+.top-alliance{margin:0 0 0 auto;min-width:190px;max-width:300px}
+.header-right{margin-left:0}
+/* Section headings remain on the page canvas, without a decorative box behind them. */
+.hero,.module-intro{padding:0;background:none;border:0;border-radius:0}
+.home-hero{margin:0 0 24px}
+.home-hero p{max-width:780px}
+.home-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.home-tile{background:var(--orange);color:#15100a;border:1px solid var(--orange);min-height:126px;border-radius:18px}
+.home-tile:hover{border-color:var(--accent-hover);filter:brightness(1.04)}
+.home-tile .tile-icon{background:transparent;border:0;color:#17110a;width:28px;height:28px;border-radius:0}
+.home-tile .tile-icon svg{width:25px;height:25px}
+.home-tile small{color:#3c260e}
+.home-tile .tile-arrow{color:#3c260e}
+@media(max-width:800px){.content{padding:0 15px 28px}header{flex-wrap:wrap;gap:10px;padding:12px 0}.header-title{flex:1;min-width:120px}.top-alliance{order:4;flex-basis:100%;max-width:none;margin:0}.header-right{margin-left:auto}.home-grid{grid-template-columns:1fr}.home-tile{min-height:126px}.menu-toggle{display:inline-flex}}

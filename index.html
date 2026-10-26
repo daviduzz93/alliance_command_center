@@ -25,7 +25,7 @@
 </main>
 <div id="app" class="app hidden">
   <aside id="sidebar"><div class="brand side-brand"><div class="logo mini">A</div><div><b>ALLIANCE</b><small>COMMAND CENTER</small></div><button id="close-menu" class="mobile close">×</button></div>
-    <div class="alliance-chip"><span class="dot"></span><div><b id="alliance-label">Alleanza</b><small id="server-label">#—</small></div></div>
+    
     <nav>
       <button class="nav selected" data-page="home"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg></span><b data-t="home">Home</b></button>
       <button class="nav" data-page="members"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2z"/><path d="M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20"/></svg></span><b data-t="members">Membri</b></button>
@@ -37,7 +37,7 @@
     </nav>
     <div class="side-bottom"><div id="user-label" class="user-label"></div><button id="invite-page" class="side-action">⌁ <span data-t="invite-page">Codice invito</span></button><button id="switch-alliance" class="side-action">⇄ <span data-t="switch">Cambia alleanza</span></button><button id="logout" class="side-action">↪ <span data-t="logout">Esci</span></button><footer>Created by Daviduzz<br><small>v0.6.1 · Multi-alleanza</small></footer></div>
   </aside>
-  <main class="content"><header><button id="open-menu" class="mobile close">☰</button><div><p class="eyebrow" id="kicker">ALLIANCE / DESERT STORM</p><h1 id="page-title" data-t="ds">Gestione DS</h1></div><div class="header-right"><span class="connected"><i class="dot"></i><span data-t="connected">Connesso</span></span><select id="lang-app" aria-label="Lingua"><option value="it">IT 🇮🇹</option><option value="fr">FR 🇫🇷</option><option value="en">EN 🇬🇧</option></select></div></header>
+  <main class="content"><header><button id="open-menu" class="close menu-toggle" aria-label="Apri menu">☰</button><div class="header-title"><p class="eyebrow" id="kicker">ALLIANCE / DESERT STORM</p><h1 id="page-title" data-t="ds">Gestione DS</h1></div><div class="alliance-chip top-alliance"><span class="dot"></span><div><b id="alliance-label">Alleanza</b><small id="server-label">#—</small></div></div><div class="header-right"><span class="connected"><i class="dot"></i><span data-t="connected">Connesso</span></span><select id="lang-app" aria-label="Lingua"><option value="it">IT 🇮🇹</option><option value="fr">FR 🇫🇷</option><option value="en">EN 🇬🇧</option></select></div></header>
     <section id="page-home" class="page">
       <div class="hero home-hero"><p class="eyebrow orange" data-t="home-status">GESTIONE ALLEANZA</p><h2><span data-t="home-title-1">Il centro di comando.</span><span class="accent-line" data-t="home-title-2">Tutto sotto controllo.</span></h2><p class="muted" data-t="home-desc">Organizza le attività della tua alleanza, coordina i membri e pianifica le prossime operazioni.</p></div>
       <div class="home-grid">
