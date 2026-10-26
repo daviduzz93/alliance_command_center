@@ -1,187 +1,40 @@
 (() => {
-  const cfg = window.APP_CONFIG || {};
-  const configMissing = !cfg.SUPABASE_URL || !cfg.SUPABASE_ANON_KEY ||
-    cfg.SUPABASE_URL.includes("INCOLLA_QUI") || cfg.SUPABASE_ANON_KEY.includes("INCOLLA_QUI");
-  const $ = (id) => document.getElementById(id);
-  const ui = {
-    login: $("login-screen"), shell: $("app-shell"), warning: $("config-warning"),
-    loginForm: $("login-form"), loginError: $("login-error"), membersBody: $("members-tbody"),
-    modal: $("member-modal"), memberForm: $("member-form"), formError: $("member-form-error"),
-    toast: $("toast"), message: $("members-message")
-  };
-  const translations = {
-    it: {loginSubtitle:"Gestione operativa dell’alleanza LADG.",email:"Email",password:"Password",login:"Accedi",accessNote:"Accesso riservato agli utenti autorizzati.",home:"Home",members:"Membri",registrations:"Iscrizioni",formations:"Formazioni DS",history:"Storico",stats:"Stats",soon:"In arrivo",logout:"Esci",dashboard:"Dashboard",connected:"Database connesso",commandCenter:"CENTRO DI COMANDO",welcome:"Bentornato nell’alleanza,",homeIntro:"La base operativa è pronta. Da qui si parte con la gestione dei membri.",manageMembers:"Gestisci membri",overview:"PANORAMICA",allianceStatus:"Stato alleanza",activeMembers:"Membri attivi",activeMembersDesc:"Giocatori registrati nell’alleanza",registeredMembers:"Membri totali",registeredMembersDesc:"Inclusi i membri inattivi",yourRole:"Il tuo ruolo",yourRoleDesc:"Permessi sul database condiviso",firstMilestone:"Prima versione operativa",firstMilestoneText:"Login e gestione membri sono il primo blocco. Iscrizioni, formazioni, storico e statistiche saranno collegati nei passaggi successivi, senza fingere che pulsanti vuoti siano funzionalità.",roster:"ROSTER ALLEANZA",membersDirectory:"Elenco membri",membersIntro:"Gestisci nickname, grado e potenza tattica. Le modifiche vengono salvate nel database condiviso.",addMember:"Aggiungi membro",searchMembers:"Cerca un membro...",allRanks:"Tutti i gradi",activeOnly:"Solo attivi",allStatuses:"Tutti gli stati",inactiveOnly:"Solo inattivi",memberList:"Membri registrati",refresh:"Aggiorna",player:"Giocatore",rank:"Grado",tacticalPower:"Potenza tattica",status:"Stato",actions:"Azioni",loading:"Caricamento membri...",memberRecord:"SCHEDA MEMBRO",gameNickname:"Nickname in gioco",notesOptional:"Note (facoltative)",activeMember:"Membro attivo",cancel:"Annulla",saveMember:"Salva membro",active:"Attivo",inactive:"Inattivo",edit:"Modifica",deactivate:"Disattiva",activate:"Riattiva",noMembers:"Nessun membro trovato.",saved:"Membro salvato.",loadError:"Impossibile caricare i membri.",duplicate:"Esiste già un membro con questo nickname.",requiredName:"Inserisci il nickname del giocatore.",roleOwner:"Owner",roleManager:"Manager",roleViewer:"Viewer",saving:"Salvataggio...",logoutError:"Errore durante l’uscita.",loginError:"Accesso non riuscito. Controlla email e password.",noAlliance:"Il tuo utente non è associato ad alcuna alleanza.",sessionExpired:"Sessione scaduta. Accedi di nuovo."},
-    en: {loginSubtitle:"LADG alliance operations management.",email:"Email",password:"Password",login:"Sign in",accessNote:"Access restricted to authorized users.",home:"Home",members:"Members",registrations:"Registrations",formations:"DS Lineups",history:"History",stats:"Stats",soon:"Coming soon",logout:"Sign out",dashboard:"Dashboard",connected:"Database connected",commandCenter:"COMMAND CENTER",welcome:"Welcome back to the alliance,",homeIntro:"The operations base is ready. Member management starts here.",manageMembers:"Manage members",overview:"OVERVIEW",allianceStatus:"Alliance status",activeMembers:"Active members",activeMembersDesc:"Players registered in the alliance",registeredMembers:"Total members",registeredMembersDesc:"Including inactive members",yourRole:"Your role",yourRoleDesc:"Permissions on the shared database",firstMilestone:"First working release",firstMilestoneText:"Login and member management are the first block. Registrations, lineups, history and stats will be connected in later steps.",roster:"ALLIANCE ROSTER",membersDirectory:"Member directory",membersIntro:"Manage nicknames, rank and tactical power. Changes are saved to the shared database.",addMember:"Add member",searchMembers:"Search members...",allRanks:"All ranks",activeOnly:"Active only",allStatuses:"All statuses",inactiveOnly:"Inactive only",memberList:"Registered members",refresh:"Refresh",player:"Player",rank:"Rank",tacticalPower:"Tactical power",status:"Status",actions:"Actions",loading:"Loading members...",memberRecord:"MEMBER RECORD",gameNickname:"In-game nickname",notesOptional:"Notes (optional)",activeMember:"Active member",cancel:"Cancel",saveMember:"Save member",active:"Active",inactive:"Inactive",edit:"Edit",deactivate:"Deactivate",activate:"Reactivate",noMembers:"No members found.",saved:"Member saved.",loadError:"Unable to load members.",duplicate:"A member with this nickname already exists.",requiredName:"Enter the player's nickname.",roleOwner:"Owner",roleManager:"Manager",roleViewer:"Viewer",saving:"Saving...",logoutError:"Sign-out failed.",loginError:"Sign-in failed. Check your email and password.",noAlliance:"Your user is not linked to an alliance.",sessionExpired:"Session expired. Sign in again."},
-    fr: {loginSubtitle:"Gestion opérationnelle de l’alliance LADG.",email:"E-mail",password:"Mot de passe",login:"Connexion",accessNote:"Accès réservé aux utilisateurs autorisés.",home:"Accueil",members:"Membres",registrations:"Inscriptions",formations:"Compositions DS",history:"Historique",stats:"Statistiques",soon:"Bientôt",logout:"Déconnexion",dashboard:"Tableau de bord",connected:"Base de données connectée",commandCenter:"CENTRE DE COMMANDEMENT",welcome:"Bon retour dans l’alliance,",homeIntro:"La base opérationnelle est prête. La gestion des membres commence ici.",manageMembers:"Gérer les membres",overview:"APERÇU",allianceStatus:"État de l’alliance",activeMembers:"Membres actifs",activeMembersDesc:"Joueurs enregistrés dans l’alliance",registeredMembers:"Membres au total",registeredMembersDesc:"Membres inactifs inclus",yourRole:"Votre rôle",yourRoleDesc:"Autorisations sur la base partagée",firstMilestone:"Première version opérationnelle",firstMilestoneText:"La connexion et la gestion des membres constituent le premier bloc. Les inscriptions, compositions, archives et statistiques seront ajoutées ensuite.",roster:"LISTE DE L’ALLIANCE",membersDirectory:"Liste des membres",membersIntro:"Gérez les pseudos, grades et puissance tactique. Les modifications sont enregistrées dans la base partagée.",addMember:"Ajouter un membre",searchMembers:"Rechercher un membre...",allRanks:"Tous les grades",activeOnly:"Actifs uniquement",allStatuses:"Tous les états",inactiveOnly:"Inactifs uniquement",memberList:"Membres enregistrés",refresh:"Actualiser",player:"Joueur",rank:"Grade",tacticalPower:"Puissance tactique",status:"État",actions:"Actions",loading:"Chargement des membres...",memberRecord:"FICHE MEMBRE",gameNickname:"Pseudo en jeu",notesOptional:"Notes (facultatif)",activeMember:"Membre actif",cancel:"Annuler",saveMember:"Enregistrer",active:"Actif",inactive:"Inactif",edit:"Modifier",deactivate:"Désactiver",activate:"Réactiver",noMembers:"Aucun membre trouvé.",saved:"Membre enregistré.",loadError:"Impossible de charger les membres.",duplicate:"Un membre avec ce pseudo existe déjà.",requiredName:"Saisissez le pseudo du joueur.",roleOwner:"Propriétaire",roleManager:"Gestionnaire",roleViewer:"Lecteur",saving:"Enregistrement...",logoutError:"Échec de la déconnexion.",loginError:"Échec de connexion. Vérifiez l’e-mail et le mot de passe.",noAlliance:"Votre utilisateur n’est associé à aucune alliance.",sessionExpired:"Session expirée. Reconnectez-vous."}
-  };
-  let lang = "it", supabase = null, currentUser = null, currentAlliance = null, currentRole = null, members = [], toastTimer = null;
-
-  function t(key) { return (translations[lang] && translations[lang][key]) || translations.it[key] || key; }
-  function applyLanguage() {
-    document.documentElement.lang = lang;
-    document.querySelectorAll("[data-i18n]").forEach(el => { const key = el.dataset.i18n; if (t(key)) el.textContent = t(key); });
-    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => { el.placeholder = t(el.dataset.i18nPlaceholder); });
-    renderMembers();
-    if ($("modal-title")) $("modal-title").textContent = $("member-id").value ? t("edit") : t("addMember");
-  }
-  function showToast(message, isError=false) {
-    ui.toast.textContent = message; ui.toast.classList.toggle("error-toast", isError); ui.toast.classList.remove("hidden");
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => ui.toast.classList.add("hidden"), 3500);
-  }
-  function showConfigError() {
-    ui.warning.classList.remove("hidden");
-    ui.warning.textContent = "Configurazione necessaria: apri config.js e inserisci il Project URL e la chiave pubblica (publishable/anon) del progetto Supabase. Non usare la service_role key. Poi ricarica la pagina.";
-    ui.login.classList.add("hidden"); ui.shell.classList.add("hidden");
-  }
-  function showApp() { ui.login.classList.add("hidden"); ui.shell.classList.remove("hidden"); ui.warning.classList.add("hidden"); }
-  function showLogin() { ui.shell.classList.add("hidden"); ui.login.classList.remove("hidden"); }
-  function friendlyRole(role) { return t(role === "owner" ? "roleOwner" : role === "manager" ? "roleManager" : "roleViewer"); }
-  function setPage(page) {
-    if (["registrations","formations","history","stats"].includes(page)) { showToast(t("soon")); return; }
-    document.querySelectorAll(".page").forEach(p => p.classList.add("hidden"));
-    $(page + "-page").classList.remove("hidden");
-    document.querySelectorAll(".nav-item").forEach(n => n.classList.toggle("active", n.dataset.page === page));
-    $("page-title").textContent = page === "members" ? t("members") : t("dashboard");
-    $("top-eyebrow").textContent = page === "members" ? "LADG / MEMBERS" : "LADG / OVERVIEW";
-    $("sidebar").classList.remove("open");
-    if (page === "members") loadMembers();
-  }
-  async function initializeUser(user) {
-    currentUser = user;
-    $("user-email").textContent = user.email || "Utente";
-    const { data: memberships, error: memError } = await supabase.from("alliance_memberships").select("alliance_id,role").eq("user_id", user.id).limit(1);
-    if (memError) throw memError;
-    if (!memberships || memberships.length === 0) throw new Error(t("noAlliance"));
-    currentRole = memberships[0].role;
-    const { data: alliance, error: allianceError } = await supabase.from("alliances").select("id,name,server_number").eq("id", memberships[0].alliance_id).single();
-    if (allianceError) throw allianceError;
-    currentAlliance = alliance;
-    $("alliance-label").textContent = alliance.name;
-    $("welcome-alliance").textContent = alliance.name + ".";
-    $("user-role").textContent = friendlyRole(currentRole);
-    $("role-card").textContent = friendlyRole(currentRole);
-    showApp();
-    await loadMembers();
-  }
-  async function loadMembers() {
-    if (!currentAlliance) return;
-    ui.membersBody.innerHTML = `<tr><td colspan="5" class="empty-state">${t("loading")}</td></tr>`;
-    ui.message.textContent = "";
-    const { data, error } = await supabase.from("alliance_members").select("id,alliance_id,game_name,rank,tactical_power,is_active,notes,created_at,updated_at").eq("alliance_id", currentAlliance.id).order("game_name", {ascending:true});
-    if (error) {
-      ui.membersBody.innerHTML = `<tr><td colspan="5" class="empty-state">${escapeHtml(t("loadError"))}</td></tr>`;
-      ui.message.textContent = error.message; return;
-    }
-    members = data || [];
-    $("active-count").textContent = members.filter(m => m.is_active).length;
-    $("total-count").textContent = members.length;
-    $("member-count-label").textContent = String(members.length);
-    renderMembers();
-  }
-  function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-  }
-  function renderMembers() {
-    if (!ui.membersBody) return;
-    const search = ($("member-search")?.value || "").trim().toLowerCase();
-    const rank = $("rank-filter")?.value || "";
-    const status = $("status-filter")?.value || "active";
-    const shown = members.filter(m => (!search || m.game_name.toLowerCase().includes(search)) && (!rank || m.rank === rank) && (status === "all" || (status === "active" ? m.is_active : !m.is_active)));
-    if (!shown.length) { ui.membersBody.innerHTML = `<tr><td colspan="5" class="empty-state">${escapeHtml(t("noMembers"))}</td></tr>`; return; }
-    ui.membersBody.innerHTML = shown.map(m => {
-      const initials = escapeHtml(m.game_name.trim().slice(0,1).toUpperCase() || "?");
-      const stars = "★".repeat(Number(m.tactical_power)) + `<span class="off">${"★".repeat(5-Number(m.tactical_power))}</span>`;
-      return `<tr>
-        <td><div class="player-cell"><div class="player-avatar">${initials}</div><div class="player-name">${escapeHtml(m.game_name)}</div></div></td>
-        <td><span class="rank-pill rank-${escapeHtml(m.rank)}">${escapeHtml(m.rank)}</span></td>
-        <td><span class="stars" aria-label="${Number(m.tactical_power)} / 5">${stars}</span></td>
-        <td><span class="state-pill ${m.is_active ? "" : "inactive"}">${m.is_active ? t("active") : t("inactive")}</span></td>
-        <td><div class="row-actions"><button class="mini-action" data-edit="${m.id}">${t("edit")}</button><button class="mini-action" data-toggle="${m.id}">${m.is_active ? t("deactivate") : t("activate")}</button></div></td>
-      </tr>`;
-    }).join("");
-    ui.membersBody.querySelectorAll("[data-edit]").forEach(btn => btn.addEventListener("click", () => openMemberModal(members.find(m => m.id === btn.dataset.edit))));
-    ui.membersBody.querySelectorAll("[data-toggle]").forEach(btn => btn.addEventListener("click", () => toggleMember(btn.dataset.toggle)));
-  }
-  function openMemberModal(member=null) {
-    ui.memberForm.reset(); ui.formError.textContent = "";
-    $("member-id").value = member?.id || "";
-    $("game-name").value = member?.game_name || "";
-    $("member-rank").value = member?.rank || "R1";
-    $("member-power").value = String(member?.tactical_power || 3);
-    $("member-notes").value = member?.notes || "";
-    $("member-active").checked = member ? !!member.is_active : true;
-    $("modal-title").textContent = member ? t("edit") : t("addMember");
-    ui.modal.classList.remove("hidden"); $("game-name").focus();
-  }
-  function closeMemberModal() { ui.modal.classList.add("hidden"); }
-  async function saveMember(event) {
-    event.preventDefault(); ui.formError.textContent = "";
-    if (currentRole === "viewer") { ui.formError.textContent = "Il tuo ruolo consente solo la lettura."; return; }
-    const id = $("member-id").value;
-    const gameName = $("game-name").value.trim();
-    if (!gameName) { ui.formError.textContent = t("requiredName"); return; }
-    const duplicate = members.find(m => m.game_name.toLowerCase() === gameName.toLowerCase() && m.id !== id);
-    if (duplicate) { ui.formError.textContent = t("duplicate"); return; }
-    const payload = { alliance_id: currentAlliance.id, game_name: gameName, rank: $("member-rank").value, tactical_power: Number($("member-power").value), notes: $("member-notes").value.trim() || null, is_active: $("member-active").checked };
-    const submit = ui.memberForm.querySelector('button[type="submit"]'); submit.disabled = true; submit.textContent = t("saving");
-    const result = id ? await supabase.from("alliance_members").update(payload).eq("id", id).eq("alliance_id", currentAlliance.id) : await supabase.from("alliance_members").insert(payload);
-    submit.disabled = false; submit.textContent = t("saveMember");
-    if (result.error) { ui.formError.textContent = result.error.message; return; }
-    closeMemberModal(); showToast(t("saved")); await loadMembers();
-  }
-  async function toggleMember(id) {
-    if (currentRole === "viewer") { showToast("Il tuo ruolo consente solo la lettura.", true); return; }
-    const member = members.find(m => m.id === id); if (!member) return;
-    const { error } = await supabase.from("alliance_members").update({is_active: !member.is_active}).eq("id", id).eq("alliance_id", currentAlliance.id);
-    if (error) { showToast(error.message, true); return; }
-    showToast(member.is_active ? t("deactivate") : t("activate")); await loadMembers();
-  }
-  async function signIn(event) {
-    event.preventDefault(); ui.loginError.textContent = "";
-    const button = ui.loginForm.querySelector('button[type="submit"]'); button.disabled = true;
-    const { error } = await supabase.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
-    button.disabled = false;
-    if (error) ui.loginError.textContent = t("loginError");
-  }
-  async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    if (error) { showToast(t("logoutError"), true); return; }
-    currentUser = null; currentAlliance = null; currentRole = null; members = []; showLogin();
-  }
-  function bindEvents() {
-    ui.loginForm.addEventListener("submit", signIn);
-    ui.memberForm.addEventListener("submit", saveMember);
-    $("add-member").addEventListener("click", () => openMemberModal());
-    $("go-members").addEventListener("click", () => setPage("members"));
-    $("refresh-members").addEventListener("click", loadMembers);
-    $("member-search").addEventListener("input", renderMembers);
-    $("rank-filter").addEventListener("change", renderMembers);
-    $("status-filter").addEventListener("change", renderMembers);
-    $("logout-button").addEventListener("click", signOut);
-    document.querySelectorAll(".nav-item").forEach(n => n.addEventListener("click", () => setPage(n.dataset.page)));
-    document.querySelectorAll("[data-close-modal]").forEach(el => el.addEventListener("click", closeMemberModal));
-    $("open-menu").addEventListener("click", () => $("sidebar").classList.add("open"));
-    $("close-menu").addEventListener("click", () => $("sidebar").classList.remove("open"));
-    $("language-select").addEventListener("change", e => { lang = e.target.value; applyLanguage(); });
-    document.addEventListener("keydown", e => { if (e.key === "Escape") closeMemberModal(); });
-  }
-  async function boot() {
-    bindEvents();
-    if (configMissing) { showConfigError(); return; }
-    if (!window.supabase?.createClient) { ui.warning.classList.remove("hidden"); ui.warning.textContent = "La libreria Supabase non è stata caricata. Controlla la connessione e ricarica la pagina."; return; }
-    supabase = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error) { showLogin(); return; }
-    if (session?.user) {
-      try { await initializeUser(session.user); }
-      catch (err) { showLogin(); ui.loginError.textContent = err.message || t("noAlliance"); }
-    } else showLogin();
-    supabase.auth.onAuthStateChange(async (event, sessionNow) => {
-      if (event === "SIGNED_IN" && sessionNow?.user && !currentAlliance) {
-        try { await initializeUser(sessionNow.user); } catch (err) { showLogin(); ui.loginError.textContent = err.message || t("noAlliance"); }
-      }
-      if (event === "SIGNED_OUT") { currentUser = null; currentAlliance = null; showLogin(); }
-    });
-  }
-  document.addEventListener("DOMContentLoaded", boot);
+const cfg=window.APP_CONFIG||{},$=id=>document.getElementById(id);
+const missing=!cfg.SUPABASE_URL||!cfg.SUPABASE_ANON_KEY||/INCOLLA_QUI/.test(cfg.SUPABASE_URL+cfg.SUPABASE_ANON_KEY);
+let sb,user,alliance,role,inviteCode,lang="it",toastTimer;
+const dict={
+it:{tagline:"Organizza la tua alleanza. Coordina ogni evento.",login:"Accedi",register:"Crea account",email:"Email",password:"Password","register-note":"Dopo la registrazione potrai creare un'alleanza o unirti con un codice invito.",welcome:"Benvenuto",choose:"Scegli come vuoi procedere.",create:"Crea una nuova alleanza","create-desc":"Scegli server e nome. Diventerai Owner.",join:"Unisciti a un'alleanza","join-desc":"Inserisci il codice invito ricevuto dall'Owner.",back:"Indietro","new-alliance":"NUOVA ALLEANZA","alliance-name":"Nome alleanza",server:"Server","server-note":"La scelta del server avviene solo durante la creazione dell'alleanza.","create-button":"Crea alleanza","invite-access":"ACCESSO TRAMITE INVITO","invite-code":"Codice invito","invite-note":"Alleanza e server saranno identificati automaticamente dal codice.","join-button":"Unisciti all'alleanza",ds:"Gestione DS",trains:"Gestione Treni",notifications:"Notifiche",guides:"Guide","invite-page":"Codice invito",switch:"Cambia alleanza",logout:"Esci",connected:"Connesso","ds-hero":"Coordina la battaglia.","ds-desc":"Organizzazione delle iscrizioni, formazioni e strategie dell'alleanza.","in-dev":"Modulo in sviluppo",registrations:"Iscrizioni","registrations-desc":"Raccogli le disponibilità per gli eventi DS.",lineups:"Formazioni","lineups-desc":"Organizza titolari, riserve e ruoli.",history:"Storico","history-desc":"Conserva risultati e partecipazioni.","trains-desc":"Il modulo Treni verrà collegato alla stessa alleanza e ai suoi permessi.","notifications-desc":"Avvisi e promemoria dell'alleanza.","guides-desc":"Raccolta condivisa di guide e strategie.","alliance-invite":"INVITO ALLEANZA","invite-title":"Codice invito","invite-desc":"Condividi questo codice con chi deve unirsi alla tua alleanza.",copy:"Copia",rotate:"Rigenera codice","rotate-note":"Il codice precedente verrà disattivato.",created:"Alleanza creata! Conserva il codice invito.",joined:"Sei entrato nell'alleanza.","bad-join":"Codice non valido o disattivato.",copied:"Codice copiato.","rotate-confirm":"Rigenerando il codice, quello precedente verrà disattivato. Continuare?","no-alliance":"Account non associato ad alcuna alleanza."},
+en:{tagline:"Organize your alliance. Coordinate every event.",login:"Sign in",register:"Create account",email:"Email",password:"Password","register-note":"After registering, create an alliance or join with an invite code.",welcome:"Welcome",choose:"Choose how you want to continue.",create:"Create a new alliance","create-desc":"Choose server and name. You will become Owner.",join:"Join an alliance","join-desc":"Enter an invite code from the Owner.",back:"Back","new-alliance":"NEW ALLIANCE","alliance-name":"Alliance name",server:"Server","server-note":"Choose a server only when creating an alliance.","create-button":"Create alliance","invite-access":"JOIN BY INVITE","invite-code":"Invite code","invite-note":"The code identifies the alliance and server.","join-button":"Join alliance",ds:"DS Management",trains:"Train Management",notifications:"Notifications",guides:"Guides","invite-page":"Invite code",switch:"Switch alliance",logout:"Sign out",connected:"Connected","ds-hero":"Coordinate the battle.","ds-desc":"Organize registrations, lineups and alliance strategies.","in-dev":"Module in development",registrations:"Registrations","registrations-desc":"Collect availability for DS events.",lineups:"Lineups","lineups-desc":"Organize starters, reserves and roles.",history:"History","history-desc":"Keep results and participation records.","trains-desc":"Train Management will use the same alliance and permissions.","notifications-desc":"Alliance alerts and reminders.","guides-desc":"Shared collection of guides and strategies.","alliance-invite":"ALLIANCE INVITE","invite-title":"Invite code","invite-desc":"Share this code with people joining your alliance.",copy:"Copy",rotate:"Regenerate code","rotate-note":"The previous code will be disabled.",created:"Alliance created! Save the invite code.",joined:"You joined the alliance.","bad-join":"Invalid or disabled invite code.",copied:"Code copied.","rotate-confirm":"Regenerating disables the previous code. Continue?","no-alliance":"Account is not linked to an alliance."},
+fr:{tagline:"Organisez votre alliance. Coordonnez chaque événement.",login:"Connexion",register:"Créer un compte",email:"E-mail",password:"Mot de passe","register-note":"Après l'inscription, créez une alliance ou rejoignez-en une avec un code.",welcome:"Bienvenue",choose:"Choisissez comment continuer.",create:"Créer une alliance","create-desc":"Choisissez le serveur et le nom. Vous serez Owner.",join:"Rejoindre une alliance","join-desc":"Saisissez un code fourni par l'Owner.",back:"Retour","new-alliance":"NOUVELLE ALLIANCE","alliance-name":"Nom de l'alliance",server:"Serveur","server-note":"Le serveur est choisi uniquement lors de la création.","create-button":"Créer l'alliance","invite-access":"ACCÈS PAR INVITATION","invite-code":"Code d'invitation","invite-note":"Le code identifie l'alliance et son serveur.","join-button":"Rejoindre l'alliance",ds:"Gestion DS",trains:"Gestion des trains",notifications:"Notifications",guides:"Guides","invite-page":"Code d'invitation",switch:"Changer d'alliance",logout:"Déconnexion",connected:"Connecté","ds-hero":"Coordonnez la bataille.","ds-desc":"Organisez inscriptions, compositions et stratégies.","in-dev":"Module en développement",registrations:"Inscriptions","registrations-desc":"Recueillez les disponibilités DS.",lineups:"Compositions","lineups-desc":"Organisez titulaires, réserves et rôles.",history:"Historique","history-desc":"Conservez résultats et participations.","trains-desc":"Le module Trains utilisera les mêmes permissions.","notifications-desc":"Alertes et rappels de l'alliance.","guides-desc":"Collection partagée de guides et stratégies.","alliance-invite":"INVITATION D'ALLIANCE","invite-title":"Code d'invitation","invite-desc":"Partagez ce code avec les personnes qui rejoignent l'alliance.",copy:"Copier",rotate:"Régénérer le code","rotate-note":"L'ancien code sera désactivé.",created:"Alliance créée ! Conservez le code.",joined:"Vous avez rejoint l'alliance.","bad-join":"Code invalide ou désactivé.",copied:"Code copié.","rotate-confirm":"Régénérer désactive l'ancien code. Continuer?","no-alliance":"Compte non associé à une alliance."}
+};
+const t=k=>dict[lang]?.[k]||dict.it[k]||k;
+function setMsg(id,s,bad=false){$(id).textContent=s;$(id).classList.toggle("error",bad)}
+function applyLang(){document.documentElement.lang=lang;$("lang").value=lang;$("lang-app").value=lang;document.querySelectorAll("[data-t]").forEach(e=>e.textContent=t(e.dataset.t))}
+function setLang(v){lang=v;applyLang()}
+function showOnly(id){["auth","onboard","app"].forEach(x=>$(x).classList.toggle("hidden",x!==id));$("language-wrap").classList.toggle("hidden",id==="app")}
+function authTab(which){$("login-form").classList.toggle("hidden",which!=="login");$("register-form").classList.toggle("hidden",which!=="register");$("show-login").classList.toggle("selected",which==="login");$("show-register").classList.toggle("selected",which==="register");setMsg("auth-msg","")}
+function showOnboard(){showOnly("onboard");$("choices").classList.remove("hidden");$("make-panel").classList.add("hidden");$("join-panel").classList.add("hidden")}
+function choosePanel(which){$("choices").classList.add("hidden");$("make-panel").classList.toggle("hidden",which!=="make");$("join-panel").classList.toggle("hidden",which!=="join")}
+async function getMemberships(){const {data,error}=await sb.from("alliance_memberships").select("alliance_id,role").eq("user_id",user.id);if(error)throw error;return data||[]}
+async function enterAlliance(id,r){const {data,error}=await sb.from("alliances").select("id,name,server_number").eq("id",id).single();if(error)throw error;alliance=data;role=r;showOnly("app");$("alliance-label").textContent=data.name;$("server-label").textContent="Server #"+data.server_number;$("user-label").textContent=(user.email||"")+" · "+r;showPage("ds")}
+async function afterAuth(u){user=u;const list=await getMemberships();if(list.length===0){showOnboard();return}if(list.length===1){await enterAlliance(list[0].alliance_id,list[0].role);return}showOnboard();$("choices").innerHTML="";for(const m of list){const {data:a}=await sb.from("alliances").select("id,name,server_number").eq("id",m.alliance_id).single();if(!a)continue;const b=document.createElement("button");b.className="choice";const title=document.createElement("b");title.textContent=a.name+" · #"+a.server_number;const sub=document.createElement("small");sub.textContent=m.role;b.append(title,sub);b.onclick=()=>enterAlliance(a.id,m.role);$("choices").append(b)}}
+function showPage(p){document.querySelectorAll(".page").forEach(e=>e.classList.add("hidden"));$("page-"+p).classList.remove("hidden");document.querySelectorAll(".nav[data-page]").forEach(e=>e.classList.toggle("selected",e.dataset.page===p));$("page-title").textContent=t(p==="invite"?"invite-title":p);$("kicker").textContent="ALLIANCE / "+p.toUpperCase();$("sidebar").classList.remove("open")}
+async function makeAlliance(e){e.preventDefault();const name=$("alliance-name").value.trim(),server=Number($("server").value);if(!Number.isInteger(server)||server<1||server>2308){setMsg("make-msg","Il server deve essere compreso tra #1 e #2308.",true);return}const b=$("make-form").querySelector("button[type=submit]");b.disabled=true;const {data,error}=await sb.rpc("create_alliance_with_invite",{p_name:name,p_server_number:server});b.disabled=false;if(error){setMsg("make-msg",error.message,true);return}inviteCode=data.invite_code;await enterAlliance(data.alliance_id,"owner");$("invite-display").textContent=inviteCode;showPage("invite");alert(t("created"))}
+async function joinAlliance(e){e.preventDefault();const b=$("join-form").querySelector("button[type=submit]");b.disabled=true;const {data,error}=await sb.rpc("join_alliance_with_invite",{p_invite_code:$("invite-code").value.trim().toUpperCase()});b.disabled=false;if(error){setMsg("join-msg",t("bad-join")+" "+error.message,true);return}await enterAlliance(data.alliance_id,data.role);alert(t("joined"))}
+async function refreshInvite(){if(role!=="owner"){setMsg("invite-msg","Solo l'Owner può gestire il codice invito.",true);return}const {data,error}=await sb.rpc("rotate_alliance_invite",{p_alliance_id:alliance.id});if(error){setMsg("invite-msg",error.message,true);return}inviteCode=data.invite_code;$("invite-display").textContent=inviteCode;setMsg("invite-msg","")}
+function bind(){
+$("lang").onchange=e=>setLang(e.target.value);$("lang-app").onchange=e=>setLang(e.target.value);
+$("show-login").onclick=()=>authTab("login");$("show-register").onclick=()=>authTab("register");
+$("login-form").onsubmit=async e=>{e.preventDefault();const {data,error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});if(error){setMsg("auth-msg","Accesso non riuscito. Controlla email e password.",true);return}try{await afterAuth(data.user)}catch(err){setMsg("auth-msg",err.message,true)}};
+$("register-form").onsubmit=async e=>{e.preventDefault();const {data,error}=await sb.auth.signUp({email:$("new-email").value.trim(),password:$("new-password").value});if(error){setMsg("auth-msg",error.message,true);return}if(data.session){try{await afterAuth(data.user)}catch(err){setMsg("auth-msg",err.message,true)}}else setMsg("auth-msg","Registrazione inviata. Se è attiva la conferma email, controlla la posta e poi accedi.")};
+$("make-choice").onclick=()=>choosePanel("make");$("join-choice").onclick=()=>choosePanel("join");document.querySelectorAll("[data-back]").forEach(b=>b.onclick=showOnboard);$("make-form").onsubmit=makeAlliance;$("join-form").onsubmit=joinAlliance;
+$("logout").onclick=async()=>{await sb.auth.signOut();user=null;alliance=null;role=null;showOnly("auth");authTab("login")};
+$("switch-alliance").onclick=async()=>{const list=await getMemberships();if(list.length>1){showOnboard();$("choices").innerHTML="";for(const m of list){const {data:a}=await sb.from("alliances").select("id,name,server_number").eq("id",m.alliance_id).single();if(!a)continue;const b=document.createElement("button");b.className="choice";b.innerHTML="<b></b><small></small>";b.children[0].textContent=a.name+" · #"+a.server_number;b.children[1].textContent=m.role;b.onclick=()=>enterAlliance(a.id,m.role);$("choices").append(b)}}else showOnboard()};
+document.querySelectorAll(".nav[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));$("invite-page").onclick=()=>{showPage("invite");$("invite-display").textContent="••••••••••••";if(role==="owner")setMsg("invite-msg","Premi “Rigenera codice” per creare un nuovo codice; il precedente verrà disattivato.");else setMsg("invite-msg","Solo l'Owner può gestire il codice invito.")};
+$("rotate-invite").onclick=async()=>{if(role!=="owner")return;if(!confirm(t("rotate-confirm")))return;await refreshInvite()};
+$("copy-invite").onclick=async()=>{if(!inviteCode){setMsg("invite-msg","Genera prima un codice invito.",true);return}try{await navigator.clipboard.writeText(inviteCode);setMsg("invite-msg",t("copied"))}catch{setMsg("invite-msg","Copia manualmente il codice visualizzato.")}};
+$("open-menu").onclick=()=>$("sidebar").classList.add("open");$("close-menu").onclick=()=>$("sidebar").classList.remove("open");
+}
+async function boot(){bind();applyLang();if(missing){$("warning").classList.remove("hidden");$("warning").textContent="Configurazione necessaria: inserisci Project URL e chiave pubblica in config.js.";return}if(!window.supabase?.createClient){$("warning").classList.remove("hidden");$("warning").textContent="Libreria Supabase non caricata. Controlla la connessione.";return}sb=window.supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);const {data:{session}}=await sb.auth.getSession();if(session?.user){try{await afterAuth(session.user)}catch(e){showOnly("auth");setMsg("auth-msg",e.message,true)}}else{showOnly("auth");authTab("login")}sb.auth.onAuthStateChange(async(event,s)=>{if(event==="SIGNED_OUT"){showOnly("auth");authTab("login")}else if(event==="SIGNED_IN"&&s?.user&&!alliance){try{await afterAuth(s.user)}catch(e){showOnly("auth");setMsg("auth-msg",e.message,true)}}})}
+document.addEventListener("DOMContentLoaded",boot);
 })();
