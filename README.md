@@ -1,4 +1,4 @@
-# Alliance Command Center v0.6.1 — multi-alleanza
+# Alliance Command Center v0.7.0 — multi-alleanza
 
 Questa versione aggiunge il flusso registrazione, creazione alleanza, scelta server (solo durante la creazione), ingresso tramite codice invito e dashboard con i quattro menu principali.
 
@@ -40,3 +40,10 @@ Questa versione aggiunge il flusso registrazione, creazione alleanza, scelta ser
 ## Pubblicazione
 
 Mantieni `config.js` con l'URL Supabase e la chiave publishable/anon già utilizzati. Pubblica i file del pacchetto nella root del repository GitHub, sostituendo quelli della versione precedente solo dopo aver conservato una copia locale. Esegui un test di accesso prima di considerare la pubblicazione verificata.
+
+
+## v0.7.0
+- Barra superiore e navigazione consolidate.
+- Hamburger non resta in primo piano quando il menu laterale è aperto; la X chiude il pannello.
+- Stemma personalizzabile con anteprima e rimozione. In questa build lo stemma è salvato localmente nel browser per ciascuna alleanza; la condivisione tra membri richiede uno storage condiviso Supabase da configurare separatamente.
+- Normalizzazione delle sequenze di newline visibili nei testi.
