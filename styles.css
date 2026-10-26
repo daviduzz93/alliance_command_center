@@ -105,3 +105,6 @@ button,.card,.choice,.home-tile{border-radius:var(--radius-md)}
 /* v0.6.1: title hierarchy matching approved visual reference */
 .auth-intro{width:min(100%,650px);margin:0 auto 4px;text-align:left}.auth-intro h2,.home-hero h2{display:flex;flex-direction:column;gap:2px;line-height:1.25;margin:0 0 14px}.auth-intro h2{font-size:28px}.accent-line{display:block;color:var(--orange)}.auth-intro .muted{max-width:620px;font-size:15px;margin:0}.home-hero h2{font-size:29px}.home-hero .muted{font-size:15px}
 @media(max-width:800px){.auth-intro h2,.home-hero h2{font-size:24px}.auth-intro{max-width:430px}}
+
+/* Section title hierarchy: first line white, second line accent orange. */
+.auth-intro{text-align:center}.auth-intro .muted{margin-left:auto;margin-right:auto}.auth-intro h2{align-items:center}.section-heading{display:flex;flex-direction:column;gap:2px;line-height:1.25;margin:0 0 14px}.section-heading>span:first-child{color:#f4f4f4}.section-heading .accent-line{color:var(--orange)}
