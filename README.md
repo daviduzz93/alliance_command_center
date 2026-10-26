@@ -16,3 +16,13 @@ Questa versione aggiunge il flusso registrazione, creazione alleanza, scelta ser
 - I quattro moduli sono ancora scheletri UI, non funzionalità operative.
 - L'utente già associato a LADG sul server 2010 dovrebbe entrare direttamente nella dashboard.
 - Se Supabase Auth richiede conferma email, l'utente dovrà confermare l'indirizzo prima di poter accedere.
+
+
+## Version 0.4: design system foundation
+
+- `styles.css` now starts with centralized design tokens for colors, spacing, radii and text.
+- `theme.js` is a small, isolated theme service; the main app does not implement theme persistence itself.
+- Four dark palettes are available: Command (default), Midnight, Emerald and Violet.
+- Theme choice is stored locally in the current browser. It is not yet synchronized across devices or saved to the Supabase profile.
+- This is the first refactoring step, not a full rewrite of the authentication and module code. The next safe step is to split auth, localization, navigation and module logic into separate files while preserving the existing Supabase RPC contract.
+- Do not run SQL migrations for this UI update.
