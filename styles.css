@@ -81,3 +81,23 @@ button,.card,.choice,.home-tile{border-radius:var(--radius-md)}
 .language select{font-weight:650;min-width:130px;cursor:pointer}
 .header-right select{min-width:48px;font-size:17px;text-align:center;cursor:pointer}
 @media(max-width:800px){.module-intro{padding:22px}.module-intro h2{font-size:23px}.module-grid{grid-template-columns:1fr}}
+
+/* Custom language picker: flag artwork is SVG, independent of OS emoji fonts. */
+.native-lang-hidden{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;overflow:hidden!important}
+.language-picker{position:relative;display:inline-flex;flex:0 0 auto;z-index:35;font-size:13px}
+.language-current{display:flex;align-items:center;justify-content:center;gap:7px;min-width:76px;padding:8px 10px;background:#202020;color:#f4f4f4;border:1px solid #383838;border-radius:9px;font-weight:750;cursor:pointer}
+.language-current:hover,.language-option:hover{border-color:var(--orange,#ff8a24)}
+.flag-icon{display:inline-flex;width:22px;height:15px;overflow:hidden;border-radius:2px;box-shadow:0 0 0 1px #ffffff28;flex:0 0 auto}
+.flag-icon svg{display:block;width:100%;height:100%}
+.lang-chevron{font-size:10px;color:#aaa;margin-left:2px}
+.language-options{position:absolute;right:0;top:calc(100% + 7px);min-width:112px;padding:5px;background:#202020;border:1px solid #3a3a3a;border-radius:10px;box-shadow:0 12px 28px #0009;display:flex;flex-direction:column;gap:3px}
+.language-options.hidden{display:none!important}
+.language-option{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:#eee;font-weight:750;text-align:left;cursor:pointer}
+.language-option.active{background:#392516;color:var(--orange,#ff8a24);border-color:#5b371e}
+#language-wrap .language-picker{min-width:86px}
+#language-wrap .language-current{min-width:86px}
+#page-settings .language-picker{width:100%}
+#page-settings .language-current{width:100%;justify-content:flex-start;background:var(--bg);border-color:var(--line);padding:11px}
+#page-settings .language-options{left:0;right:auto;width:100%}
+.header-right .language-current{background:transparent;min-width:76px}
+@media(max-width:620px){#language-wrap{padding:6px}#language-wrap .language-current{min-width:78px;padding:7px 8px}.header-right .language-current{min-width:68px;padding:7px}}
