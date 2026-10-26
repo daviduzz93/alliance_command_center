@@ -12,6 +12,11 @@
     document.documentElement.dataset.theme = theme;
     const selector = document.getElementById("theme-app");
     if (selector && selector.value !== theme) selector.value = theme;
+    document.querySelectorAll("[data-theme-choice]").forEach((button) => {
+      const active = button.dataset.themeChoice === theme;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
     return theme;
   }
   window.ACCTheme = {
@@ -19,6 +24,11 @@
       let saved = "command";
       try { saved = localStorage.getItem(STORAGE_KEY) || "command"; } catch (_) {}
       apply(saved);
+      const selector = document.getElementById("theme-app");
+      if (selector) selector.addEventListener("change", () => this.set(selector.value));
+      document.querySelectorAll("[data-theme-choice]").forEach((button) => {
+        button.addEventListener("click", () => this.set(button.dataset.themeChoice));
+      });
     },
     get() { return normalize(document.documentElement.dataset.theme); },
     set(value) {

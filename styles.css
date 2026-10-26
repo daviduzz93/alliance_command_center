@@ -40,3 +40,27 @@ button,.card,.choice,.home-tile{border-radius:var(--radius-md)}
 .tile-icon{border-color:var(--accent-line);background:var(--accent-soft)}
 .tabs .selected{background:var(--brown);color:var(--orange)}
 @media(max-width:620px){.theme-control span{display:none}.theme-control select{max-width:88px}.header-right{gap:8px}}
+
+/* v0.5: dedicated settings area */
+.settings-intro{margin-bottom:22px}
+.settings-intro h2{margin:0 0 8px}
+.settings-layout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+.settings-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}
+.settings-card-head{display:flex;gap:13px;align-items:flex-start;margin-bottom:20px}
+.settings-card-head h3{font-size:15px;margin:2px 0 7px}
+.settings-card-head p{margin:0;font-size:12px}
+.settings-icon{display:grid;place-items:center;flex:0 0 40px;height:40px;background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:12px;color:var(--orange)}
+.settings-icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.setting-field{display:flex;flex-direction:column;gap:8px;margin:0 0 16px}
+.setting-field span{color:var(--text-soft);font-size:12px}
+.setting-field select{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px}
+.theme-preview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.theme-preview{display:flex;flex-direction:column;align-items:flex-start;gap:7px;text-align:left;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;min-width:0}
+.theme-preview.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange) inset}
+.theme-preview b{font-size:12px}
+.theme-preview small{font-size:10px;color:var(--muted)}
+.swatches{display:flex;gap:5px;width:100%;margin-bottom:2px}
+.swatches i{height:25px;flex:1;border-radius:6px;border:1px solid #ffffff15}
+.muted-card{opacity:.88}
+@media(max-width:850px){.settings-layout{grid-template-columns:1fr}}
+@media(max-width:480px){.settings-card{padding:15px}.theme-preview-grid{grid-template-columns:1fr 1fr}}
