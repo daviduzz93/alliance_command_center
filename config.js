@@ -4,6 +4,6 @@
   NON inserire mai la service_role key o una secret key in questo file.
 */
 window.APP_CONFIG = {
-  SUPABASE_URL: "INCOLLA_QUI_IL_PROJECT_URL",
-  SUPABASE_ANON_KEY: "INCOLLA_QUI_LA_CHIAVE_PUBBLICA"
+  SUPABASE_URL: "https://gxpfultivhwxkjffvbjx.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_ooG1AU0oqpdKjkW_7b-nxQ_4CdN56uz"
 };
