@@ -64,3 +64,20 @@ button,.card,.choice,.home-tile{border-radius:var(--radius-md)}
 .muted-card{opacity:.88}
 @media(max-width:850px){.settings-layout{grid-template-columns:1fr}}
 @media(max-width:480px){.settings-card{padding:15px}.theme-preview-grid{grid-template-columns:1fr 1fr}}
+
+/* v0.6: consistent editorial introductions and module cards */
+.module-intro{padding:28px 30px;margin:0 0 16px;background:var(--panel);border:1px solid var(--line);border-radius:18px}
+.module-intro h2{font-size:27px;line-height:1.3;margin:0 0 10px;white-space:pre-line}
+.accent-line{color:var(--orange);font-weight:650}
+.module-intro>.muted{max-width:850px;margin-bottom:14px}
+.module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.module-grid .module-card{min-height:150px}
+.module-card .eyebrow{margin-bottom:12px}
+.module-card h3{font-size:18px;margin:0 0 8px}
+.module-card p.muted{margin:0;line-height:1.65}
+#page-members>.module-card{margin-top:12px}
+#page-members .module-intro h2,#page-trains .module-intro h2,#page-guides .module-intro h2,#page-notifications .module-intro h2,#page-settings .module-intro h2{white-space:pre-line}
+#page-settings .settings-intro{margin-top:16px}
+.language select{font-weight:650;min-width:130px;cursor:pointer}
+.header-right select{min-width:48px;font-size:17px;text-align:center;cursor:pointer}
+@media(max-width:800px){.module-intro{padding:22px}.module-intro h2{font-size:23px}.module-grid{grid-template-columns:1fr}}
