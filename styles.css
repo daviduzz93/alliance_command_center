@@ -130,3 +130,13 @@ header{justify-content:flex-start;gap:18px}
 .home-tile small{color:#3c260e}
 .home-tile .tile-arrow{color:#3c260e}
 @media(max-width:800px){.content{padding:0 15px 28px}header{flex-wrap:wrap;gap:10px;padding:12px 0}.header-title{flex:1;min-width:120px}.top-alliance{order:4;flex-basis:100%;max-width:none;margin:0}.header-right{margin-left:auto}.home-grid{grid-template-columns:1fr}.home-tile{min-height:126px}.menu-toggle{display:inline-flex}}
+/* Hotfix: login language control is compact and has no enclosing card/globe. */
+#language-wrap{position:fixed;top:16px;right:18px;z-index:50;padding:0!important;margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+#language-wrap:before,#language-wrap:after{content:none!important;display:none!important}
+#language-wrap .language-picker{min-width:0}
+#language-wrap .language-current{min-width:0;background:transparent;border:0;border-radius:0;box-shadow:none;padding:5px 2px}
+#language-wrap .language-current:hover{border-color:transparent}
+/* Keep all six Home destinations visible as orange tiles on desktop and mobile. */
+.home-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}
+.home-tile{display:flex!important;visibility:visible!important;min-height:126px}
+@media(max-width:800px){.home-grid{grid-template-columns:1fr!important}}
