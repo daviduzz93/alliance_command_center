@@ -156,9 +156,17 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 
 ### Aggiornamento autorizzazioni inviti e direzione login (28/10/2026)
 
-**Requisito chiarito:** **R4 e R5 possono entrambi condividere il codice d'invito attivo**. Nella schermata di onboarding la descrizione di «Unisciti» deve indicare «codice ricevuto da un R4 o R5» e non soltanto R5. Assicurare nella prossima build che entrambi possano visualizzarlo/copiarlo/condividerlo **solo per la propria alleanza**, con controlli autorizzativi anche backend; R1–R3 non possono distribuirlo. **L'invio è diverso dalla generazione/rotazione**, quest'ultima rimane limitata a R5 in assenza di nuovo requisito. L'accesso per R4 deve essere ancora implementato e testato.
+**Requisito chiarito:** **R4 e R5 possono entrambi condividere il codice d'invito attivo**. Nella schermata di onboarding la descrizione di «Unisciti» deve indicare «codice ricevuto da un R4 o R5» e non soltanto R5. Assicurare nella prossima build che entrambi possano visualizzarlo/copiarlo/condividerlo **solo per la propria alleanza**, con controlli autorizzativi anche backend; R1–R3 non possono distribuirlo. **Requisito rettificato il 28/10/2026:** R4 e R5 possono anche generare/rigenerare. Sul DB `acc-test` è già implementato e verificato; resta da integrare l'UI e il collaudo con sessioni reali.
 
 **Login concordato come concept, non ancora implementato:** sfondo attuale più luminoso, logo Last War in evidenza con ACC, testo minimo (campi accesso, azione Accedi, registrazione, password dimenticata, lingua, breve slogan opzionale). Descrizioni su strumenti e alleanze riservate al primo onboarding, mantenendo identità stilistica ACC. Nessuna build per questa singola decisione.
+
+### Aggiornamento definitivo R4/R5 inviti e sfondo login (28/10/2026)
+
+- **Entrambi R4 e R5:** leggere, copiare, condividere e **generare/rigenerare** inviti nella propria alleanza. Backend `acc-test` aggiornato con migrazione `acc_phase4_invite_management_r4_r5` e nuovo `acc_get_active_alliance_invite(uuid)`.
+- **Test backend:** 13/13 autorizzazioni e invalidazione codice precedente verificate in transazioni annullate. R1–R3 e altri membri esterni respinti; `anon` non ha `EXECUTE`. Nel browser v0.8.3 NON ancora completato.
+- **Futura interfaccia:** «Genera nuovo codice» richiede conferma perché rende inutilizzabile il precedente; R4/R5 leggono e condividono il codice corrente; localizzazione in cinque lingue.
+- **Login:** preservare **sfondo attuale senza modificarne per ora luminosità o grafica**; predisporre un asset di background facilmente sostituibile/configurabile in futuro per eventi e aggiornamenti grafici, senza ricostruire il modulo o esporre a ogni utente un'opzione di cambio sfondo.
+- Nessun nuovo pacchetto ZIP, nessun deploy e nessuna modifica a produzione.
 
 ### Azioni da riprendere
 
