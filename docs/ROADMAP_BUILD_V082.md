@@ -126,6 +126,14 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - **NON è un test browser autenticato reale.** Prima della produzione: E2E su staging, completamento nickname legacy e restrizione vecchie RPC, repository privato e approvazione.
 - Nota: le righe precedenti descrivono lo stato alla data della v0.8.2 o i requisiti allora ancora da implementare; questo aggiornamento attesta la nuova candidata v0.8.3.
 
+### Correzione strutturale «Cambia alleanza» senza nuova build (28/10/2026)
+
+**Stato:** patch pronta, browser mock verificato, **da includere nel prossimo rilascio cumulativo**, non nella ZIP v0.8.3 già creata. La v0.8.3 mostrava il selettore come `#onboard` separato; il nuovo approccio lo porta come `#page-alliances` nello stesso contenitore `#app` degli altri moduli. Il primo accesso senza alleanza resta nella schermata iniziale.
+
+- Patch privata salvata in Library `/Alliance Command Center/ACC_CambioAlleanza_stessa_struttura.patch`.
+- Test `9/9` in Chromium con dati simulati: R1/R4/R5 e 1280/375/320px, header condiviso, barra laterale, tasto Indietro, lingua in alto a destra, due colonne, form e ritorno al modulo Home. Test sintassi e applicazione patch superati.
+- **Da fare:** applicare la patch alla candidata prima del prossimo rilascio, eseguire test completa regressione UI/Auth/staging. Nessuna modifica a Supabase e produzione.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
