@@ -1,0 +1,29 @@
+# ACC: excludes local secrets, credentials, and generated test artifacts.
+# Note: .gitignore does not remove previously committed files/history.
+# Public client config.js may contain ONLY the Supabase project URL and publishable/anon key.
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+*.secret
+*.secrets
+secrets/
+credentials/
+node_modules/
+coverage/
+playwright-report/
+test-results/
+.cache/
+.tmp/
+*.log
+*.bak
+*.backup
+*.dump
+*.sqlite
+*.sqlite3
+*.zip
+.DS_Store
+Thumbs.db
