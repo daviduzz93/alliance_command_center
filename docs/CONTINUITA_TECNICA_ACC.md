@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.1  
+**Revisione documento:** 1.2  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -149,6 +149,13 @@ Formato del diario: `AAAA-MM-GG | versione/build | modifica | ambiente | test | 
 - Eseguito advisor di sicurezza con warning elencati sopra.
 - Creato il presente documento sul branch di test; questa operazione non distribuisce l'interfaccia v0.8.1.
 - **Prossimo passo:** pubblicare il codice v0.8.1 sul branch di test e controllare allineamento configurazione con il progetto `acc-test`.
+
+
+### 2026-10-28 — Piano separazione sorgenti e pubblicazione
+- Preparato e committato [`docs/PROTEZIONE_SORGENTI_E_DEPLOY.md`](./PROTEZIONE_SORGENTI_E_DEPLOY.md) sul branch di test (commit `4332437e1a750ee33144add12e6accdd0524de31`).
+- Verificato che `main/index.html` serve frontend statico caricando `app.js`, `theme.js`, `styles.css` e `config.js`.
+- Non trovati, nei percorsi esaminati su `main`, `.github/workflows/pages.yml`, `.github/workflows/deploy.yml`, `CNAME`, `.nojekyll`, `package.json`; fonte effettiva di GitHub Pages da confermare tramite impostazioni.
+- **Nessuna modifica** alla visibilità del repository, ai servizi Pages o alla produzione; rimangono aperti scelta hosting, separazione sorgenti e test di regressione.
 
 ### Storico precedente (sintesi)
 - **Fino al 27/10/2026:** iterazioni grafiche e funzionali su ACC Fase 4, recupero temi e Dark/Light, login e inviti.
