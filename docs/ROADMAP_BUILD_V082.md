@@ -104,6 +104,17 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 
 **Nessuna modifica applicata finora:** codice della v0.8.2, database `acc-test`, database produzione o branch `main`. Questa annotazione non equivale a funzionalità già sviluppata o testata.
 
+### Stato backend aggiornato: nomi giocatore per alleanza (28/10/2026)
+
+**IMPLEMENTATO E VERIFICATO IN DATABASE `acc-test`**, ma **NON ANCORA INTEGRATO NEL FRONTEND**. Riferimento ai contratti, test e limiti: [`REPORT_NOMI_GIOCATORE_FASE4.md`](./REPORT_NOMI_GIOCATORE_FASE4.md).
+
+- Migrazione applicata `acc_phase4_game_player_names_v1`: colonna nullable `alliance_memberships.game_player_name`; valori storici non sovrascritti.
+- Nuove RPC `acc_create_alliance_with_player_name`, `acc_join_alliance_with_player_name`, `acc_set_game_player_name`, `acc_list_members_v2`. La RPC precedente `acc_list_members` visualizza il nome di gioco quando valorizzato, mantenendo le stesse quattro colonne.
+- **22/22 test PostgreSQL superati**, ruoli R1/R4/R5, input, nuova creazione, nuovo ingresso, isolamento fra alleanze e divieto di update diretto. Transazioni di prova annullate; restano 3 alleanze e 6 appartenenze.
+- Le RPC vecchie di creazione/ingresso rimangono attive per compatibilità: **per ora possono ancora essere usate per creare/entrare senza nickname**. Prima di passare in produzione, aggiornare frontend e gestire la loro dismissione o restrizione; l'obbligatorietà non è ancora garantita globalmente.
+- **Da implementare nel frontend cumulativo:** input dei nomi nei due form, sezione Membri con edit R4/R5 e edit personale, flusso di conferma dei nomi legacy, localizzazione, test reali HTTP/browser.
+- **Non è stata prodotta una nuova build e la produzione non è stata toccata.**
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
