@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.8  
+**Revisione documento:** 1.9  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -220,6 +220,22 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 - Archivio ZIP integro; SHA256 `86237a5abd938b6e9fdf33c7306eece32650a10fc108bc7e46e1fe3d09b10411`. `config.js` contiene solo URL e **chiave publishable** di `acc-test`, non segreti.
 - **Da fare obbligatoriamente:** login/browser reali con Supabase Auth, staging protetto, test RLS/HTTP, verifica temi e refresh, dismissione controllata RPC legacy senza nickname, privacy repository sorgente, approvazione produzione.
 - **Stato produzione invariato:** nessun deploy e nessuna scrittura su Supabase produzione / branch `main`.
+
+## Correzione strutturale «Cambia alleanza» (28/10/2026)
+
+**Segnalazione utente:** benché siano stati allineati i controlli nella v0.8.3, «Cambia alleanza» appare ancora diversa dalle altre sezioni. La causa verificata è architetturale: nella build v0.8.3, il comando di cambio alleanza chiama `showOnboard()` e mostra il contenitore `<main id="onboard">` **fuori da `<div id="app">`**, con larghezza massima 850px e barra superiore propria. I veri moduli sono `section.page` dentro `main.content` e condividono barra/header/sidebar. Cambiare solo margini non elimina questa differenza.
+
+**Correzione implementata nel workspace, non ancora distribuita:**
+- Nuovo modulo `#page-alliances` nella struttura comune `#app > main.content`, usando **lo stesso header superiore, menu laterale, titolo, lingua, pulsante Indietro e selettore alleanza** dei moduli esistenti.
+- Un unico contenuto DOM `#alliance-flow` (azioni crea/entra, elenco alleanze e moduli con nickname) può vivere nel nuovo `#page-alliances` quando il cambio avviene da un'app già attiva, oppure nel `#onboard` per il primo accesso quando manca ancora la scelta dell'alleanza.
+- Una sola griglia a due colonne sotto «LE TUE ALLEANZE», anche su schermi 320/375px; nessuna duplicazione di tasto lingua o form. Introdotti testi del titolo in IT/EN/FR/ES/DE.
+- Il pulsante Indietro comune torna a Home; il tasto Indietro dei form torna all'elenco **restando nella stessa struttura dell'app**.
+- **Non è stata creata una nuova build ZIP.** Le modifiche sono state conservate come patch privata `ACC_CambioAlleanza_stessa_struttura.patch` nella Library `/Alliance Command Center/`. Si applica sui sorgenti della build candidata v0.8.3 (file `index.html`, `app.js`, `styles.css`) e non sostituisce una nuova distribuzione.
+- Patch verificata: riprodotta su una copia indipendente dei file v0.8.3, `node --check app.js` PASS e confronto byte-a-byte con i file modificati PASS.
+
+**Test Chromium realizzati (mock Supabase, non login remoto):** **9/9** casi R5/R4/R1 × viewport 1280/375/320px PASS: schermata dentro `#app`, stesso elemento DOM header, `#onboard` nascosto, tasto Indietro comune e `#lang-app` visibili, 2 colonne, assenza overflow orizzontale, apertura e chiusura form in-app, ritorno a Home e selezione di un'altra alleanza. Nessun `pageerror`. Verificato il cambio lingua IT/EN nel titolo e cinque traduzioni predisposte. Screenshot di controllo visuale prodotti localmente, non distribuiti.
+
+**Limiti:** applicazione patch + test mock nel workspace locale; nessun cambio alla build v0.8.3 già salvata, nessun nuovo archivio e **nessuna pubblicazione** su repository pubblico, GitHub Pages o produzione. Un E2E reale e le regressioni integrali rimangono necessari prima del prossimo rilascio cumulativo.
 
 ## 9. Diario cronologico
 
