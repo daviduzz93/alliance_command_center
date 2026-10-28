@@ -143,6 +143,17 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - Patch privata `ACC_EmailConferma_HTTPS_test.patch` pronta in Library per applicazione **dopo** `ACC_CambioAlleanza_stessa_struttura.patch`. Aggiunge `options.emailRedirectTo`, URL obbligatorio HTTPS in `config.js`, messaggio chiaro quando manca configurazione. Validazione Node e 9 unit test superati.
 - **Da completare:** hosting test HTTPS, aggiornamento URL Configuration del Supabase `acc-test` in Dashboard, configurazione `AUTH_REDIRECT_URL`, collaudo con nuove email e sessioni reali. Nessun intervento su produzione.
 
+### Rifinitura Membri: nome personale non in primo piano (28/10/2026)
+
+**Stato:** patch privata pronta e testata in browser simulato; **da integrare nella prossima build cumulativa**, senza creare una versione separata.
+
+- Eliminare scheda «Il tuo nome in gioco» e campo Salva sempre visibile in alto.
+- Mostrare nickname, rango e «Tu» soltanto nella normale riga personale dell'elenco membri; piccola icona matita azionabile consapevolmente apre Salva/Annulla in linea.
+- Protezione da errori: Enter non salva; Escape annulla; salvataggio soltanto tramite bottone, e nessuna RPC quando il nome non cambia.
+- R4/R5 mantengono la modifica dei nickname degli altri membri.
+- Patch privata `ACC_Nickname_ModificaDiscreta_Membri.patch` nella Library, da applicare sopra v0.8.3 **dopo** le patch Cambia alleanza strutturale e conferma email.
+- Test mock **9/9** ranghi/viewport e **9/9** regressioni Cambia alleanza superati. Nessuna modifica database o produzione.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
