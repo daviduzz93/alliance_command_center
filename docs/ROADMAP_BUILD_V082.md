@@ -50,6 +50,26 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - Conservare la versione già utilizzata dall'utente come possibilità di rollback.
 - I componenti DS, Treni, Notifiche e Guide restano nelle fasi già precedentemente documentate.
 
+### Richieste aggiuntive da includere nel prossimo rilascio cumulativo (28/10/2026)
+
+**Richiesta esplicita del proprietario:** NON creare un nuovo ZIP/build/versione per questa singola modifica. Registrare e aggregare con le prossime correzioni. **Stato: da implementare, non ancora testato.**
+
+**Schermata «Cambia alleanza» / selezione alleanza:**
+1. I due riquadri di azione «Crea una nuova alleanza» e «Unisciti a un'alleanza» rimangono all'inizio, nel layout corrente.
+2. Posizionare il titolo «LE TUE ALLEANZE» su una **riga autonoma** a tutta larghezza, **sopra** i riquadri delle alleanze già associate al giocatore; nessun riquadro di alleanza deve apparire a fianco della scritta.
+3. Disporre i riquadri delle alleanze **sempre su due colonne**, anche alle dimensioni mobili previste (adattare gap, padding, parole lunghe e dimensioni minime evitando overflow).
+4. L'opzione di cambio lingua nella schermata di cambio alleanza deve comparire nella stessa posizione **in alto a destra** della barra utilizzata nelle altre pagine ACC, con gli stessi margini/stili e senza sovrapporsi ad altri controlli.
+5. Il tasto **Indietro** deve comparire **nella barra superiore**, nella stessa posizione e stile delle altre sezioni, non come elemento isolato sopra il contenuto. Deve riportare alla pagina principale senza perdere l'alleanza corrente; confermare comportamento anche da mobile.
+6. Verificare che queste regole funzionino sia quando si apre il cambio alleanza dalla dashboard sia quando il giocatore con più alleanze accede inizialmente; il tasto Indietro deve essere visibile solo quando c'è una pagina applicativa a cui tornare.
+
+**Punti tecnici osservati nella build v0.8.2:** `index.html` contiene `#onboard`, `#back-to-app`, `#choices`, mentre l'app usa `#back-page` e `.header-right`; `app.js` genera attualmente gli elementi «LE TUE ALLEANZE» e le card in una stessa griglia `#choices`, in *due* percorsi distinti: `afterAuth()` e click di `#switch-alliance`. Refactoring consigliato in un unico renderer per impedire differenze tra i due flussi. `styles.css` contiene `.choices{grid-template-columns:1fr 1fr}` ma il breakpoint mobile forza `1fr`; la nuova sezione delle alleanze dovrà avere una griglia specifica `repeat(2,minmax(0,1fr))` invece di ereditare la colonna singola. `#language-wrap` è ora esterno alla barra, con posizionamento `fixed`. Prevedere allineamento coerente anche quando `#onboard` è attivo e senza cambiare l'aspetto del login.
+
+**Criteri di accettazione da collaudare nella prossima build:**
+- Titolo sempre sopra le tessere, non affiancato.
+- Griglia esattamente a due colonne per ogni numero di alleanze, con ultima tessera sola a sinistra se dispari.
+- Lingua a destra e tasto Indietro a sinistra sulla stessa barra, desktop e mobile.
+- Nessuna regressione di selezione alleanza, login, inviti, navigazione, lingue e temi Light/Dark.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
