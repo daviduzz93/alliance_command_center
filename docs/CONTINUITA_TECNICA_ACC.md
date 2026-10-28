@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.3  
+**Revisione documento:** 1.4  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -150,6 +150,29 @@ Il report dettagliato dei controlli è disponibile in [`VERIFICHE_FASE4_2026-10-
 - Audit: `rls_auto_enable()` ora non è eseguibile da `anon` o `authenticated`, e il trigger `ensure_rls` rimane attivo; niente nuova migrazione richiesta per quella specifica segnalazione. Restano avvisi advisor sulle altre RPC `SECURITY DEFINER` e la protezione password compromesse.
 - **Per proteggere il progetto**, non è stato caricato il codice della build v0.8.1 sul branch pubblico. Il branch continua ad avere la precedente base, oltre alla documentazione e alle impostazioni non sensibili.
 - **Prossimo step:** risolvere pubblicazione/staging con sorgenti riservati e test browser reali, quindi allineare il codice su un repository privato senza compromettere GitHub Pages.
+
+## Fase 4: prossima versione candidata v0.8.2 (28/10/2026)
+
+**Specifiche/test completi:** [`ROADMAP_BUILD_V082.md`](./ROADMAP_BUILD_V082.md).
+
+**Nuove richieste approvate:**
+- Rimuovere «MULTI-ALLIANCE · AMBIENTE DEMO» dalla schermata login, in ogni lingua.
+- Correggere i titoli e gli accenti in modalità Light, anche su palette gialla.
+- Togliere il doppio selettore lingua dalla pagina Impostazioni. Mantenere login e selettore superiore a destra in tutti i menu.
+- Consentire a **R5 soltanto** di rinominare l'alleanza; **il server è immutabile**. R1–R4 vedono il nome in sola lettura.
+
+**Stato verificato:**
+- Preparato archivio locale `ACC_v0_8_2_Fase4_R5_nome_Light_TEST.zip`, **conservato anche nella Library privata** in `/Alliance Command Center/`. Non caricato nel repository pubblico, né distribuito in produzione.
+- Modificati `index.html`, `app.js`, `styles.css`, README e istruzioni del pacchetto; mock di debug e migrazione precedente già applicata rimossi dall'archivio.
+- Sintassi JavaScript verificata via Node.
+- Browser Chromium con Supabase **simulato**: R5 può inviare la rinomina e aggiornare la barra; R1/R4 hanno campo di sola lettura e nessun tasto Salva. Nessun errore JS. Traduzioni per 5 lingue testate.
+- Contrasto delle intestazioni in Light: **54/54 verifiche ≥ 4.5:1** su 6 palette e 9 intestazioni di Home, DS, Membri, Treni, Notifiche, Guide, Impostazioni.
+- Sul solo Supabase `acc-test` applicata con successo migrazione `acc_phase4_owner_only_alliance_rename`: RPC `acc_rename_alliance(uuid,text)`, controllo server-side proprietario R5 e aggiornamento esclusivo del nome, con restrizione a 2–50 caratteri. `UPDATE` diretto su `alliances` revocato ai client `anon` e `authenticated`.
+- Test PostgreSQL in rollback con JWT simulato: R5 può rinominare, normalizzazione whitespace, invalid name bloccati, numero server invariato, UPDATE diretto vietato, R4/R1 negati anche sulla propria alleanza. **Non equivale a test con login reale Supabase Auth.**
+- **Configuração mancante:** `config.js` della build candidata conserva un segnaposto per la publishable key di `acc-test`; login remoto richiede impostazione chiave pubblica corretta. Mai usare chiavi `service_role`.
+- **Non modificati:** database di produzione, branch `main`, repository pubblico con sorgenti v0.7.1. Per il rilascio completare hosting/staging sicuro e approvazione.
+
+**Prossimo passo:** collaudo browser con account Supabase reali su staging collegato a `acc-test`, controllo responsive e persistenza tema a refresh, successiva pubblicazione soltanto con autorizzazione dell'utente.
 
 ## 9. Diario cronologico
 
