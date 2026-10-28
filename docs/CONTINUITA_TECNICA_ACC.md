@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.2  
+**Revisione documento:** 1.3  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -95,8 +95,8 @@ La migrazione include controllo di coerenza ruolo/rango, indice univoco parziale
 | T-007 | Stato dei due account R5/R1 su Supabase | **PASS**, query lettura DB | 28/10/2026 |
 | T-008 | Revoca delle scritture dirette sugli appartenenti | **PASS**, controllo privilegi DB | 28/10/2026 |
 | T-009 | Promozioni/retrocessioni tramite UI su backend reale | **DA TESTARE** | R5 → membro; R4 → altro membro |
-| T-010 | Divieto autopromozione/R5/operazioni viewer tramite RPC reale | **DA TESTARE** | Verificare lato DB, non solo pulsanti nascosti |
-| T-011 | Abbandono alleanza R1–R4 e blocco R5 | **DA TESTARE** | Usare account e alleanza fittizi |
+| T-010 | Divieto autopromozione/R5/operazioni viewer tramite RPC | **PASS in SQL con JWT simulato; login reale DA TESTARE** | Vedi report verifiche 28/10 |
+| T-011 | Abbandono R1 e blocco R5 tramite RPC | **PASS in SQL con JWT simulato; altre casistiche browser DA TESTARE** | Rollback DB |
 | T-012 | Regressione: 6 palette, Dark/Light, lingue, inviti, logout, cambio alleanza | **DA RIPETERE** sulla build v0.8.1 con backend reale | Prima della pubblicazione |
 
 ## 6. Sicurezza: risultati e debito tecnico
@@ -136,6 +136,20 @@ Due fasce del venerdì (13:00/22:00), 20 titolari + 10 riserve per fascia, 100 m
 6. **Non promettere aggiornamenti automatici:** il documento viene aggiornato mentre lavoriamo insieme sul progetto, non tramite un processo in background.
 
 Formato del diario: `AAAA-MM-GG | versione/build | modifica | ambiente | test | link commit/migrazione | prossima azione`.
+
+## Risultati successivi (28/10/2026): verifiche Fase 4
+
+Il report dettagliato dei controlli è disponibile in [`VERIFICHE_FASE4_2026-10-28.md`](./VERIFICHE_FASE4_2026-10-28.md).
+
+- Recuperata e analizzata la **build locale v0.8.1** dalla Library; `node --check` su `app.js` e `theme.js`: **PASS**.
+- `acc-test`: **11 verifiche delle regole R1-R5**, più **3 verifiche di isolamento tra alleanze**, superate mediante chiamate reali alle funzioni SQL con contesto `authenticated` e JWT simulato, in transazioni rollback. **Non equivale a login Supabase Auth reale nel browser**.
+- Test DOM con backend simulato: R5, R4, R1 mostrano rispettivamente 2, 1, 0 selettori di rango nell'esempio con tre membri; promozione UI R5→R4 rispecchiata nel mock; nessun errore JS rilevato in quel passaggio.
+- **Limitazione:** il browser nel container blocca navigazione `localhost` e `file://`; il test con caricamento CSS e refresh non è concluso. Non segnare PASS un test e2e reale, layout responsive o la persistenza tema da questi nuovi tentativi.
+- La build ZIP locale usa ancora una **publishable key segnaposto** per `acc-test`; è necessario configurare la vera chiave pubblica prima del login.
+- Il conteggio corrente osservato in `acc-test` è **3 alleanze e 6 appartenenze**, non più la baseline storica di 1/2. Non attribuire variazioni ad altre sessioni senza evidenza; non modificare quei dati fuori da transazioni di test.
+- Audit: `rls_auto_enable()` ora non è eseguibile da `anon` o `authenticated`, e il trigger `ensure_rls` rimane attivo; niente nuova migrazione richiesta per quella specifica segnalazione. Restano avvisi advisor sulle altre RPC `SECURITY DEFINER` e la protezione password compromesse.
+- **Per proteggere il progetto**, non è stato caricato il codice della build v0.8.1 sul branch pubblico. Il branch continua ad avere la precedente base, oltre alla documentazione e alle impostazioni non sensibili.
+- **Prossimo step:** risolvere pubblicazione/staging con sorgenti riservati e test browser reali, quindi allineare il codice su un repository privato senza compromettere GitHub Pages.
 
 ## 9. Diario cronologico
 
