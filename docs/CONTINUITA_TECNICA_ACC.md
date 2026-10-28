@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.5  
+**Revisione documento:** 1.6  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -181,6 +181,16 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 **Da implementare:** schermata Cambia alleanza con «LE TUE ALLEANZE» a tutta larghezza e sopra le tessere in griglia **sempre a due colonne**; selezione lingua coerente in alto a destra; tasto Indietro nella barra superiore coerente con gli altri menu. Adeguare entrambi i renderer `afterAuth()` e `#switch-alliance`; attenzione al breakpoint mobile che oggi rende `.choices` a una colonna.
 
 **Stato:** requisiti documentati, nessun codice o ZIP generato per questa richiesta, nessuna modifica a `acc-test`, `main` o produzione. Test UI da eseguire insieme alla successiva build cumulativa.
+
+## Nuovo requisito in coda alla prossima versione cumulativa: nome giocatore (28/10/2026)
+
+**Da implementare, nessuna nuova build per questo requisito isolato.** La creazione di un'alleanza e l'ingresso con invito dovranno richiedere il **Nome giocatore in Last War**; ogni membro potrà cambiare il proprio nome, gli R4/R5 potranno modificare quello degli altri membri della propria alleanza.
+
+**D-011:** nickname del gioco **per appartenenza all'alleanza**, da memorizzare in `public.alliance_memberships`, non nel solo `public.profiles.display_name` (che è comune all'account). Verificato sullo schema attuale di `acc-test`: né il campo né i parametri nelle funzioni RPC di creazione/ingresso esistono ancora. Le funzioni `acc_list_members`, `create_alliance_with_invite`, `join_alliance_with_invite` richiederanno adeguamento e test di compatibilità con i membri già esistenti.
+
+**Criteri e sicurezza:** registrati nella sezione «Nuovo requisito: nome giocatore in Last War per ogni alleanza» di [`ROADMAP_BUILD_V082.md`](./ROADMAP_BUILD_V082.md): modifiche proprie e di R4/R5, confini tra alleanze, validazione nickname, preservazione ruoli/server, migrazione non distruttiva, doppia modalità Light/Dark e localizzazione.
+
+**Stato:** specifiche documentate; **nessuna modifica al frontend, a `acc-test` o alla produzione**, nessun nuovo ZIP. Prossima build cumulativa da verificare integralmente prima del rilascio.
 
 ## 9. Diario cronologico
 
