@@ -134,6 +134,15 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - Test `9/9` in Chromium con dati simulati: R1/R4/R5 e 1280/375/320px, header condiviso, barra laterale, tasto Indietro, lingua in alto a destra, due colonne, form e ritorno al modulo Home. Test sintassi e applicazione patch superati.
 - **Da fare:** applicare la patch alla candidata prima del prossimo rilascio, eseguire test completa regressione UI/Auth/staging. Nessuna modifica a Supabase e produzione.
 
+### Problema riscontrato nelle email di conferma (28/10/2026)
+
+**Stato:** causa locale verificata, patch frontend preparata ma NON distribuita. Report [`REPORT_CONFERMA_EMAIL_ACC_TEST.md`](./REPORT_CONFERMA_EMAIL_ACC_TEST.md).
+
+- Entrambi gli account prova 27/10 confermati correttamente; log di prime aperture 303, seconde aperture 403 per link monouso già consumati.
+- Link di conferma indirizzavano a `localhost:3000` e `127.0.0.1:5500` anziché a uno staging ACC HTTPS.
+- Patch privata `ACC_EmailConferma_HTTPS_test.patch` pronta in Library per applicazione **dopo** `ACC_CambioAlleanza_stessa_struttura.patch`. Aggiunge `options.emailRedirectTo`, URL obbligatorio HTTPS in `config.js`, messaggio chiaro quando manca configurazione. Validazione Node e 9 unit test superati.
+- **Da completare:** hosting test HTTPS, aggiornamento URL Configuration del Supabase `acc-test` in Dashboard, configurazione `AUTH_REDIRECT_URL`, collaudo con nuove email e sessioni reali. Nessun intervento su produzione.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
