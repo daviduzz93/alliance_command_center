@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.4  
+**Revisione documento:** 1.5  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -173,6 +173,14 @@ Il report dettagliato dei controlli è disponibile in [`VERIFICHE_FASE4_2026-10-
 - Advisor di sicurezza dopo la migrazione: **8 avvisi** per RPC `SECURITY DEFINER` accessibili da `authenticated` (inclusa la nuova RPC autorizzata; controlli interni verificati in SQL), più protezione password compromesse disabilitata e un avviso informativo sulle policy di `alliance_invites`. Vedere [documentazione advisor](https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable).\n- **Non modificati:** database di produzione, branch `main`, repository pubblico con sorgenti v0.7.1. Per il rilascio completare hosting/staging sicuro e approvazione.
 
 **Prossimo passo:** collaudo browser con account Supabase reali su staging collegato a `acc-test`, controllo responsive e persistenza tema a refresh, successiva pubblicazione soltanto con autorizzazione dell'utente.
+
+## Modifiche UI accodate per la prossima build cumulativa (28/10/2026)
+
+L'utente ha richiesto di **non produrre una build separata** per questo intervento. Vedere i criteri completi in [`ROADMAP_BUILD_V082.md`](./ROADMAP_BUILD_V082.md), sezione «Richieste aggiuntive da includere nel prossimo rilascio cumulativo».
+
+**Da implementare:** schermata Cambia alleanza con «LE TUE ALLEANZE» a tutta larghezza e sopra le tessere in griglia **sempre a due colonne**; selezione lingua coerente in alto a destra; tasto Indietro nella barra superiore coerente con gli altri menu. Adeguare entrambi i renderer `afterAuth()` e `#switch-alliance`; attenzione al breakpoint mobile che oggi rende `.choices` a una colonna.
+
+**Stato:** requisiti documentati, nessun codice o ZIP generato per questa richiesta, nessuna modifica a `acc-test`, `main` o produzione. Test UI da eseguire insieme alla successiva build cumulativa.
 
 ## 9. Diario cronologico
 
