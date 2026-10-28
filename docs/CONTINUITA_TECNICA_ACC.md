@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.11  
+**Revisione documento:** 1.12  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -263,6 +263,16 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 - `node --check app.js` e `node --check theme.js` **PASS**. Le prove sono solo browser mock, **non** un collaudo end-to-end autenticato reale.
 
 **Nessun nuovo ZIP, nessun commit di sorgenti nel GitHub pubblico, nessuna modifica a `acc-test`, Supabase produzione, `main` o GitHub Pages.** La modifica entrerà nella prossima build cumulativa, con test di regressione e approvazione per il rilascio.
+
+## Decisioni UX e codici d'invito (28/10/2026)
+
+**Correzione esplicita dell'utente, prevale su specifiche precedenti: R4 e R5 possono ENTRAMBI inviare e condividere codici d'invito alla propria alleanza.** La UI di onboarding deve indicare «Entra con il codice ricevuto da un R4 o R5» (localizzare nelle 5 lingue), non «dal tuo R5». R4 e R5 devono poter consultare/copiare/condividere il **codice attivo della propria alleanza**; R1–R3 non devono avere accesso alle azioni di distribuzione.
+
+**Distinzione di sicurezza:** l'utente ha specificato *inviare* il codice, non *generare/ruotare*. In attesa di ulteriore requisito, la rigenerazione/rotazione resta esclusiva R5. Verificare attuali RPC e schermate: il frontend e le funzioni di invito finora applicate a `acc-test` potrebbero limitare l'accesso al solo owner. **Nuovo requisito da implementare e testare nel frontend e nel backend di `acc-test`**, non darlo per già completato. Non rendere il codice leggibile agli utenti fuori alleanza; evitare selezione/copia tramite SQL o tabelle aperte indiscriminatamente.
+
+**Direzione grafica concordata senza ancora intervenire sul codice:** login essenziale e cinematografico, mantenendo lo sfondo esistente un po' più luminoso, logo Last War riconoscibile insieme al marchio Alliance Command Center, soli campi email/password, Accedi, Registrati, recupero password e lingua (eventuale slogan breve). Tutte le spiegazioni dettagliate su creazione/ingresso alleanza devono comparire **solo nell'onboarding dopo primo login**. Il pannello login deve comunque riutilizzare i componenti e la tipografia del design system ACC; nessun redesign della dashboard richiesto. Verificare eventuali diritti d'uso del logo originale prima della distribuzione pubblica.
+
+**Stato:** requisiti documentati; **nessuna nuova build, nessuna modifica al DB o alla produzione**.
 
 ## 9. Diario cronologico
 
