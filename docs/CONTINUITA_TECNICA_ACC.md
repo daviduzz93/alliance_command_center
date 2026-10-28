@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.9  
+**Revisione documento:** 1.10  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -236,6 +236,18 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 **Test Chromium realizzati (mock Supabase, non login remoto):** **9/9** casi R5/R4/R1 × viewport 1280/375/320px PASS: schermata dentro `#app`, stesso elemento DOM header, `#onboard` nascosto, tasto Indietro comune e `#lang-app` visibili, 2 colonne, assenza overflow orizzontale, apertura e chiusura form in-app, ritorno a Home e selezione di un'altra alleanza. Nessun `pageerror`. Verificato il cambio lingua IT/EN nel titolo e cinque traduzioni predisposte. Screenshot di controllo visuale prodotti localmente, non distribuiti.
 
 **Limiti:** applicazione patch + test mock nel workspace locale; nessun cambio alla build v0.8.3 già salvata, nessun nuovo archivio e **nessuna pubblicazione** su repository pubblico, GitHub Pages o produzione. Un E2E reale e le regressioni integrali rimangono necessari prima del prossimo rilascio cumulativo.
+
+## Bug conferma email / redirect Auth test (28/10/2026)
+
+**Analisi completa:** [`REPORT_CONFERMA_EMAIL_ACC_TEST.md`](./REPORT_CONFERMA_EMAIL_ACC_TEST.md).
+
+- Due account registrati il 27/10 hanno **email confermata** sul database `acc-test` (primo 21:16:00 UTC, secondo 22:22:48 UTC) e hanno effettuato login. Non sono necessarie nuove conferme.
+- Log Auth: prima verifica HTTP **303** riuscita; tentativi successivi dello stesso link hanno generato **403: Email link is invalid or has expired**. La causa esatta delle aperture successive (preview/scanner/doppio clic) non è accertata.
+- Redirect registrato nei link: `http://localhost:3000` per un gruppo e `http://127.0.0.1:5500/` per l'altro. Entrambi sono indirizzi di test locali, non un vero staging HTTPS: **errore di configurazione concretamente verificato**.
+- La build v0.8.3 chiama `auth.signUp({email,password})` senza `options.emailRedirectTo`; Supabase usa il redirect impostato nel progetto.
+- **Patch privata predisposta**: `/Alliance Command Center/ACC_EmailConferma_HTTPS_test.patch`, applicabile dopo la patch strutturale Cambia alleanza, aggiunge URL di conferma esplicita `AUTH_REDIRECT_URL` e blocca il signup quando non è disponibile un URL HTTPS valido. Sintassi Node PASS, 9/9 unit test URL PASS, applicazione patch verificata. **Nessuna nuova build distribuita.**
+- **Blocco prima dello staging E2E:** pubblicare frontend di prova su HTTPS, impostare la Site URL e le Redirect URLs nel [pannello Authentication di `acc-test`](https://supabase.com/dashboard/project/tehijaphavnemchizzbm/auth/url-configuration), configurare `AUTH_REDIRECT_URL`, poi rifare due registrazioni realmente complete. **URL Configuration non modificato**, in quanto non disponibile un'azione di gestione attraverso i plugin correnti.
+- Non mettere in produzione o nel repository pubblico la build di test. Nessuna modifica al DB di `acc-test`, a Supabase produzione, `main` o hosting effettuata per questa indagine.
 
 ## 9. Diario cronologico
 
