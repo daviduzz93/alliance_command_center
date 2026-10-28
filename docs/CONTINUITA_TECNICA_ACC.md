@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.0  
+**Revisione documento:** 1.1  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -154,6 +154,32 @@ Formato del diario: `AAAA-MM-GG | versione/build | modifica | ambiente | test | 
 - **Fino al 27/10/2026:** iterazioni grafiche e funzionali su ACC Fase 4, recupero temi e Dark/Light, login e inviti.
 - **28/10/2026, prima del nuovo intervento:** utente conferma persistenza Rosso + Light dopo Ctrl+F5 e generazione invito da proprietario.
 - **28/10/2026:** preparato ZIP locale v0.8.1 con UI Membri e SQL per ranghi; validazione browser con backend simulato, non ancora deployment del frontend.
+
+## 10. Piano di protezione del codice e della proprietà intellettuale (28/10/2026)
+
+**Decisione del prodotto:** mantenere ACC funzionante, separare progressivamente i sorgenti riservati dal frontend distribuito e limitare l'accesso alle operazioni/data lato backend.
+
+### Verifiche eseguite
+- Il repository `daviduzz93/alliance_command_center` risulta **pubblico**. Non è stata cambiata la visibilità.
+- Il file `config.js` su `main` è stato controllato per la presenza di indicatori di chiavi `service_role` o `sb_secret_`: **nessun indicatore rilevato in quel file**. Questo NON è uno scan completo della cronologia Git o del repository.
+- È stata creata una regola `.gitignore` sul **branch di test** per evitare nuovi commit accidentali di `.env`, chiavi private e artefatti locali; i file eventualmente già tracciati non vengono rimossi automaticamente.
+- **GitHub Pages:** su GitHub Free, rendere privato il repository può annullare la pubblicazione del sito; su piani che supportano Pages da repository privato, il sito pubblicato può comunque rimanere pubblico. Verificare piano e hosting prima di intervenire.
+- Il codice JavaScript scaricato dal browser resta ispezionabile dai visitatori: per proteggere la logica proprietaria occorre eseguirla lato server, non affidarsi al solo repository privato.
+
+### Piano di migrazione (nessuna di queste azioni è già stata eseguita)
+1. Verificare fonte di pubblicazione Pages, dominio, account/piano GitHub e dipendenze di deploy.
+2. Sottoporre il repository e la cronologia a scansione credenziali; in caso di esposizione di vere chiavi secret, revocarle e ruotarle.
+3. Separare il repository privato per sorgenti, test, documenti e migrazioni dal pacchetto statico minimo distribuibile; se la privacy è prioritaria, scegliere un hosting compatibile prima di cambiare visibilità.
+4. Mantenere gli algoritmi riservati e i controlli di autorizzazione in Supabase o in un backend server-side, mai come unica verifica nel frontend.
+5. Eseguire test di regressione e login sull'URL distribuito prima di spostare il sito o renderlo privato.
+6. Solo dopo i test e l'approvazione esplicita, migrare la pubblicazione e rendere privato il repository sorgente.
+7. Valutare documentazione di provenienza (commit, backup, prova temporale) e verifica del marchio prima del lancio commerciale.
+
+**Stato al 28/10/2026:** audit preliminare svolto, `.gitignore` aggiunto sul branch di test, repository e produzione invariati. Obiettivo di riservatezza **non ancora raggiunto**.
+
+### Riferimenti
+- [GitHub: modifica della visibilità del repository](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/managing-repository-settings/setting-repository-visibility)
+- [GitHub: creazione sito Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
 
 ---
 
