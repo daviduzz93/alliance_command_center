@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.7  
+**Revisione documento:** 1.8  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -207,6 +207,19 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 - Security Advisor attuale: **12** warning relativi a funzioni `SECURITY DEFINER` accessibili ad autenticati, protezione password compromesse disabilitata, un info su `alliance_invites` RLS senza policy. Confrontare e risolvere gli avvisi rilevanti prima di produzione.
 - **Limite esplicito di transizione:** i vecchi endpoint create/join possono ancora aggiungere membri con `game_player_name=NULL`, per non rompere la build attuale. L'obbligo di nickname non è ancora universale finché non saranno migrati frontend e vecchi endpoint.
 - **Da completare:** integrazione frontend cumulativa, richiesta nickname nei moduli, UI editor R1–R5, conferma account legacy, cinque lingue e sei temi, cambio alleanza, staging reale. **Nessun nuovo ZIP** prodotto e nessun upload di sorgenti sul repository GitHub pubblico.
+
+## Fase 4: frontend cumulativo v0.8.3 pronto per collaudo remoto (28/10/2026)
+
+**Rapporto e criteri:** [`VERIFICHE_BUILD_V083.md`](./VERIFICHE_BUILD_V083.md).
+
+- Build candidata unica `ACC_v0_8_3_Fase4_Nickname_CambioAlleanza_TEST.zip`, test-only, **creata e salvata nella Library privata** `/Alliance Command Center/`. Non caricata nel repository GitHub pubblico e non pubblicata su Pages.
+- Codice frontend da v0.8.2: input nickname in crea/entra alleanza con RPC nuove `acc_create_alliance_with_player_name` e `acc_join_alliance_with_player_name`; elenco `acc_list_members_v2`, editor personale e R4/R5 via `acc_set_game_player_name`, avviso per nickname legacy NULL.
+- Refactoring in un solo renderer della schermata Cambia alleanza; titolo autonomo e tessere **sempre su due colonne**, lingua a destra e Indietro nella toolbar, anche su mobile.
+- Preservati fix v0.8.2 login, Light, Impostazioni, rinomina alleanza solo R5 e server immutabile, temi e 5 lingue.
+- Test: `node --check` su `app.js` e `theme.js` PASS; **9/9 scenari browser simulati** per R1/R4/R5 × 1280/375/320 px PASS senza errori JS, test create/join nickname PASS mock, **54/54** contrasti titoli Light PASS.
+- Archivio ZIP integro; SHA256 `86237a5abd938b6e9fdf33c7306eece32650a10fc108bc7e46e1fe3d09b10411`. `config.js` contiene solo URL e **chiave publishable** di `acc-test`, non segreti.
+- **Da fare obbligatoriamente:** login/browser reali con Supabase Auth, staging protetto, test RLS/HTTP, verifica temi e refresh, dismissione controllata RPC legacy senza nickname, privacy repository sorgente, approvazione produzione.
+- **Stato produzione invariato:** nessun deploy e nessuna scrittura su Supabase produzione / branch `main`.
 
 ## 9. Diario cronologico
 
