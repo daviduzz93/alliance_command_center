@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.10  
+**Revisione documento:** 1.11  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -248,6 +248,21 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 - **Patch privata predisposta**: `/Alliance Command Center/ACC_EmailConferma_HTTPS_test.patch`, applicabile dopo la patch strutturale Cambia alleanza, aggiunge URL di conferma esplicita `AUTH_REDIRECT_URL` e blocca il signup quando non è disponibile un URL HTTPS valido. Sintassi Node PASS, 9/9 unit test URL PASS, applicazione patch verificata. **Nessuna nuova build distribuita.**
 - **Blocco prima dello staging E2E:** pubblicare frontend di prova su HTTPS, impostare la Site URL e le Redirect URLs nel [pannello Authentication di `acc-test`](https://supabase.com/dashboard/project/tehijaphavnemchizzbm/auth/url-configuration), configurare `AUTH_REDIRECT_URL`, poi rifare due registrazioni realmente complete. **URL Configuration non modificato**, in quanto non disponibile un'azione di gestione attraverso i plugin correnti.
 - Non mettere in produzione o nel repository pubblico la build di test. Nessuna modifica al DB di `acc-test`, a Supabase produzione, `main` o hosting effettuata per questa indagine.
+
+## UI Membri: modifica nickname personale meno invasiva (28/10/2026)
+
+**Richiesta:** non mettere la modifica del nickname proprio in primo piano: è rara e deve richiedere un'azione deliberata, senza rischi di cambio accidentale.
+
+**Implementazione preparata nel workspace privato, NON ancora distribuita:**
+- Rimossa la scheda di input `member-profile-card` posta **sopra** l'elenco Membri, inclusi il campo sempre editabile `#member-nickname` e il pulsante Salva sempre visibile.
+- Il proprio nome è visualizzato come normale riga nell'elenco Membri, contrassegnata «Tu» e dal rango; sulla stessa riga compare una **piccola icona a matita** con `aria-label` localizzato, tooltip e focus accessibile. Nessun campo aperto di default.
+- Solo dopo il click sulla matita si apre un editor inline con **Salva** e **Annulla**. **Invio non salva**, Esc annulla, nome invariato non genera una RPC, nessuna modifica al semplice passaggio di focus.
+- `R1/R2/R3/R4/R5` possono sempre correggere il proprio nickname; i comandi esistenti di R4/R5 per il nickname degli altri membri restano utilizzabili. I permessi server-side su `acc-test` non sono stati modificati.
+- Patch privata `/Alliance Command Center/ACC_Nickname_ModificaDiscreta_Membri.patch`, applicabile sui file `index.html`, `app.js`, `styles.css` della candidata v0.8.3 **dopo** `ACC_CambioAlleanza_stessa_struttura.patch` e `ACC_EmailConferma_HTTPS_test.patch`. L'applicazione patch con `patch -p1 --dry-run` è stata verificata, con confronto byte-a-byte.
+- Test effettuati con Chromium e Supabase simulato: **9/9** combinazioni R1/R4/R5 × 1280/375/320px, verifica editor inizialmente assente, apertura manuale, Esc/Annulla, Invio senza salvataggio, Salva esplicito, visibilità e permessi sugli altri membri, zero errori JS. Passati anche i **9/9 test di regressione** del modulo Cambia alleanza con la stessa base.
+- `node --check app.js` e `node --check theme.js` **PASS**. Le prove sono solo browser mock, **non** un collaudo end-to-end autenticato reale.
+
+**Nessun nuovo ZIP, nessun commit di sorgenti nel GitHub pubblico, nessuna modifica a `acc-test`, Supabase produzione, `main` o GitHub Pages.** La modifica entrerà nella prossima build cumulativa, con test di regressione e approvazione per il rilascio.
 
 ## 9. Diario cronologico
 
