@@ -154,6 +154,12 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - Patch privata `ACC_Nickname_ModificaDiscreta_Membri.patch` nella Library, da applicare sopra v0.8.3 **dopo** le patch Cambia alleanza strutturale e conferma email.
 - Test mock **9/9** ranghi/viewport e **9/9** regressioni Cambia alleanza superati. Nessuna modifica database o produzione.
 
+### Aggiornamento autorizzazioni inviti e direzione login (28/10/2026)
+
+**Requisito chiarito:** **R4 e R5 possono entrambi condividere il codice d'invito attivo**. Nella schermata di onboarding la descrizione di «Unisciti» deve indicare «codice ricevuto da un R4 o R5» e non soltanto R5. Assicurare nella prossima build che entrambi possano visualizzarlo/copiarlo/condividerlo **solo per la propria alleanza**, con controlli autorizzativi anche backend; R1–R3 non possono distribuirlo. **L'invio è diverso dalla generazione/rotazione**, quest'ultima rimane limitata a R5 in assenza di nuovo requisito. L'accesso per R4 deve essere ancora implementato e testato.
+
+**Login concordato come concept, non ancora implementato:** sfondo attuale più luminoso, logo Last War in evidenza con ACC, testo minimo (campi accesso, azione Accedi, registrazione, password dimenticata, lingua, breve slogan opzionale). Descrizioni su strumenti e alleanze riservate al primo onboarding, mantenendo identità stilistica ACC. Nessuna build per questa singola decisione.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
