@@ -70,6 +70,40 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - Lingua a destra e tasto Indietro a sinistra sulla stessa barra, desktop e mobile.
 - Nessuna regressione di selezione alleanza, login, inviti, navigazione, lingue e temi Light/Dark.
 
+### Nuovo requisito: nome giocatore in Last War per ogni alleanza (28/10/2026)
+
+**Stato: APPROVATO COME REQUISITO, DA IMPLEMENTARE NEL PROSSIMO PACCHETTO CUMULATIVO. NON creare un nuovo ZIP per questa singola richiesta. Non è stata applicata una migrazione.**
+
+**Comportamento desiderato**
+1. **Creazione alleanza:** nel modulo richiedere il **«Nome giocatore (Last War)»** dell'utente che crea l'alleanza, oltre al nome dell'alleanza e al numero del server. Il proprietario entra come R5 con quel nome.
+2. **Ingresso tramite codice invito:** richiedere il **«Nome giocatore (Last War)»** nello stesso flusso, oltre al codice. Il nuovo membro entra R1 con il proprio nickname, senza poter selezionare/modificare il server dell'alleanza.
+3. **Modifica successiva:** ogni giocatore può modificare **il proprio nome** in quella alleanza, indipendentemente dal rango. I membri **R4 e R5** possono correggere il nome degli **altri membri della stessa alleanza** dalla sezione «Membri». Questi permessi riguardano SOLO il nickname, non rango, server, account o appartenenza; non permettono interventi su altre alleanze.
+4. **Visibilità:** usare il nome di gioco nell'elenco Membri e nei riferimenti al giocatore nell'alleanza; mantenere distinta l'identità interna dell'account ACC per login e permessi. Le future formazioni DS devono riferirsi all'identificativo del membro e mostrare il nickname aggiornato.
+
+**Scelta dati motivata da verifica reale del backend `acc-test`:**
+- Oggi `public.profiles.display_name` è associato a `user_id` e quindi **globale all'account**.
+- Oggi `public.alliance_memberships` possiede `alliance_id`, `user_id`, `role`, `rank` ma **nessun nome giocatore per appartenenza**.
+- `acc_list_members` mostra ora il nome dal profilo globale; `create_alliance_with_invite(p_name,p_server_number)` e `join_alliance_with_invite(p_invite_code)` non richiedono il nome gioco.
+- **Decisione D-011:** memorizzare il nuovo `game_player_name` (nome definitivo da scegliere in migrazione) a livello di **`alliance_memberships`**, cioè un valore per coppia (utente, alleanza). Non sovrascrivere automaticamente `profiles.display_name`: così lo stesso account può appartenere a due alleanze con nomi differenti.
+
+**Proposta di implementazione backend, da validare prima di eseguire SQL:**
+- Migrazione non distruttiva che aggiunge `game_player_name` alle appartenenze; gestire utenti esistenti e nome non ancora valorizzato senza bloccare improvvisamente accessi attuali. Per gli account migrati si può proporre un valore dal profilo, richiedendo comunque conferma esplicita quando accedono al modulo.
+- Estendere i flussi RPC create/join in modo compatibile con il frontend nuovo, verificando il comportamento delle firme PostgREST esistenti; validare lato server i nomi inseriti. Vietare valori vuoti, spazi non significativi, caratteri di controllo e markup non sanitizzato; non impedire accenti o caratteri ammessi nel gioco. Limite caratteri da allineare alle regole di Last War e ai test; non ipotizzarlo come già verificato.
+- Nuova RPC per cambiare **solo `game_player_name`**: autenticazione obbligatoria; destinatario membro della specifica alleanza; autore == destinatario **oppure** autore R4/R5 della stessa alleanza. Un R4 che corregge il nickname di un R5 NON sta cambiando il suo rango; salvo nuova decisione il permesso di editare il nome resta quello espresso dall'utente.
+- Denegare scritture dirette sulla colonna ai client; evitare RPC `SECURITY DEFINER` senza verifiche; preservare `rank`, `role`, `server_number`, `user_id`, `alliance_id`.
+- Aggiornare `acc_list_members` e i componenti UI, preservando compatibilità e traduzioni IT/EN/FR/ES/DE.
+
+**Test di accettazione per la prossima build cumulativa**
+- Creazione come nuovo R5: nome richiesto, validato e salvato sull'appartenenza.
+- Ingresso con invito: nome richiesto, validato e visibile nell'elenco Membri; server ereditato correttamente.
+- Aggiornamento del proprio nome da R1/R2/R3/R4/R5; correzione da R4/R5 dei nomi degli altri membri della propria alleanza.
+- Prove negative: R1 che tenta di cambiare il nome di un altro, R4/R5 che tenta di cambiare il nome di un'altra alleanza, sessione non autenticata, input vuoto/eccessivo, update diretto, tentativo di modificare server/rango tramite update nome.
+- Multi-alleanza: un solo account con nomi di gioco differenti, cambio alleanza e nomi sempre corretti.
+- Migrazione legacy: account già presenti non perdono l'accesso e sono invitati a completare/confermare il nome.
+- Regressioni UI: tema Light/Dark, 6 palette, 5 lingue, menu Cambia alleanza, R1–R5, inviti e logout.
+
+**Nessuna modifica applicata finora:** codice della v0.8.2, database `acc-test`, database produzione o branch `main`. Questa annotazione non equivale a funzionalità già sviluppata o testata.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
