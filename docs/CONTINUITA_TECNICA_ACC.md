@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.6  
+**Revisione documento:** 1.7  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -191,6 +191,22 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 **Criteri e sicurezza:** registrati nella sezione «Nuovo requisito: nome giocatore in Last War per ogni alleanza» di [`ROADMAP_BUILD_V082.md`](./ROADMAP_BUILD_V082.md): modifiche proprie e di R4/R5, confini tra alleanze, validazione nickname, preservazione ruoli/server, migrazione non distruttiva, doppia modalità Light/Dark e localizzazione.
 
 **Stato:** specifiche documentate; **nessuna modifica al frontend, a `acc-test` o alla produzione**, nessun nuovo ZIP. Prossima build cumulativa da verificare integralmente prima del rilascio.
+
+## Fase 4: nickname Last War per alleanza IMPLEMENTATI SU ACC-TEST (28/10/2026)
+
+**Dettaglio tecnico e matrice test:** [`REPORT_NOMI_GIOCATORE_FASE4.md`](./REPORT_NOMI_GIOCATORE_FASE4.md).
+
+- **Migrazione eseguita sul solo Supabase `acc-test`:** `acc_phase4_game_player_names_v1`, risposta `success:true`. **Produzione invariata.**
+- Aggiunta colonna `alliance_memberships.game_player_name` (nullable per membri legacy), con vincolo SQL che esclude nomi vuoti/oltre 64 caratteri, leading/trailing whitespace e caratteri di controllo. **1–64 è limite provvisorio dell'app, non una specifica verificata di Last War**.
+- Creazione/ingresso con nickname: nuove RPC `acc_create_alliance_with_player_name` e `acc_join_alliance_with_player_name`. Il creatore entra R5 e il nuovo membro tramite invito R1. Le vecchie RPC restano operative per retrocompatibilità.
+- Editing nickname: nuova `acc_set_game_player_name` con controllo sul server: un membro modifica sé, R4/R5 modificano gli altri **della stessa alleanza**. Autorizzazione su appartenenza e ruoli dal database, non dalla UI.
+- Elenco: nuova `acc_list_members_v2` restituisce il nickname nullable insieme al nome visibile; `acc_list_members` mantiene firma a 4 colonne ma dà precedenza al nickname quando valorizzato.
+- **22/22 test reali PostgreSQL superati** con ruolo `authenticated` e JWT simulato mediante GUC, sotto `BEGIN/ROLLBACK`: sicurezza per ruolo e per alleanza, validazione, vecchia/nuova lista, creazione e ingresso, isolamento dei nickname di uno stesso account in alleanze diverse. **Non sono ancora test con sessioni browser Supabase Auth reali.**
+- Baseline verificata dopo rollback: **3 alleanze, 6 memberships, 0 nickname confermati**; i membri legacy conservano accesso e nome fallback.
+- Verificati grant: nuove RPC applicative utilizzabili da `authenticated`, non da `anon`; validatore interno non esposto. Scrittura diretta `alliance_memberships` negata a `authenticated`.
+- Security Advisor attuale: **12** warning relativi a funzioni `SECURITY DEFINER` accessibili ad autenticati, protezione password compromesse disabilitata, un info su `alliance_invites` RLS senza policy. Confrontare e risolvere gli avvisi rilevanti prima di produzione.
+- **Limite esplicito di transizione:** i vecchi endpoint create/join possono ancora aggiungere membri con `game_player_name=NULL`, per non rompere la build attuale. L'obbligo di nickname non è ancora universale finché non saranno migrati frontend e vecchi endpoint.
+- **Da completare:** integrazione frontend cumulativa, richiesta nickname nei moduli, UI editor R1–R5, conferma account legacy, cinque lingue e sei temi, cambio alleanza, staging reale. **Nessun nuovo ZIP** prodotto e nessun upload di sorgenti sul repository GitHub pubblico.
 
 ## 9. Diario cronologico
 
