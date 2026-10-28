@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.12  
+**Revisione documento:** 1.13  
 **Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -268,11 +268,27 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 
 **Correzione esplicita dell'utente, prevale su specifiche precedenti: R4 e R5 possono ENTRAMBI inviare e condividere codici d'invito alla propria alleanza.** La UI di onboarding deve indicare «Entra con il codice ricevuto da un R4 o R5» (localizzare nelle 5 lingue), non «dal tuo R5». R4 e R5 devono poter consultare/copiare/condividere il **codice attivo della propria alleanza**; R1–R3 non devono avere accesso alle azioni di distribuzione.
 
-**Distinzione di sicurezza:** l'utente ha specificato *inviare* il codice, non *generare/ruotare*. In attesa di ulteriore requisito, la rigenerazione/rotazione resta esclusiva R5. Verificare attuali RPC e schermate: il frontend e le funzioni di invito finora applicate a `acc-test` potrebbero limitare l'accesso al solo owner. **Nuovo requisito da implementare e testare nel frontend e nel backend di `acc-test`**, non darlo per già completato. Non rendere il codice leggibile agli utenti fuori alleanza; evitare selezione/copia tramite SQL o tabelle aperte indiscriminatamente.
+**Aggiornamento successivo del requisito (28/10/2026):** l'utente ha chiarito che R4 e R5 devono entrambi poter **generare/rigenerare**, visualizzare, copiare e condividere il codice attivo. La migrazione `acc_phase4_invite_management_r4_r5` ha applicato le autorizzazioni sul solo `acc-test`; vedere i test sotto. Questa nota sostituisce il precedente vincolo di rotazione riservata a R5. **Il frontend non è ancora aggiornato**: non considerare completata la funzionalità end-to-end.
 
 **Direzione grafica concordata senza ancora intervenire sul codice:** login essenziale e cinematografico, mantenendo lo sfondo esistente un po' più luminoso, logo Last War riconoscibile insieme al marchio Alliance Command Center, soli campi email/password, Accedi, Registrati, recupero password e lingua (eventuale slogan breve). Tutte le spiegazioni dettagliate su creazione/ingresso alleanza devono comparire **solo nell'onboarding dopo primo login**. Il pannello login deve comunque riutilizzare i componenti e la tipografia del design system ACC; nessun redesign della dashboard richiesto. Verificare eventuali diritti d'uso del logo originale prima della distribuzione pubblica.
 
 **Stato:** requisiti documentati; **nessuna nuova build, nessuna modifica al DB o alla produzione**.
+
+## Fase 4: R4/R5 generano e condividono inviti; sfondo login sostituibile (28/10/2026)
+
+**Decisione definitiva sulle autorizzazioni:** **R4 e R5 possono entrambi consultare, copiare, condividere e generare/rigenerare il codice invito attivo della propria alleanza.** Gli R1–R3 non possono farlo; un R4/R5 non può leggere o rigenerare i codici di altre alleanze. Questa decisione **sostituisce esplicitamente** la precedente restrizione di generazione al solo R5.
+
+**Backend `acc-test`: IMPLEMENTATO e verificato.**
+- Migrazione `acc_phase4_invite_management_r4_r5` applicata con successo. `public.rotate_alliance_invite(uuid)` ora accetta R4 (manager) e R5 (owner) della specifica alleanza e mantiene la firma/forma della risposta. Mantiene **un solo invito attivo** e **invalida quelli precedenti**; aggiunto un lock della riga alleanza per serializzare generazioni simultanee.
+- Nuova RPC `acc_get_active_alliance_invite(p_alliance_id uuid)` che ritorna `{'invite_code': ...}` (o NULL) esclusivamente a R4/R5 autenticati della propria alleanza. Non apre la tabella `alliance_invites` a letture dirette.
+- `EXECUTE` concesso solo a `authenticated`, non ad `anon`.
+- **13/13 verifiche su PostgreSQL reale con ruolo `authenticated` e JWT simulato in transazioni rollback:** R5 legge/rigenera, R4 legge/rigenera, codici precedenti non funzionano dopo rotazione, R5 vede il codice creato da R4, R1 non può leggere/generare, R5 di un'altra alleanza non può leggere/generare, sessione senza `auth.uid()` non può generare. **Nessun codice attivo permanente è stato modificato dai test.** Gli utenti non hanno accesso SQL diretto alla tabella inviti.
+- Security Advisor su `acc-test`: 13 warning relativi a RPC `SECURITY DEFINER` eseguibili da autenticati; valutare per funzione prima della produzione. Verifiche di autorizzazione SQL non sostituiscono una prova browser con sessione reale.
+- **Da integrare nel frontend cumulativo:** R4/R5 vedono il codice attivo e possono copiarlo/condividerlo; «Genera nuovo codice» chiede conferma esplicita perché invalida il precedente; tradurre in IT/EN/FR/ES/DE. Nessuna visibilità per R1–R3. Nuova build **non generata**.
+
+**Nuova decisione UX per il login:** mantenere **l'immagine di sfondo attuale** e la luminosità attuale. Costruire il nuovo login essenziale e cinematografico separando il background dalla UI, con riferimento a risorsa grafica configurabile e trattamento/overlay gestibile indipendentemente. In futuro permettere al **gestore dell'app**, non necessariamente a ogni membro, di sostituirla facilmente per eventi stagionali o refresh grafici. Nessun pannello pubblico per cambiare sfondo, nessuna modifica visiva immediata, niente nuova build ora.
+
+**Produzione e GitHub `main`: non modificati.**
 
 ## 9. Diario cronologico
 
