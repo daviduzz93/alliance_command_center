@@ -115,6 +115,17 @@ Migrazione Supabase **`acc_phase4_owner_only_alliance_rename`** applicata con es
 - **Da implementare nel frontend cumulativo:** input dei nomi nei due form, sezione Membri con edit R4/R5 e edit personale, flusso di conferma dei nomi legacy, localizzazione, test reali HTTP/browser.
 - **Non è stata prodotta una nuova build e la produzione non è stata toccata.**
 
+### Frontend cumulativo v0.8.3 completato in candidata locale (28/10/2026)
+
+**Documento di verifica:** [`VERIFICHE_BUILD_V083.md`](./VERIFICHE_BUILD_V083.md). **Stato: implementato nel pacchetto, test Chromium mock passati; E2E reale da fare.**
+
+- Integrati tutti i requisiti accodati in questo documento: nome giocatore nella creazione e nell'ingresso, modifica nome personale e R4/R5, nomi specifici per alleanza, 2 colonne sotto «LE TUE ALLEANZE», lingua/Indietro nella toolbar.
+- Pacchetto unico `ACC_v0_8_3_Fase4_Nickname_CambioAlleanza_TEST.zip` in Library privata del progetto; **non caricato nel GitHub pubblico**.
+- 9/9 scenari UI (R1/R4/R5 × desktop/mobile 1280/375/320px), test creazione e ingresso con backend simulato, 5 lingue, 54/54 contrasti Light e sintassi Node superati.
+- La build include l'URL e **la chiave publishable** di `acc-test` (mai service-role).
+- **NON è un test browser autenticato reale.** Prima della produzione: E2E su staging, completamento nickname legacy e restrizione vecchie RPC, repository privato e approvazione.
+- Nota: le righe precedenti descrivono lo stato alla data della v0.8.2 o i requisiti allora ancora da implementare; questo aggiornamento attesta la nuova candidata v0.8.3.
+
 ### Azioni da riprendere
 
 1. Creare uno staging privato/protetto collegato a `acc-test` e verificare le sessioni reali R5/R4/R1 in browser.
