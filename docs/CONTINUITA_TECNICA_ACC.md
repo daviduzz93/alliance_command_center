@@ -1,12 +1,36 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.13  
-**Aggiornato al:** 28 ottobre 2026 (Europe/Rome)  
+**Revisione documento:** 1.14  
+**Aggiornato al:** 29 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
 **Scopo:** una fonte consultabile e versionata per riprendere lo sviluppo senza perdere decisioni, test, stato delle build o problemi aperti.
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
+
+
+## Stato corrente — 29/10/2026, revisione 1.14
+
+Questa sezione prevale sulle fotografie storiche delle versioni precedenti riportate sotto.
+
+- **Build cumulativa v0.8.4 privata preparata**, derivata dalla v0.8.3 e dalle tre patch richieste. Non caricata come sorgenti nel repository pubblico.
+- **Implementato:** Cambia alleanza nel layout comune; nickname personale discreto; inviti R4/R5 con lettura codice attivo, copia/condivisione e conferma rotazione; login essenziale con logo Last War, sfondo originale invariato e sostituibile tramite variabile CSS. SDK Supabase fissato a 2.118.0 e locale.
+- **API reali: PASS 78/78**, con sei login password effettivi e JWT Auth reali; ranghi R1–R5, inviti, rotazione concorrente, nickname per alleanza, isolamento e tentativi vietati. Account sintetici preconfermati: non è una prova di registrazione/conferma email. Fixture rimosse dopo logout; stato finale acc-test: **3 alleanze, 6 appartenenze, 0 fixture residue**.
+- **Browser Work: PASS parziale** su login nelle cinque lingue, cambio form e layout a 320/375/768 CSS pixel senza overflow; desktop verificato. Non completati test delle pagine autenticate. Nessun Supabase simulato usato per i 78 controlli API.
+- **Unit test: PASS** sulle 12 combinazioni palette/Dark-Light e persistenza per alleanza; validazione redirect HTTPS; copertura di 162 riferimenti di traduzione HTML × 5 lingue; controlli sintattici e ID HTML.
+- **Pubblicato soltanto uno staging separato HTTPS privato**, owner-only, versione hosting 1. Barriera ChatGPT osservata in Work; richieste anonime a pagina e asset JS negate (403). Nessun cambiamento a Pages, main, produzione o visibilità GitHub. L’URL dello staging e il pacchetto sono consegnati privatamente al proprietario.
+- **Email: incompleto.** URL HTTPS predisposto nel client, registrazione/recupero bloccati da AUTH_REDIRECT_VERIFIED=false finché Site URL/Redirect URLs e template Supabase acc-test non sono verificati. Il pannello Auth richiede accesso nel browser; il connettore disponibile non espone tali impostazioni. Ricezione/conferma email e recupero password non testati.
+- **Prossimo passaggio:** completare l’accesso sicuro nel browser Work allo staging e ad ACC; verificare Auth URL su acc-test; poi eseguire la matrice UI autenticata, email, tutte le palette/modalità/lingue e mobile. Nessuna approvazione alla produzione è implicita.
+
+### Interventi e problemi affrontati
+
+Recuperati tutti i quattro file privati richiesti. Le tre patch sono state applicate alla v0.8.3 senza conflitti. Migliorata la gestione asincrona: callback Auth senza await di Supabase, ascolto recovery prima di getSession, blocco doppio invio, cache membri pulita in errore, risposte inviti obsolete ignorate al cambio alleanza. Condivisione/clipboard rimangono nel gesto utente per compatibilità mobile. Codici riletti all’apertura e al ritorno del focus, senza rigenerazione implicita.
+
+Sfondo verificato identico byte per byte alla v0.8.3. Logo ottenuto dal sito ufficiale Last War: variante fiore/elmetto disponibile, differente dal personaggio del riferimento; validazione visiva finale e diritti per eventuale diffusione pubblica da confermare. Nessun asset riservato aggiunto al repository pubblico.
+
+La suite API ha verificato: lettura invito R4/R5 senza mutazione; negazione R1/R2/R3/anonimo/cross-alliance; rotazione e invalidazione; concorrenza di due rotazioni; nickname personale per tutti i ranghi e interventi R4/R5; limite nome vuoto/65 caratteri; separazione nickname tra alleanze; divieti di autopromozione e modifica R5; PATCH diretto negato; abbandono membro consentito/R5 negato. Sei logout completati. Sei fixture inutilizzate di un’esecuzione interrotta sono state rimosse prima della suite; nessuna appartenenza esistente coinvolta.
+
+**Limiti residui:** copia/condivisione e dialoghi non ancora provati con sessione UI; temi verificati a livello unitario, non su tutte le schermate; mobile verificato con viewport CSS in iframe, non dispositivo fisico; conferma email non verificata. Non dichiarare la Fase 4 completata né la v0.8.4 rilasciata in produzione.
 
 ## 1. Riferimenti e ambienti
 
@@ -43,7 +67,7 @@ ACC è un'applicazione web multi-alleanza per Last War: gestione dell'identità 
 | D-003 | Mapping autorizzazioni: **R5 = owner**, **R4 = manager**, **R1/R2/R3 = viewer** | Confermata |
 | D-004 | Nuovo membro entrato tramite invito: **R1 predefinito**; creatore: R5 | Confermata |
 | D-005 | R4 e R5 possono cambiare i ranghi di **altri** membri tra R1 e R4; nessuna autopromozione; R5 non modificabile con il normale selettore | Confermata |
-| D-006 | Solo R5 può generare/rigenerare codici invito | Confermata |
+| D-006 | R4 e R5 possono visualizzare, copiare, condividere e rigenerare inviti; rotazione con conferma | Aggiornata dalla rev. 1.13; frontend integrato nella v0.8.4 privata |
 | D-007 | Membri R1–R4 possono abbandonare l'alleanza; il R5 deve prima trasferire la proprietà (da implementare) | Confermata |
 | D-008 | Cancellazione alleanza riservata a R5, con conferma rafforzata; **non ancora implementata** | Confermata |
 | D-009 | Separare struttura di gioco/ranghi dai privilegi applicativi e dal roster DS | Confermata |
