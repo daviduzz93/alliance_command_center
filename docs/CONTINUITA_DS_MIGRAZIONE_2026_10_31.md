@@ -36,3 +36,13 @@
 - Il selettore **offset orario** usa incrementi di 15 minuti, coerenti con i vincoli SQL.
 - Test locali mock PASS: calendario 37/37, browser DS 51/51, Membri 46/46, regressione interfaccia 1.684/1.684, core/JS/race checks PASS.
 - Nessuna migrazione nuova, nessun deploy né modifica a `main` o produzione. Rimangono necessari i test con JWT Auth reali e salvataggi verificati su `acc-test`.
+
+## Aggiornamento DEV DS v0.2.3 — 31 ottobre 2026
+
+- **Build privata conservata in Library:** `ACC_DS_Iscrizioni_OrarioServer_DEV_v0_2_3_PRIVATO.zip` e report `ACC_DS_REPORT_BUILD_v0_2_3.md`.
+- **Correzione concorrenza client:** prima risposta con INSERT, aggiornamento di iscrizione o orari tramite UPDATE condizionato al `updated_at` precedentemente letto. Se la versione è cambiata o l'inserimento è duplicato, la UI mostra un conflitto e ricarica i dati. Nessuna scrittura cieca tramite upsert.
+- **Autorizzazioni UI:** ufficiali determinati dal ruolo tecnico `owner/manager` e non dal rango R4/R5 visualizzato, che da solo non conferisce permessi.
+- **Riepilogo:** include la nota sui conteggi inclusivi `A/B` per i disponibili a entrambi.
+- **Test locali con mock:** calendario 39/39; browser DS 59/59, Membri 46/46, matrice responsive/lingue/temi 1.684/1.684; controlli sintassi, core e race PASS.
+- **Acc-test:** confermata in sola lettura la presenza delle tabelle/policy e di `updated_at` sulle due tabelle modificabili. Nessun deploy e nessuna nuova migrazione.
+- **Blocco prima del rilascio:** test end-to-end con JWT Supabase Auth reali, due client concorrenti e scritture nella finestra di iscrizione effettiva. Non dichiarare la build pronta per produzione.
