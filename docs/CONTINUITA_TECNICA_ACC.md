@@ -1,7 +1,7 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.14  
-**Aggiornato al:** 29 ottobre 2026 (Europe/Rome)  
+**Revisione documento:** 1.15  
+**Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
 **Scopo:** una fonte consultabile e versionata per riprendere lo sviluppo senza perdere decisioni, test, stato delle build o problemi aperti.
@@ -9,18 +9,18 @@
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
 
-## Stato corrente — 29/10/2026, revisione 1.14
+## Stato corrente — 30/10/2026, revisione 1.15
 
 Questa sezione prevale sulle fotografie storiche delle versioni precedenti riportate sotto.
 
 - **Build cumulativa v0.8.4 privata preparata**, derivata dalla v0.8.3 e dalle tre patch richieste. Non caricata come sorgenti nel repository pubblico.
 - **Implementato:** Cambia alleanza nel layout comune; nickname personale discreto; inviti R4/R5 con lettura codice attivo, copia/condivisione e conferma rotazione; login essenziale con logo Last War, sfondo originale invariato e sostituibile tramite variabile CSS. SDK Supabase fissato a 2.118.0 e locale.
-- **API reali: PASS 78/78**, con sei login password effettivi e JWT Auth reali; ranghi R1–R5, inviti, rotazione concorrente, nickname per alleanza, isolamento e tentativi vietati. Account sintetici preconfermati: non è una prova di registrazione/conferma email. Fixture rimosse dopo logout; stato finale acc-test: **3 alleanze, 6 appartenenze, 0 fixture residue**.
-- **Browser Work: PASS parziale** su login nelle cinque lingue, cambio form e layout a 320/375/768 CSS pixel senza overflow; desktop verificato. Non completati test delle pagine autenticate. Nessun Supabase simulato usato per i 78 controlli API.
+- **API reali: PASS 78/78**, con sei login password effettivi e JWT Auth reali; ranghi R1–R5, inviti, rotazione concorrente, nickname per alleanza, isolamento e tentativi vietati. Account sintetici preconfermati: non è una prova di registrazione/conferma email. Fixture della suite API rimosse dopo logout: baseline **3 alleanze, 6 appartenenze**. Il successivo collaudo UI ha aggiunto una sola alleanza QA e quattro utenti sintetici; pulizia ancora pendente perché la conferma del connettore è scaduta due volte senza esecuzione.
+- **Browser Work: PASS parziale** su login nelle cinque lingue, cambio form e layout a 320/375/768 CSS pixel senza overflow; desktop verificato. Ora verificati anche login reale, creazione alleanza QA, nickname personale salvato, cambio rango R5 con annullamento/conferma, inviti R4/R5 (lettura, copia, rotazione confermata), fallback condivisione desktop, restrizioni UI R1/R2/R3, cambio alleanza con ripristino nickname originale. Sei palette × Dark/Light provate tramite UI; persistenza dopo reload verificata. Home autenticata nelle cinque lingue verificata; matrice completa delle altre pagine ancora aperta. Nessun Supabase simulato usato per i 78 controlli API.
 - **Unit test: PASS** sulle 12 combinazioni palette/Dark-Light e persistenza per alleanza; validazione redirect HTTPS; copertura di 162 riferimenti di traduzione HTML × 5 lingue; controlli sintattici e ID HTML.
 - **Pubblicato soltanto uno staging separato HTTPS privato**, owner-only, versione hosting 1. Barriera ChatGPT osservata in Work; richieste anonime a pagina e asset JS negate (403). Nessun cambiamento a Pages, main, produzione o visibilità GitHub. L’URL dello staging e il pacchetto sono consegnati privatamente al proprietario.
 - **Email: incompleto.** URL HTTPS predisposto nel client, registrazione/recupero bloccati da AUTH_REDIRECT_VERIFIED=false finché Site URL/Redirect URLs e template Supabase acc-test non sono verificati. Il pannello Auth richiede accesso nel browser; il connettore disponibile non espone tali impostazioni. Ricezione/conferma email e recupero password non testati.
-- **Prossimo passaggio:** completare l’accesso sicuro nel browser Work allo staging e ad ACC; verificare Auth URL su acc-test; poi eseguire la matrice UI autenticata, email, tutte le palette/modalità/lingue e mobile. Nessuna approvazione alla produzione è implicita.
+- **Prossimo passaggio:** autorizzare la pulizia circoscritta delle fixture UI nel connettore; verificare Auth URL su acc-test; completare registrazione/conferma email, recupero e matrice UI residua su lingue/mobile. Nessuna approvazione alla produzione è implicita.
 
 ### Interventi e problemi affrontati
 
@@ -30,7 +30,17 @@ Sfondo verificato identico byte per byte alla v0.8.3. Logo ottenuto dal sito uff
 
 La suite API ha verificato: lettura invito R4/R5 senza mutazione; negazione R1/R2/R3/anonimo/cross-alliance; rotazione e invalidazione; concorrenza di due rotazioni; nickname personale per tutti i ranghi e interventi R4/R5; limite nome vuoto/65 caratteri; separazione nickname tra alleanze; divieti di autopromozione e modifica R5; PATCH diretto negato; abbandono membro consentito/R5 negato. Sei logout completati. Sei fixture inutilizzate di un’esecuzione interrotta sono state rimosse prima della suite; nessuna appartenenza esistente coinvolta.
 
-**Limiti residui:** copia/condivisione e dialoghi non ancora provati con sessione UI; temi verificati a livello unitario, non su tutte le schermate; mobile verificato con viewport CSS in iframe, non dispositivo fisico; conferma email non verificata. Non dichiarare la Fase 4 completata né la v0.8.4 rilasciata in produzione.
+### Collaudo UI reale del 29–30 ottobre 2026
+
+Sessione ACC autenticata attraverso il percorso sicuro del browser Work. Test effettuati su un’alleanza temporanea creata dall’app, con quattro membri sintetici. Per verificare R4/R1/R2/R3, il rango dell’account autenticato è stato variato amministrativamente soltanto nella fixture: nessuna sessione o risposta Supabase simulata, nessuna modifica ai ruoli delle alleanze originali.
+
+Il primo cambio rango via automazione del select ha lasciato il controllo in attesa dopo un timeout del dialogo; non contato come PASS. Dopo reload e uso del controllo nativo, annullamento e conferma verificati: risposta RPC 200, database R2 e messaggio UI “Rango aggiornato.” concordanti. Non attribuita una causa certa al primo blocco e non applicate correzioni speculative.
+
+Inviti R5: codice letto/copiato, annullamento mantiene il codice visibile, conferma genera un nuovo codice. R4: lettura e copia corrette, rigenerazione dopo conferma e fallback Condividi→copia verificati negli appunti. Nessun invio a destinatari esterni. R1–R3: zero selettori rango, un solo pulsante nickname personale, menu invito nascosto. Cambio alleanza riporta correttamente il nickname originale e R5 in ACC TEST. Preferenze originali ripristinate a Command/Dark e italiano.
+
+Pulizia UI richiesta due volte, entrambe scadute nella conferma del connettore: NON dichiararla eseguita. Da rimuovere esclusivamente la fixture UI documentata nel report privato e i quattro utenti sintetici, mai l’account reale. Nessuna migrazione applicata. Advisory sicurezza consultati: RPC SECURITY DEFINER intenzionali da mantenere con controlli autorizzativi; tabella inviti protetta senza accesso diretto; protezione password compromesse disabilitata, non modificata durante il collaudo. Riferimento: https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection
+
+**Limiti residui:** registrazione/conferma email e recupero non verificati; condivisione nativa mobile non provata; matrice completa di tutte le pagine nelle cinque lingue e su mobile ancora parziale. Testi introduttivi residui “Owner” da allineare a R5/R4–R5 in tutte le lingue. Non dichiarare la Fase 4 completata né la v0.8.4 rilasciata in produzione.
 
 ## 1. Riferimenti e ambienti
 
