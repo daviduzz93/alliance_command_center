@@ -16,6 +16,8 @@
 
 `ACC_v084_Login_NotaNonUfficiale_UI_fix.patch` (diff `index.html`, `app.js`, `styles.css`) preparata su copia della ZIP privata, senza creare nuova build. La patch:
 
+**Library:** copia verificata archiviata come `/Alliance Command Center/ACC_v084_Login_NotaNonUfficiale_UI_fix(2).patch` (nome assegnato automaticamente dalla Library). `git apply --check` sulla v0.8.4 originale: PASS. Rieseguiti `node --check`, suite `check-core.cjs` e Chromium statico a quattro viewport: tutti PASS. Nessun deploy o merge eseguito.
+
 1. Riserva la stessa area per il link di recupero password tra Accedi e Crea account, così il riquadro mantiene dimensioni e posizione.
 2. Aggiunge nel pannello un disclaimer **breve, traducibile IT/EN/FR/ES/DE** di app indipendente/non ufficiale e non affiliata agli sviluppatori, con riferimento ai diritti sui marchi. La nota non costituisce licenza per usare il logo o asset ufficiali.
 3. Sostituisce le descrizioni di primo accesso: il creatore diventa **R5**; invito proveniente da **R4 o R5**; eventuale stringa `owner-only` uniformata a R4/R5.
