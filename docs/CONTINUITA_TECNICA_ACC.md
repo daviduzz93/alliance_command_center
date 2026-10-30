@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.23  
+**Revisione documento:** 1.24  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,16 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## ACC Membri v0.3.3 — concorrenza letture, rev. 1.24 (30/10/2026)
+
+**Report:** [`REPORT_MEMBRI_LISTA_UNICA_V033_2026_10_30.md`](./REPORT_MEMBRI_LISTA_UNICA_V033_2026_10_30.md).
+
+- **Build DEV privata** `ACC_Membri_Lista_Unica_DEV_v0_3_3_PRIVATO.zip` salvata in Library, **non distribuita**.
+- Riprodotta race fra due `SELECT` `alliance_members` concorrenti della medesima alleanza: una vecchia risposta arrivata dopo quella fresca sovrascriveva il roster. Corretta con generazione per richiesta in `roster.js` e invalidazione su reset. Stessa protezione per le richieste RPC `acc_list_members_v2` in `app.js`, con invalidazione su cambio alleanza/disconnessione.
+- **Test con mock:** due test dedicati di inversione dell'ordine di risposta PASS, 46/46 verifiche Membri e 1.684/1.684 regressione UI PASS, sintassi JS e check-core PASS. Non sono test Auth reali.
+- **Blocco:** manca collaudo login/JWT reale R1/R4/R5 sullo staging privato, accessibile attraverso Work. Non dichiarare rilasciata la Fase 4 o Membri prima dello smoke test autenticato.
+- Nessun cambiamento a `acc-test` schema/dati, Supabase produzione, staging, GitHub main/Pages o candidata Fase 4 v0.8.4.1. I ZIP privati restano esclusivamente in Library.
 
 ## ACC Membri v0.3.2 — badge ACC affidabile e collegamento protetto, rev. 1.23 (30/10/2026)
 
