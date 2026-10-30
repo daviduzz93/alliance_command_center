@@ -13,7 +13,7 @@
 
 ## Backend proposto, non applicato
 
-File privato `sql/ACC_DS_ISCRIZIONI_PREVIEW_NON_APPLICATA.sql` crea `acc_ds_registrations` e una tabella `acc_ds_week_locks` predisposta per la finalizzazione futura. Prevede RLS isolate per alleanza, write riservato a R4/R5 o al proprio giocatore collegato, trigger lato server su finestra iscrizioni ed eventuale blocco anticipato. Storico dei nomi via snapshot anche in caso di cancellazione dal roster.
+File privato `sql/ACC_DS_ISCRIZIONI_PREVIEW_NON_APPLICATA.sql` crea `acc_ds_registrations` e una tabella `acc_ds_week_locks` predisposta per la finalizzazione futura. Prevede RLS isolate per alleanza, write riservato a R4/R5 o al proprio giocatore collegato, trigger lato server su finestra iscrizioni ed eventuale blocco anticipato. Il giocatore è conservato tramite UUID e nickname snapshot **senza una FK diretta al roster corrente**: il trigger verifica la presenza nel roster quando si scrive, ma eliminare un giocatore da Membri non blocca o riscrive le sue vecchie iscrizioni. Questa scelta verrà testata anche su database prima dell'applicazione.
 
 **Verifica in sola lettura su `acc-test`**: nessuna tabella DS preesistente. Nessuna migrazione eseguita, dati, fixture QA e produzioni invariati.
 
