@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.21  
+**Revisione documento:** 1.22  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,17 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## ACC Membri v0.3.1 — recupero gestione account non collegati, rev. 1.22 (30/10/2026)
+
+**Report:** [`REPORT_MEMBRI_LISTA_UNICA_V031_2026_10_30.md`](./REPORT_MEMBRI_LISTA_UNICA_V031_2026_10_30.md).
+
+- **Build privata DEV aggiornata, non pubblicata:** `ACC_Membri_Lista_Unica_DEV_v0_3_1_PRIVATO.zip` in Library. Partenza dalla v0.3, senza modifiche al DB o alla configurazione staging.
+- **Regressione trovata e corretta:** la lista unica nascondeva alcune funzioni ACC della Fase 4 per gli account ancora non associati al roster Last War. Aggiunto un pannello **espandibile**, non una seconda lista: modifica nickname personale ACC per utenti non collegati; gestione account ACC non collegati per R4/R5, permessi già esistenti mantenuti. Per i giocatori collegati, controllo ACC soltanto nella riga della lista.
+- **Offline/mock PASS:** 42/42 test funzionali Membri e 1.684/1.684 test interfaccia generali = **1.726/1.726**, sintassi Node e check-core PASS.
+- **SQL solo acc-test in transazioni ROLLBACK, ruolo e claims impersonati:** limite massimo 100 rifiuta anche multi-insert 101, R3 può leggere stessa alleanza ma non scrivere, nessuna lettura dall'esterno. Nessun dato persistito. **Non sono prove login JWT/Auth reali**.
+- **Blocco reale al prossimo collaudo:** lo staging è privato in Work e non è controllabile dal browser disponibile in questa chat; nessun deploy. Necessario smoke test su staging con login Auth reale e JWT su R1/R4/R5, cambio alleanza, import Excel, isolamento e Fase 4 email. Non dichiarare completato finché non superato.
+- `acc-test` resta con schema `alliance_members` della migrazione v0.3. **Staging, produzione, GitHub main/Pages e candidata Fase 4 v0.8.4.1 invariati.**
 
 ## Registro Membri v0.3 + schema acc-test — rev. 1.21 (30/10/2026)
 
