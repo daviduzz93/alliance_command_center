@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.19  
+**Revisione documento:** 1.20  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,16 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Rettifica UX: unica lista membri Last War — rev. 1.20 (30/10/2026)
+
+**Rapporto:** [`REPORT_MEMBRI_LISTA_UNICA_V02_2026_10_30.md`](./REPORT_MEMBRI_LISTA_UNICA_V02_2026_10_30.md). **Questo requisito sostituisce il modello a due schede definito in rev. 1.19.**
+
+- Unica anagrafica dei giocatori effettivi Last War in `Membri`, con nickname, rango di gioco, T1 e badge **ACC registrato/non registrato** accanto al singolo giocatore; **nessuna seconda lista degli account**. I ranghi di gioco non cambiano i permessi ACC.
+- Campo `Attivo` eliminato: massimo **100 membri presenti** per alleanza; chi esce viene rimosso dalla lista corrente. Il futuro storico DS va conservato a parte.
+- R4/R5 collegano un account ACC mediante `user_id` effettivo di una membership della **medesima alleanza**, non confrontando semplicemente i nickname. Un solo giocatore per account e alleanza. Le azioni ACC autorizzate rimangono accessibili nella riga del giocatore.
+- Candidata privata v0.2 **NON INTEGRATA** `ACC_Membri_Lista_Unica_DEV_v0_2_PRIVATO.zip` con modello Excel e SQL non applicato, archiviata in Library. Test offline con Supabase mock: **35/35 specifici + 1.684/1.684 regressione PASS**.
+- Lettura schema `acc-test`: esiste già `public.alliance_members` (schema storico, 0 righe nel test), oltre a `alliance_memberships`. **Prima della migrazione scegliere uno schema definitivo** ed evitare nuove tabelle ridondanti, quindi collaudare RLS con JWT autentici. Database, staging, produzione e Fase 4 v0.8.4.1 invariati.
 
 ## Nuovo modulo Membri — candidata privata di sviluppo, rev. 1.19 (30/10/2026)
 
