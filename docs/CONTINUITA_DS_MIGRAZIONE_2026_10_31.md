@@ -46,3 +46,13 @@
 - **Test locali con mock:** calendario 39/39; browser DS 59/59, Membri 46/46, matrice responsive/lingue/temi 1.684/1.684; controlli sintassi, core e race PASS.
 - **Acc-test:** confermata in sola lettura la presenza delle tabelle/policy e di `updated_at` sulle due tabelle modificabili. Nessun deploy e nessuna nuova migrazione.
 - **Blocco prima del rilascio:** test end-to-end con JWT Supabase Auth reali, due client concorrenti e scritture nella finestra di iscrizione effettiva. Non dichiarare la build pronta per produzione.
+
+## Formazioni DS DEV v0.1 — laboratorio privato (31/10/2026)
+
+- **Nuova candidata privata completa**: `ACC_Formazioni_DS_Laboratorio_DEV_v0_1_PRIVATO.zip` nella Library ACC, basata su Iscrizioni v0.2.3. Rapporto: `ACC_FORMATIONS_DEV_v0_1_REPORT.md`.
+- **Integrazione UI reale nella copia privata dell'app**: pannello laboratorio Formazioni DS disponibile solo a sessioni con permesso tecnico `owner/manager`. Carica orari, elenco giocatori e iscrizioni della settimana dal progetto di test, senza modificare alcun dato.
+- **Bozze temporanee**: generazione A/B con 20 titolari + 10 riserve di default, un solo evento per giocatore incluso come riserva, rispetto delle disponibilità, Nucleo/Forti garantiti salvo conflitti dichiarati, elenco disponibili non selezionati. Confronto sommario T1 e mediana dei titolari; scambi euristici solo fra giocatori flessibili dello stesso gruppo, non predizioni tattiche.
+- **Classificazioni/precedenti esclusi**: input manuali soltanto in memoria della sessione R4/R5. Nessun backend, nessun salvataggio o accesso a queste informazioni riservate per R1–R3. Storico reale, alternanza Forti, strategie per fasi e snapshot non ancora integrati.
+- **Test mock/locali PASS**: motore 9.686 verifiche con 65 scenari sintetici; browser Formazioni 84 controlli (4 viewport, 5 lingue), DS 59/59, calendario 39/39, Membri 46/46, matrice generale 1.684/1.684, sintassi/core/race PASS.
+- **Nessuna modifica a Supabase acc-test, produzione, GitHub main, Pages o staging**; codici privati conservati esclusivamente in Library. Il laboratorio **NON** genera formazioni ufficiali né può essere finalizzato.
+- **Prossimo lavoro**: schema dati/RLS privato R4/R5 e finalizzazione transazionale entro mercoledì ora server, integrazione piano tattico per fasi e collaudo Auth/JWT reale in Work quando disponibile.
