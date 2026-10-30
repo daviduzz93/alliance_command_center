@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.18  
+**Revisione documento:** 1.19  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,15 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Nuovo modulo Membri — candidata privata di sviluppo, rev. 1.19 (30/10/2026)
+
+**Report:** [`REPORT_DEV_REGISTRO_GIOCATORI_2026_10_30.md`](./REPORT_DEV_REGISTRO_GIOCATORI_2026_10_30.md). La nuova anagrafica di gioco è **separata dalla Fase 4** e non sostituisce la build v0.8.4.1 in collaudo.
+
+- ZIP completo privato in Library: `ACC_Membri_RegistroGioco_DEV_v0_1_PRIVATO.zip`. Due viste dentro Membri: giocatori Last War e account ACC. CRUD, ricerca, potenza T1, rango e tipo squadra; import/export Excel .xlsx con template. Solo R4/R5 modificano nell'interfaccia.
+- Preparata, **non applicata**, migrazione `ACC_ROSTER_PREVIEW_NOT_APPLIED.sql` per `public.acc_roster_players` con policy RLS distinte e limite di 100 giocatori attivi. Servono review, autorizzazione e test RLS reali su `acc-test`. Nessun collegamento automatico fra giocatore Last War e account ACC.
+- **Test offline MOCK:** 1.684/1.684 regressione preesistente e 36/36 test specifici roster; XLSX esportato letto da un importatore indipendente. Nessuna nuova prova API con Auth reale.
+- Nessun deploy, nessuna migrazione, nessuna modifica a `main`, Pages, staging o produzione. Prima di dichiararlo operativo, integrare tabella su test e collaudare R1/R4/R5 e isolamento multi-alleanza con login reali.
 
 ## Candidata cumulativa privata v0.8.4.1 — 30/10/2026, rev. 1.18
 
