@@ -1,7 +1,7 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
 **Revisione documento:** 1.27  
-**Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
+**Aggiornato al:** 31 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
 **Scopo:** una fonte consultabile e versionata per riprendere lo sviluppo senza perdere decisioni, test, stato delle build o problemi aperti.
