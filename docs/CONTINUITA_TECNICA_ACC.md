@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.22  
+**Revisione documento:** 1.23  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,16 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## ACC Membri v0.3.2 — badge ACC affidabile e collegamento protetto, rev. 1.23 (30/10/2026)
+
+**Rapporto tecnico:** [`REPORT_MEMBRI_LISTA_UNICA_V032_2026_10_30.md`](./REPORT_MEMBRI_LISTA_UNICA_V032_2026_10_30.md).
+
+- **Build correttiva privata DEV** `ACC_Membri_Lista_Unica_DEV_v0_3_2_PRIVATO.zip` archiviata nella Library. La lista Last War resta unica e non include stelle, classificazione DS o un secondo elenco.
+- Se la RPC membri ACC fallisce, il badge mostra **«ACC non verificabile»** (non «Non registrato») in cinque lingue. In una modifica a T1/roster il collegamento preesistente `acc_user_id` non viene cancellato quando il lookup account non è disponibile. XLSX esportato con stato ACC vuoto, non falso «No».
+- **1.730/1.730 PASS** nei test browser offline/mock (46 funzionali Membri + 1.684 regressione), syntax Node e check-core PASS.
+- **Blocco reale persistente:** il browser privato di Work non è disponibile qui e la sandbox non raggiunge l'API HTTPS di `acc-test`; niente test Auth/JWT REST end-to-end e **nessun deploy staging**. In Library c'è anche `ACC_CHECKLIST_COLLAUDO_REALE_MEMBRI_V032.md` per eseguire i test in Work.
+- Migrazione/schema acc-test v0.3 **invariati** in questo intervento. Nessuna modifica a fixture, produzione, main, Pages o alla candidata Fase 4 v0.8.4.1. **Non dichiarare Membri rilasciato**.
 
 ## ACC Membri v0.3.1 — recupero gestione account non collegati, rev. 1.22 (30/10/2026)
 
