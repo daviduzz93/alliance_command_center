@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.15  
+**Revisione documento:** 1.16  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,15 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Aggiornamento verifica senza Astra — 30/10/2026, revisione 1.16
+
+**Nuovo report:** [`REPORT_REVISIONE_FASE4_2026_10_30.md`](./REPORT_REVISIONE_FASE4_2026_10_30.md). Questa nota aggiorna il registro senza sostituire le evidenze storiche rev. 1.15.
+
+- **Fixture UI acc-test ANCORA PRESENTE:** alleanza `ACC QA UI 20261029`, 5 appartenenze, di cui 4 account sintetici con marcatore `acc_qa=ui084-oct29` e un account già esistente **da conservare**. Precheck aggregato passato: nessuna appartenenza, alleanza o invito esterno collegato ai 4 account sintetici. Stato corrente letto: **4 alleanze, 11 appartenenze, 10 account**. Richiesta di eliminazione transazionale **bloccata dai controlli del connettore**: **nessuna cancellazione eseguita**, non aggirare il blocco. Pulizia da riprendere solo con accesso amministrativo autorizzato e verifica post-operazione (baseline precedente 3/6/6).
+- **Email ancora bloccate:** nella v0.8.4 `AUTH_REDIRECT_URL` usa lo staging HTTPS, ma `AUTH_REDIRECT_VERIFIED=false` deliberatamente. Servono conferma dashboard `acc-test` dei redirect Auth e template email, test signup/conferma/recupero reali prima di cambiare il flag. Nessuna registrazione o email provata in questa sessione.
+- **Patch frontend privata pronta, NON integrata nella build:** `ACC_v084_Login_NotaNonUfficiale_UI_fix.patch`. Riserva spazio fisso per «Password dimenticata?» per allineare Accedi/Crea account; aggiunge disclaimer non ufficiale nelle cinque lingue; sostituisce nell'onboarding Owner con R5 e inviti da R4/R5. Su copia locale della ZIP: `node --check` PASS, `tests/check-core.cjs` PASS, **4/4** viewport statici browser 1280/768/375/320 con larghezza e altezza del pannello identiche e senza overflow. Questi non sono test browser autenticati su staging.
+- **Nessun nuovo ZIP, deploy, cambio a main/Pages/produzione**. Non confondere la correzione su copia locale con un'integrazione effettiva nello staging. Il report appena citato ha precedenza per questa attività.
 
 ## Stato corrente — 30/10/2026, revisione 1.15
 
