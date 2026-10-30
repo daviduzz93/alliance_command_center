@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.27  
+**Revisione documento:** 1.28  
 **Aggiornato al:** 31 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,16 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Collaudo SQL RLS simulato e pacchetto DS v0.2.1 — rev. 1.28 (31/10/2026)
+
+- Su **Supabase acc-test soltanto**, la preview SQL v0.2.1 è stata eseguita in una transazione SQL terminata con **ROLLBACK**: CREATE TABLE/policy/trigger completati senza errori, nessuna migrazione permanente.
+- In ulteriori transazioni ROLLBACK, test **reali PostgreSQL** con `SET LOCAL ROLE authenticated` e claim `request.jwt.claim.sub` impostato da identità di prova già presenti: R5 crea gli orari, R4 li modifica e registra un giocatore test legato a R3, R3 legge ma non può creare/modificare orari, R3 collegato riceve blocco orario alla prova di iscrizione fuori finestra, R1 di altra alleanza non legge lo schedule. **Sono simulazioni di ruolo/claim, NON login Supabase Auth con JWT autentico**; nessun test positivo di iscrizione in finestra perché al 31/10 era chiusa.
+- **Postflight sola lettura:** `acc_ds_*` ancora **0 tabelle**, roster 0 righe, alleanze 4, membership 11. Nessuna fixture creata in modo permanente né pulizia delle fixture preesistenti.
+- Sul client privato v0.2: `check-ds-calendar.cjs` **34/34**, browser DS mock **47/47**, Membri mock **46/46**, `browser-matrix.py` **1.684/1.684**, core/syntax PASS. **Non** sono test integrazione Auth/browser reale.
+- Rilevata inconsistenza su roster `public.alliance_members.game_name`: vincolo legacy massimo **80**, ma anche vincolo più recente massimo **64**, dunque il limite effettivo è **64**. Non è stato modificato il database; SQL DS accetta 80 per eventuale compatibilità futura, mentre il roster resta limitato a 64.
+- Archiviata nella **Library privata** la nuova candidata `ACC_DS_Iscrizioni_OrarioServer_DEV_v0_2_1_PRIVATO.zip`, frontend v0.2 invariato e preview SQL sostituita con v0.2.1; report `ACC_DS_REPORT_TEST_SQL_RLS_v0_2_1.md`. Non pubblicata né distribuita a staging.
+- **Ancora bloccante:** test via JWT/login Auth autentici per R1/R4/R5, verifica POST/UPSERT positivi durante la finestra server lunedì→giovedì, concorrenza e blocco dopo prima iscrizione, review finale schema e autorizzazione alla migrazione acc-test. Non applicare SQL permanentemente né pubblicare la build prima di tali verifiche. Nessuna modifica a Supabase produzione, GitHub main, Pages o staging.
 
 ## Verifica SQL Iscrizioni DS — rev. 1.27 (31/10/2026)
 
