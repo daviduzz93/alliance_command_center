@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.16  
+**Revisione documento:** 1.17  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,15 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Aggiornamento collaudo offline UI — 30/10/2026, revisione 1.17
+
+**Report:** [`REPORT_COLLAUDO_UI_OFFLINE_FASE4_2026_10_30.md`](./REPORT_COLLAUDO_UI_OFFLINE_FASE4_2026_10_30.md).
+
+- Matrice offline su copia privata v0.8.4 con Supabase **simulato**: 4 viewport × 5 lingue × 6 palette × Dark/Light × 7 pagine = **1.680 verifiche**, più 4 controlli del pannello di autenticazione: **1.684/1.684 PASS**, zero errori JS del browser. **NON** sono nuovi test backend reali e non sostituiscono la suite API 78/78 già documentata.
+- Corretti offline due bug responsive a 320px: campo file dello stemma (Impostazioni) e dicitura tedesca Benachrichtigungen (Home). Patch incrementale `ACC_v084_mobile_and_browser_regression_v1.patch` salvata nella Library privata; **applicare dopo** `ACC_v084_Login_NotaNonUfficiale_UI_fix(2).patch`.
+- Verificata applicabilità delle due patch nell'ordine su ZIP privata originale con `git apply --check`; Node `--check`, `tests/check-core.cjs`, Playwright con 1.684 controlli: PASS.
+- **Non integrato sullo staging, nessun nuovo ZIP, nessun aggiornamento Supabase, nessun deploy.** Conferma email/recovery e pulizia fixture QA restano aperte come nella rev. 1.16. Prossima build cumulativa privata integra le patch e richiede smoke test Auth reale in Work.
 
 ## Aggiornamento verifica senza Astra — 30/10/2026, revisione 1.16
 
