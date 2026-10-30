@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.25  
+**Revisione documento:** 1.26  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,17 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Gestione DS → Orario server e slot settimanali DEV v0.2 — rev. 1.26 (30/10/2026)
+
+**Report:** [`REPORT_DS_ORARIO_SERVER_DEV_V02_2026_10_30.md`](./REPORT_DS_ORARIO_SERVER_DEV_V02_2026_10_30.md). **Sostituisce le assunzioni sulla timezone e sulle ore DS della rev. 1.25**; la v0.1 resta solo storica.
+
+- **Build privata:** `ACC_DS_Iscrizioni_OrarioServer_DEV_v0_2_PRIVATO.zip` nella Library. Nuova Gestione DS con fasce **A e B configurate per alleanza e venerdì** da R4/R5, in **ora server**, conversione automatica in ora locale del browser; no slot predefiniti 12:00/21:00, no inferenza dal numero server.
+- Il server Last War usa **normalmente UTC−02:00 fisso** (senza DST), offset modificabile dagli ufficiali in caso di eccezioni del server. Apertura iscrizioni **lunedì 00:00 e chiusura giovedì 00:00, ora server**; in Italia normalmente giovedì 03:00 invernale e 04:00 estivo. Non usare più `Europe/Rome` per i cut-off.
+- Schema **SQL proposto e NON applicato**: `acc_ds_week_schedule` con snapshot fasce/offset per settimana e RLS R4/R5; `acc_ds_registrations` con scelte `a/b/both/none`; `acc_ds_week_locks`. Nessuna risposta consentita se non è configurata la settimana; dopo la prima risposta i turni non si cambiano. Lock transazionale proposto per evitare aggiornamenti concorrenti.
+- **Test offline:** calendario 34/34, DS browser 47/47, Membri 46/46, regressione generale 1.684/1.684 **prima dell'ultimo ritocco di etichetta server**, smoke completo mirato 58/58 **dopo il ritocco**. Ripetizione estesa della matrice andata in timeout, non classificata PASS. Test sintassi/core PASS; nessun JWT/login reale.
+- `acc-test` controllato in sola lettura: **non esistono ancora tabelle acc_ds_***. Zero modifiche a database, staging, GitHub main/Pages, Supabase produzione, candidata Fase 4 v0.8.4.1 o Membri v0.3.3. **Review/autorizzazione migrazione SQL e collaudo JWT reali ancora necessari.**
+- File in Library: `ACC_DS_Iscrizioni_OrarioServer_DEV_v0_2_PRIVATO.zip`, `ACC_REPORT_DS_ORARIO_SERVER_DEV_v0_2.md`, `ACC_DS_ISCRIZIONI_ORARIO_SERVER_SQL_NON_APPLICATA_v0_2.sql`. **Non applicare la preview v0.1** e non inserire sorgenti privati nel repo pubblico.
 
 ## Gestione DS → Iscrizioni DEV v0.1, rev. 1.25 (30/10/2026)
 
