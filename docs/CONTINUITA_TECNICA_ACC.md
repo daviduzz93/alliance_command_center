@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.26  
+**Revisione documento:** 1.27  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,13 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Verifica SQL Iscrizioni DS — rev. 1.27 (31/10/2026)
+
+- Ripresa la preview DEV v0.2 senza applicarla. **Controllo in sola lettura** su Supabase `acc-test`: assenti tabelle `acc_ds_*`; presenti `public.has_alliance_role` e colonne roster richieste (`id`, `alliance_id`, `game_name`, `acc_user_id`); RLS `alliance_members` attiva.
+- Review statica rileva tre correzioni: allineare `player_name` a massimo 80 caratteri come `alliance_members.game_name` (non 64); rendere `created_at` server-issued e immutabile nelle registrazioni; valutare lo scadere della finestra anche secondo il vecchio offset per impedire la riapertura tardiva con una modifica all'orologio server.
+- Preparata **solo localmente**, non distribuita, la preview `ACC_DS_ISCRIZIONI_SQL_PREVIEW_v0_2_1_NON_APPLICATA.sql` e il report `ACC_DS_REVIEW_SQL_v0_2_1.md`. Non sostituisce automaticamente la v0.2 presente in Library; nessuna migrazione, modifica di dati, test JWT reale o deploy è stato effettuato.
+- **Prossimo passo:** validare SQL v0.2.1 e permessi RLS con test PostgreSQL/Auth reali su `acc-test`, esclusivamente dopo review e autorizzazione mirata; consolidare con client DEV v0.2. Continuano ad applicarsi i blocchi Fase 4/Auth e il divieto di aggiornare `main`, Pages, staging o Supabase produzione senza approvazione.
 
 ## Gestione DS → Orario server e slot settimanali DEV v0.2 — rev. 1.26 (30/10/2026)
 
