@@ -28,3 +28,11 @@
 **Fonte privata di dettaglio:** `ACC_DS_REPORT_MIGRAZIONE_ACC_TEST_2026_10_31.md` nella Library del progetto.
 
 **Versionamento:** documento additivo indipendente per evitare il reinvio completo del documento principale di 68 KB; il documento principale rimane alla rev. 1.28 fino a un aggiornamento distinto verificato.
+
+## Aggiornamento DEV DS v0.2.2 — 31 ottobre 2026
+
+- Preparata e archiviata in **Library privata** la build `ACC_DS_Iscrizioni_OrarioServer_DEV_v0_2_2_PRIVATO.zip` e il rapporto `ACC_DS_REPORT_BUILD_v0_2_2.md`.
+- Corretti i **contatori per fascia**: A e B includono le risposte `both`; `both` rimane una categoria informativa sovrapposta, non equivale a due assegnazioni. Aggiunta nota esplicativa nelle cinque lingue.
+- Il selettore **offset orario** usa incrementi di 15 minuti, coerenti con i vincoli SQL.
+- Test locali mock PASS: calendario 37/37, browser DS 51/51, Membri 46/46, regressione interfaccia 1.684/1.684, core/JS/race checks PASS.
+- Nessuna migrazione nuova, nessun deploy né modifica a `main` o produzione. Rimangono necessari i test con JWT Auth reali e salvataggi verificati su `acc-test`.
