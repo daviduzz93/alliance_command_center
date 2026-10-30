@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.20  
+**Revisione documento:** 1.21  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,17 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Registro Membri v0.3 + schema acc-test — rev. 1.21 (30/10/2026)
+
+**Report:** [`REPORT_MEMBRI_LISTA_UNICA_V03_2026_10_30.md`](./REPORT_MEMBRI_LISTA_UNICA_V03_2026_10_30.md). Questa sezione **sostituisce gli stati di implementazione delle revisioni 1.19 e 1.20**, da conservare solo come storico.
+
+- **Eliminati i campi di valutazione tattica 1–5 stelle `tactical_power` e `is_active`** dalla tabella `public.alliance_members` su **Supabase `acc-test`** (la tabella conteneva **zero giocatori** prima e dopo). La classificazione Nucleo/Forti/Rotazione è riservata a Gestione DS.
+- **Migrazione realmente applicata e verificata, esclusivamente su `acc-test`:** `acc_members_single_roster_t1_no_tactical_stars_20261030`. Riutilizza la tabella `alliance_members` già esistente, senza creare `acc_roster_players`. Nuovi campi `t1_power`, `squad_type`, `acc_user_id`; FK composita vincolata alla membership della stessa alleanza, unicità e trigger `SECURITY INVOKER` con limite 100.
+- Policy RLS esistenti conservate. Prove su transazioni SQL annullate, con ruolo `authenticated` e claim `auth.uid()` impostato artificialmente: R5/R4 consentiti, R3 negato, link account inesistente e nickname duplicato bloccati. **Non sono test con JWT/login Auth reali**. Dati QA ripristinati e nessuna riga roster permanente.
+- **Frontend DEV privata v0.3:** ZIP `ACC_Membri_Lista_Unica_DEV_v0_3_ACC_TEST.zip` in Library. Ora usa `public.alliance_members.game_name` invece di `acc_roster_players.player_name`, mantenendo un'unica lista con badge ACC, import/export Excel. **1.684/1.684** regressione UI mock e **35/35** test specifici mock PASS.
+- **Ancora da fare:** smoke test su staging privato con Auth/REST reali (R1/R4/R5 e isolamento cross-alliance), autorizzazione alla pubblicazione della candidata DEV, separatamente dalla Fase 4. Nessun cambiamento a GitHub main/Pages, staging o Supabase produzione. Non dichiarare il modulo Membri pubblicato.
+- I report v0.1/v0.2 e la migrazione `acc_roster_players` NON APPLICATA sono documentazione storica: **non usare quelle versioni né applicare l'SQL vecchio**.
 
 ## Rettifica UX: unica lista membri Last War — rev. 1.20 (30/10/2026)
 
