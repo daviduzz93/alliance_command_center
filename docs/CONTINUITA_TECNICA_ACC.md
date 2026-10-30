@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.24  
+**Revisione documento:** 1.25  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,17 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Gestione DS → Iscrizioni DEV v0.1, rev. 1.25 (30/10/2026)
+
+**Report:** [`REPORT_DS_ISCRIZIONI_DEV_V01_2026_10_30.md`](./REPORT_DS_ISCRIZIONI_DEV_V01_2026_10_30.md).
+
+- **Build candidata privata** `ACC_DS_Iscrizioni_DEV_v0_1_PRIVATO.zip` in Library, basata sul modulo Membri v0.3.3, con sezione DS **integrata in ACC** (non demo isolata). Nessun deploy né modifica a staging/Pages/main/produzione.
+- Elenco giocatori da `alliance_members`; scelte DS 12/21/entrambe/nessuna, con **non risposta distinta**. R4/R5 gestiscono anche giocatori senza account ACC; R1–R3 solo il proprio giocatore collegato. Iscrizioni lunedì 00:00–giovedì 03:00 `Europe/Rome` con gestione DST, leggibili dopo chiusura, ancora non formazioni.
+- **Due nuove tabelle SQL proposte MA NON APPLICATE:** `acc_ds_registrations` e `acc_ds_week_locks` in `sql/ACC_DS_ISCRIZIONI_PREVIEW_NON_APPLICATA.sql` dentro la ZIP privata. Preview RLS, trigger e blocchi lato database da sottoporre a review e test JWT reali **solo su `acc-test`**. In assenza dello schema la UI mostra errore esplicito, **non salva su memoria locale e non simula dati reali**.
+- **Test offline/mock PASS:** calendario 23/23, Iscrizioni browser 36/36, regressione generale 1.684/1.684 e Membri 46/46, totale **1.789/1.789 asserzioni**. Verifiche sintassi JS e `check-core.cjs` PASS. Zero collaudi Auth/JWT REST nuovi.
+- Non confondere una doppia disponibilità con una doppia assegnazione: **il vincolo un solo DS per persona verrà implementato e testato nel successivo modulo Formazioni**.
+- Fase 4 v0.8.4.1 e Membri v0.3.3 continuano come candidate separate; dati `acc-test` e fixture preesistenti rimasti invariati.
 
 ## ACC Membri v0.3.3 — concorrenza letture, rev. 1.24 (30/10/2026)
 
