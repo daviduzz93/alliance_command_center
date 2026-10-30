@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.17  
+**Revisione documento:** 1.18  
 **Aggiornato al:** 30 ottobre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -8,6 +8,15 @@
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Candidata cumulativa privata v0.8.4.1 — 30/10/2026, rev. 1.18
+
+**Report tecnico:** [`REPORT_CANDIDATA_V0841_2026_10_30.md`](./REPORT_CANDIDATA_V0841_2026_10_30.md).
+
+- **Build ZIP candidata creata e archiviata in Library privata:** `ACC_v0_8_4_1_Fase4_Cumulativa_PRIVATA_TEST.zip`. Deriva dalla build originale v0.8.4, applicando in sequenza la patch di coerenza login/disclaimer/R4-R5 e la patch di responsive/test browser. Il pacchetto include report e test offline.
+- **Test locali sulla candidata PASS:** entrambe le patch senza conflitti, ZIP verificato byte per byte, controlli sintassi JS, `check-core.cjs` e **1.684/1.684 controlli browser offline con Supabase simulato**. Non rappresentano test Auth/RLS reali.
+- **Configurazione invariata:** solo `acc-test`, `AUTH_REDIRECT_VERIFIED=false`; nessun deploy, nessuna migrazione, nessuna modifica a `main`, Pages o produzione.
+- **Blocchi residui:** verifica Site URL/Redirect URLs e template Auth sul solo `acc-test`, test end-to-end conferma email/recovery, smoke test browser Auth reale della candidata su staging privato previa autorizzazione, e rimozione fixture UI QA tramite percorso amministrativo autorizzato. **Non dichiarare la v0.8.4.1 pubblicata o la Fase 4 conclusa.**
 
 ## Aggiornamento collaudo offline UI — 30/10/2026, revisione 1.17
 
