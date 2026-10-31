@@ -201,3 +201,9 @@
 - Verifica DB: `authenticated` può SELECT (soggetto a RLS), **non** può INSERT/UPDATE/DELETE direttamente. Eseguiti smoke schema con ROLLBACK prima dell'installazione e flusso DB con ROLLBACK dopo, simulando contesti autenticati officer1/officer2/viewer. Tutti completati senza errori, nessun dato di prova persistito.
 - Build privata Library `ACC_DS_BackendCondiviso_ACC_TEST_v2_2_PRIVATO.zip`; rapporto `ACC_DS_BACKEND_ACC_TEST_v2_2_REPORT.md`.
 - **Limite essenziale**: test con contesto JWT simulato; non ancora due sessioni Auth reali o due connessioni in parallelo. Frontend **non collegato** al DB: Live usa ancora localStorage; Realtime non pubblicato/attivato. Nessun deploy staging/prod, Pages e main invariati.
+
+## v2.3 — Pannello storico condiviso UI DEV (31/10/2026)
+- Build privata `ACC_DS_PannelloCondiviso_DEV_v2_3_PRIVATO.zip` e rapporto `ACC_DS_COLLEGAMENTO_UI_v2_3_REPORT.md` salvati in Library ACC. Nessun codice privato caricato su GitHub.
+- Nella mappa tattica compare pannello R4/R5 **con lettura da acc-test**, creazione esplicita (con conferma) del resoconto usando RPC protetta e fingerprint SHA-256, stato revisione/esito/elenco ordini; aggiorna via Realtime se disponibile o ricarica manuale/ogni 20s. Client Supabase autenticato ACC, cleanup a cambio DS/fase.
+- **Non equivale ancora al Live sincronizzato:** la copia ordine e la selezione esito del Live sono tuttora locali; il pannello condiviso non registra ordini live dal frontend. Realtime publication non collaudata. I test sono locali, senza sessioni JWT R4 simultanee.
+- Test: nuovo pannello 17 PASS, shared-history 6, atomic 9, bridge 17, quick 18, map 121, delta v0.7 e validazione v0.8 PASS; ZIP integro. Nessuna modifica DB questa volta. Staging/produzione/main/Pages invariati.
