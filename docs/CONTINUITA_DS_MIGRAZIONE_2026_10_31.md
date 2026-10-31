@@ -56,3 +56,12 @@
 - **Test mock/locali PASS**: motore 9.686 verifiche con 65 scenari sintetici; browser Formazioni 84 controlli (4 viewport, 5 lingue), DS 59/59, calendario 39/39, Membri 46/46, matrice generale 1.684/1.684, sintassi/core/race PASS.
 - **Nessuna modifica a Supabase acc-test, produzione, GitHub main, Pages o staging**; codici privati conservati esclusivamente in Library. Il laboratorio **NON** genera formazioni ufficiali né può essere finalizzato.
 - **Prossimo lavoro**: schema dati/RLS privato R4/R5 e finalizzazione transazionale entro mercoledì ora server, integrazione piano tattico per fasi e collaudo Auth/JWT reale in Work quando disponibile.
+
+## Formazioni DS DEV v0.2 — persistenza privata proposta (31/10/2026)
+
+- Build completa privata `ACC_Formazioni_DS_Persistenza_DEV_v0_2_PRIVATO.zip` e rapporto `ACC_FORMATIONS_DEV_v0_2_REPORT.md` archiviati nella **Library ACC**, senza pubblicazione dei sorgenti.
+- Nuovi comandi R4/R5 `Salva gruppi` e `Salva bozza A/B` nella copia frontend; lettura e ricaricamento di bozza già salvata; conflitti di revisione. In assenza di schema backend, comandi non attivi e generazione solo in memoria.
+- La proposta `ACC_DS_FORMAZIONI_PERSISTENZA_PREVIEW_NON_APPLICATA_v0_2.sql` è **soltanto nella Library privata e nello ZIP**. Schema previsto: gruppi officer-only con audit, bozze settimanali R4/R5 con controlli DB su unicità, disponibilità, capienza, orario e revisioni; nessuna finalizzazione o storico ufficiale.
+- SQL **verificata mediante DDL in ROLLBACK su acc-test**. Test PostgreSQL RLS con claim e ruoli **simulati**, R4 scrive/audit, revisioni stale negate, viewer non può leggere o inserire gruppi: PASS. **Non test JWT Auth reale**, non confermata scrittura reale delle bozze in finestra aperta.
+- Test locali: motore 9.686/9.686, Formazioni browser 84/84, persistenza mock 15/15, calendario 39/39, DS 59/59, Membri 46/46, matrice UI 1.684/1.684, core e race PASS.
+- **Postflight acc-test:** nessuna nuova tabella Formazioni installata, iscrizioni/orari/locks 0 righe; produzione, GitHub `main`, Pages e staging invariati. Prima dell'eventuale deploy servono review SQL, approvazione della migrazione test, collaudo JWT/RLS e scelta dell'ora precisa del blocco di mercoledì in ora server.
