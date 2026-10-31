@@ -188,3 +188,9 @@
 - Privati in Library: `ACC_DS_StoricoBridge_PREVIEW_v2_0_PRIVATO.zip`, `ACC_DS_STORICO_BRIDGE_v2_0_REPORT.md`.
 - Nuovo modulo `ds-shared-bridge.js`: snapshot esatto 3 fasi × 20 giocatori, identità stabili, normalizzazione codici e conversione degli ordini rapidi da nomi edifici a `playerId/from/to` per RPC. Adapter opzionale `createValidated` / `recordValidated`, **non invocato dalla UI**. 17 test bridge PASS; regressioni shared, quick, map PASS.
 - **Ancora non condiviso realmente**: SQL v1.9 non eseguito, nessuna sottoscrizione Realtime, test JWT/RLS multiactor da fare. Non interpretare v2.0 come deploy; production, acc-test, staging, Pages e main invariati.
+
+## ACC v2.1 — Realtime read-only PREVIEW (31/10/2026)
+- Library: `ACC_DS_StoricoRealtime_PREVIEW_v2_1_PRIVATO.zip`, rapporto `ACC_DS_STORICO_REALTIME_v2_1_REPORT.md`.
+- Aggiunto `ds-shared-realtime.js`: sottoscrizione opzionale ai cambiamenti Postgres di battle_records e battle_orders, segnalazione e ricarica snapshot via `ACCDSSharedHistory.load` con serializzazione dei refresh e cleanup. Non si fida del payload evento e non scrive alcunché.
+- Test PASS: nuovo adapter Realtime, bridge 17, history 6, atomic 9, security/create, quick 18, validazione 10; ZIP integro.
+- **NON ATTIVO:** le tabelle storico su acc-test NON sono installate, SQL v1.9 REVIEW ONLY, nessuna publication Realtime configurata, adapter non invocato dalla UI. Nessun collaudo Auth reale, multiutente o backend. `localStorage` è ancora la modalità operativa. Nessuna modifica a database, staging, main o produzione.
