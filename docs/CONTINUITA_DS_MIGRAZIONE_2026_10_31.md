@@ -239,3 +239,9 @@
 - Corretto polling pannello condiviso: non ricrea i controlli se la revisione non cambia; i fetch lenti non sovrascrivono snapshot Realtime più aggiornati (epoch + confronto revisione). Nessun cambio del modello dati.
 - PASS: 11 nuovi controlli, 9 atomic, bridge 15+2, 6 shared-history, panel 17, quick 18, map 121, ZIP integro.
 - **Non è un test E2E multiutente**: due sessioni Auth R4 reali ancora da provare. Publication `supabase_realtime` dei battle_records ancora assente, tool migration precedentemente bloccato. Polling 20s disponibile. No nuove SQL, deploy, staging o produzione.
+
+## v2.8 — conflitti simulati tra due R4 + clipboard sicura (31/10/2026)
+- Build privata `ACC_DS_MultiR4_Conflitti_DEV_v2_8_PRIVATO.zip`, report `ACC_DS_MULTI_R4_v2_8_REPORT.md` in Library ACC.
+- Corretto ordine operazioni nel pannello shared: **prima RPC di registrazione, poi clipboard**; se RPC fallisce nessun testo viene copiato dall'azione, se clipboard fallisce l'ordine è già registrato e la UI lo comunica chiaramente.
+- Nuova suite due R4 **simulati**, stessa revisione → conflitto → refresh → retry; assegnazione obsoleta respinta. PASS insieme a tutti i test shared panel, atomic, bridge, realtime mock, quick, map 121 e ZIP.
+- **Non completato** collaudo JWT multiutente reale; Realtime publication non attiva (tentativo migration bloccato da controlli sicurezza). Nessuna modifica a DB, staging, Pages, main o produzione. Polling 20 s di riserva.
