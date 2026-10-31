@@ -214,3 +214,9 @@
 - Esito Vittoria/Sconfitta su DB tramite `acc_ds_set_battle_outcome` con conferma e revision check. Snapshot iniziale immutabile. Storico locale originale separato; **cliccando la vecchia funzione Live locale NON si scrive sul database**.
 - PASS sintassi, test `ds-shared-*`, `ds-quick*`, `ds-live-history`, `ds-map*`, ZIP. Non ancora test E2E JWT reali, due R4, né Realtime publication: polling 20 s di riserva, UI in sviluppo.
 - Nessuna nuova SQL applicata. acc-test v2.2 invariato, produzione/staging/main/Pages intatti.
+
+## v2.5 — Live unificato UI DEV (31/10/2026)
+- Pacchetto privato `ACC_DS_LiveUnificato_DEV_v2_5_PRIVATO.zip` e rapporto `ACC_DS_LIVE_UNIFICATO_v2_5_REPORT.md` nella Library ACC.
+- Eliminato doppio pannello Live sulla mappa: quando è presente un client Supabase autenticato si monta **solo** `ACCDSSharedPanel`, con ordini e risultato su acc-test; in assenza di client viene mostrato il vecchio `ACCDSQuick` con avviso evidente **LOCALE / NON SINCRONIZZATO**. Nessun fallback silenzioso a scritture offline in caso di errore condiviso.
+- PASS test nuova modalità esclusiva 8, pannello 17, shared history 6, atomic 9, bridge 17, quick 18, Realtime e sintassi; ZIP verificato.
+- **Da non dichiarare ancora collaudato multi-R4**: manca prova E2E con JWT reali e publication Realtime; polling 20s fallback. Nessuna modifica al database acc-test, staging, produzione, Pages o main.
