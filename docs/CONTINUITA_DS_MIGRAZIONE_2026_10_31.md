@@ -207,3 +207,10 @@
 - Nella mappa tattica compare pannello R4/R5 **con lettura da acc-test**, creazione esplicita (con conferma) del resoconto usando RPC protetta e fingerprint SHA-256, stato revisione/esito/elenco ordini; aggiorna via Realtime se disponibile o ricarica manuale/ogni 20s. Client Supabase autenticato ACC, cleanup a cambio DS/fase.
 - **Non equivale ancora al Live sincronizzato:** la copia ordine e la selezione esito del Live sono tuttora locali; il pannello condiviso non registra ordini live dal frontend. Realtime publication non collaudata. I test sono locali, senza sessioni JWT R4 simultanee.
 - Test: nuovo pannello 17 PASS, shared-history 6, atomic 9, bridge 17, quick 18, map 121, delta v0.7 e validazione v0.8 PASS; ZIP integro. Nessuna modifica DB questa volta. Staging/produzione/main/Pages invariati.
+
+## v2.4 — UI test ordini atomici condivisi ed esito (31/10/2026)
+- Build privata `ACC_DS_LiveCondiviso_DEV_v2_4_PRIVATO.zip` e rapporto `ACC_DS_LIVE_CONDIVISO_v2_4_REPORT.md` in Library ACC.
+- Pannello condiviso R4/R5 ora consente contromisura manuale usando `expected_plan` letto da Supabase, validazione movimenti, checkbox ufficiale, copia messaggio e RPC `acc_ds_record_live_order` con revisione e ID idempotente. Su errore ricarica e avverte chiaramente che la copia non equivale a registrazione.
+- Esito Vittoria/Sconfitta su DB tramite `acc_ds_set_battle_outcome` con conferma e revision check. Snapshot iniziale immutabile. Storico locale originale separato; **cliccando la vecchia funzione Live locale NON si scrive sul database**.
+- PASS sintassi, test `ds-shared-*`, `ds-quick*`, `ds-live-history`, `ds-map*`, ZIP. Non ancora test E2E JWT reali, due R4, né Realtime publication: polling 20 s di riserva, UI in sviluppo.
+- Nessuna nuova SQL applicata. acc-test v2.2 invariato, produzione/staging/main/Pages intatti.
