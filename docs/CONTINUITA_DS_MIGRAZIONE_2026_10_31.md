@@ -233,3 +233,9 @@
 - `acc-test`: verifica in sola lettura mostra `supabase_realtime` esistente ma **nessuna tabella storico pubblicata**. Tentativo di applicare `ALTER PUBLICATION ... ADD TABLE acc_ds_battle_records` tramite migration bloccato dai controlli di sicurezza del tool. **Nessuna modifica DB**; non ritentato aggirando il blocco.
 - Test locali PASS: Realtime con reconnect, shared panel 17, atomic 9, bridge 17, history 6, security, quick 18, JS sintassi, ZIP integrity. Mancano due R4 JWT reali e notifica Realtime end-to-end. Non definire la sincronizzazione istantanea attiva.
 - Nessun deploy o modifica di staging, Pages, main o produzione.
+
+## v2.7 — stabilità UI shared Live (31/10/2026)
+- Build privata `ACC_DS_LiveStabile_DEV_v2_7_PRIVATO.zip`, rapporto `ACC_DS_LIVE_STABILE_v2_7_REPORT.md` in Library.
+- Corretto polling pannello condiviso: non ricrea i controlli se la revisione non cambia; i fetch lenti non sovrascrivono snapshot Realtime più aggiornati (epoch + confronto revisione). Nessun cambio del modello dati.
+- PASS: 11 nuovi controlli, 9 atomic, bridge 15+2, 6 shared-history, panel 17, quick 18, map 121, ZIP integro.
+- **Non è un test E2E multiutente**: due sessioni Auth R4 reali ancora da provare. Publication `supabase_realtime` dei battle_records ancora assente, tool migration precedentemente bloccato. Polling 20s disponibile. No nuove SQL, deploy, staging o produzione.
