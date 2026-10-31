@@ -93,3 +93,11 @@
 - Indicazione **BOZZA NON UFFICIALE** nel PNG; conferma posizioni sulla mappa v1.6.3 invariata, numerazione ospedali 1–3 ancora provvisoria. Cinque lingue; interfaccia smartphone.
 - Test locali **PASS**: 121 unit map; 184 browser map con export PNG A/B e race cambio alleanza; tactical 629; browser playbooks 100; engine Formazioni 9686; browser Formazioni 84; persistenza mock 15; DS calendario 39; browser iscrizioni 59; browser Membri 46; matrice generale 1684; race account/roster, core/sintassi PASS.
 - **No migrazioni Supabase, no scritture acc-test**, no staging/produzione/GitHub main/Pages. Nessuna finalizzazione o snapshot ufficiale. Collaudo con JWT Auth reali e ora precisa del blocco settimanale ancora aperti.
+
+## Mappa DS v0.7 — nomi ufficiali e soli movimenti successivi (31/10/2026)
+
+- Build integrale privata `ACC_Formazioni_DS_PianoMovimenti_DEV_v0_7_PRIVATO.zip` e report `ACC_DS_MAPPA_NOMI_E_MOVIMENTI_v0_7_REPORT.md` archiviati in Library ACC.
+- Nomi edifici riportati **esattamente** dalla schermata utente: Oil Refinery 1/2, Info Center, Arsenal, Field Hospital 1/2/3/4, Nuclear Silo, Mercenary Factory, Science Hub. Eliminati marcatori numerici e denominazioni Our/Enemy dal componente e sincronizzato il catalogo tattico.
+- PNG completo: Fase 1 lista completa; Fase 2 elenco **soli movimenti rispetto a Fase 1**; Fase 3 elenco **soli movimenti rispetto a Fase 2**. Confronto attraverso ID giocatore e codice incarico; Strikers/casse trattati come incarichi mobili. Le mappe delle tre fasi rimangono per orientamento; riserve alla fine.
+- Test PASS: nomi e delta v0.7, map unit 121, map browser 184, tattiche 629, formazioni engine 9686, calendario 39, core, matrice UI 1684. ZIP verificato.
+- Nessun deploy, nessuna scrittura o migrazione Supabase; staging, main, Pages e produzione invariati. Bozza non ufficiale in attesa di finalizzazione e collaudi Auth.
