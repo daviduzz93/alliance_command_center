@@ -132,3 +132,11 @@
 - Dalla v1.0: piano iniziale IMMUTABILE, stato locale distinto per DS A/B con copia delle assegnazioni *previste* e cronologia degli ordini **comunicati**. L'R4 verifica, usa «Copia e registra», e viene aggiornato lo stato previsto solo dopo copia riuscita; nessun controllo di effettivo movimento, né iter approvativo tra R4. Ordini obsoleti scartati.
 - Avvertenza: stato SOLO in memoria pagina, non persistente e non condiviso; aggiornamenti si riferiscono alla fase 10–25; ancora non adatto a coordinamento sincrono tra ufficiali. Non confondere ordine comunicato con movimento eseguito.
 - Test: 13 nuovi, quick 18, mappa 121/browser 184, validazione 10, motore 9686, playbook 629, UI 1684. ZIP integro. Nessuna modifica a SQL, Supabase, staging, produzione, main o Pages.
+
+## Storico DS Live ed esito DEV v1.2 (31/10/2026)
+
+- Pacchetto PRIVATO Library `ACC_Formazioni_DS_StoricoLiveEsiti_DEV_v1_2_PRIVATO.zip` e rapporto `ACC_DS_STORICO_LIVE_ESITI_v1_2_REPORT.md`.
+- Modulo Live: snapshot immutabile del piano iniziale, assegnazioni previste aggiornate e log datato degli ordini dichiarati come comunicati. Selezione manuale **Vittoria/Sconfitta**. Stato separato per alleanza, settimana, DS A/B. Esportazione resoconto JSON.
+- **Attenzione:** salvataggio soltanto in localStorage del browser, NON Supabase, NON storico condiviso. La ricarica richiede rigenerare esattamente lo stesso piano; se il fingerprint del piano cambia il registro non viene associato. Nessun controllo dell'esecuzione reale. Ancora senza formazione ufficiale finalizzata.
+- Test locali PASS: storico 16, contromisure 18, live v1.1 13, mappa 121, validazione 10, playbook 629, formazioni 9686, calendario 39, UI 1684, core. Archivio ZIP integro.
+- Prossimo passo backend da validare separatamente: snapshot formazioni e log append-only per evento, outcome, RLS e concorrenza via Supabase. Nessuna modifica SQL, staging, Pages, main o produzione.
