@@ -140,3 +140,11 @@
 - **Attenzione:** salvataggio soltanto in localStorage del browser, NON Supabase, NON storico condiviso. La ricarica richiede rigenerare esattamente lo stesso piano; se il fingerprint del piano cambia il registro non viene associato. Nessun controllo dell'esecuzione reale. Ancora senza formazione ufficiale finalizzata.
 - Test locali PASS: storico 16, contromisure 18, live v1.1 13, mappa 121, validazione 10, playbook 629, formazioni 9686, calendario 39, UI 1684, core. Archivio ZIP integro.
 - Prossimo passo backend da validare separatamente: snapshot formazioni e log append-only per evento, outcome, RLS e concorrenza via Supabase. Nessuna modifica SQL, staging, Pages, main o produzione.
+
+## Storico condiviso DS v1.3 — preparazione NON applicata (31/10/2026)
+
+- Preview privata `ACC_DS_StoricoCondiviso_PREVIEW_v1_3_PRIVATO.zip`, rapporto `ACC_DS_STORICO_CONDIVISO_v1_3_REPORT.md` conservati in Library ACC.
+- Su acc-test (`tehijaphavnemchizzbm`) controllate **in sola lettura** le tabelle attuali: ancora assenti tabelle formazioni/storico ufficiale. SQL **NON APPLICATA** `sql/ACC_DS_STORICO_CONDIVISO_v1_3_PREVIEW_NON_APPLICATA.sql` definisce `acc_ds_battle_records` e `acc_ds_battle_orders`, RLS R4/R5, snapshot iniziale immutabile, ordini append-only, esito victory/defeat, contatore revisioni e vincoli evento A/B.
+- Adapter opzionale `ds-shared-history.js` include load/create/update outcome ma **non è chiamato dal frontend**. La scrittura condivisa ordini non è ancora implementata: serve RPC transazionale per aggiornare expected_plan + append order atomicamente, con controllo revisione e autorizzazione, e test con account Auth reali, incluso isolamento altre alleanze.
+- Regressioni locali PASS: shared adapter 6, storico locale 16, quick 18, live 13, core PASS; ZIP integro. Vecchia funzionalità localStorage v1.2 resta operativa.
+- Non è una v1.3 attiva in produzione. Nessun deploy, nessuna migrazione neppure su acc-test, GitHub main/Pages/staging/produzione invariati.
