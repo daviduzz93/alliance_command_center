@@ -245,3 +245,9 @@
 - Corretto ordine operazioni nel pannello shared: **prima RPC di registrazione, poi clipboard**; se RPC fallisce nessun testo viene copiato dall'azione, se clipboard fallisce l'ordine è già registrato e la UI lo comunica chiaramente.
 - Nuova suite due R4 **simulati**, stessa revisione → conflitto → refresh → retry; assegnazione obsoleta respinta. PASS insieme a tutti i test shared panel, atomic, bridge, realtime mock, quick, map 121 e ZIP.
 - **Non completato** collaudo JWT multiutente reale; Realtime publication non attiva (tentativo migration bloccato da controlli sicurezza). Nessuna modifica a DB, staging, Pages, main o produzione. Polling 20 s di riserva.
+
+## v2.9 — fuso personale e footer caffè (31/10/2026)
+- Nuova build PRIVATA `ACC_FusiOrari_Caffe_DEV_v2_9_PRIVATO.zip`, rapporto `ACC_FUSI_ORARI_CAFFE_v2_9_REPORT.md`, entrambi in Library ACC.
+- Signup e impostazioni utente: scelta Paese + fuso IANA modificabile, suggerito da dispositivo, salvato tramite Supabase Auth user_metadata (`acc_country`, `acc_time_zone`; solo preferenze non autorizzazioni). Conversione Iscrizioni DS per account con DST, server fisso predefinito UTC-02 e orari settimanali da schedule.
+- PNG mappa tattica: Desert Team A/B, ora server configurata soltanto se disponibile e offset -120; nessuna ora inventata. Footer non ufficiale + `daviduzz` e pulsante caffè non attivo (URL Buy Me a Coffee da fornire).
+- Test: tutti .cjs PASS, nuovo timezone-account PASS, ZIP integro; browser Auth reale NON collaudato. Nessuna modifica SQL, database, staging, Pages, main o produzione. Collaudo due R4 Astra/Work rimandato su richiesta esplicita utente.
