@@ -251,3 +251,10 @@
 - Signup e impostazioni utente: scelta Paese + fuso IANA modificabile, suggerito da dispositivo, salvato tramite Supabase Auth user_metadata (`acc_country`, `acc_time_zone`; solo preferenze non autorizzazioni). Conversione Iscrizioni DS per account con DST, server fisso predefinito UTC-02 e orari settimanali da schedule.
 - PNG mappa tattica: Desert Team A/B, ora server configurata soltanto se disponibile e offset -120; nessuna ora inventata. Footer non ufficiale + `daviduzz` e pulsante caffè non attivo (URL Buy Me a Coffee da fornire).
 - Test: tutti .cjs PASS, nuovo timezone-account PASS, ZIP integro; browser Auth reale NON collaudato. Nessuna modifica SQL, database, staging, Pages, main o produzione. Collaudo due R4 Astra/Work rimandato su richiesta esplicita utente.
+
+## v2.9 — fusi orari personali e footer caffè (31/10/2026)
+- Build privata `ACC_FusiOrari_Caffe_DEV_v2_9_PRIVATO.zip`, report `ACC_FUSI_ORARI_CAFFE_DEV_v2_9_REPORT.md`, nella Library ACC (zip caricata con suffisso Library `(2)` per omonimia).
+- Collegato `acc-timezones.js` una sola volta prima dell'app; registrazione con Paese e timezone IANA in Supabase Auth user_metadata, modificabili da Impostazioni via `auth.updateUser`. Metadati **solo per visualizzazione**, non autorizzazione.
+- Iscrizioni DS convertono da data + ora server usando Intl con DST; PNG singola fase e piano completo etichettati **Desert Team A/B** con ora del server UTC−02:00 letta dal calendario della settimana, oppure «ora server da confermare» se manca.
+- Footer non ufficiale «Creato da daviduzz» e pulsante `☕ Offrimi un caffè` **disabilitato** su autenticazione/onboarding/sidebar/app fino alla comunicazione di URL Buy Me a Coffee. Nessun pagamento integrato.
+- Test locali PASS: nuovi v2.9 9, timezone esistenti, mappa 121, quick 18, panel 17, sintassi; ZIP integro. Mancano test reali di registrazione/auth e multi-R4 con Astra/Work, come concordato. Nessuna modifica a Supabase, prod/staging/main/Pages.
