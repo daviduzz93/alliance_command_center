@@ -183,3 +183,8 @@
 - Verificato in sola lettura su acc-test che esiste `has_alliance_role(uuid, alliance_role[])` e NON esistono ancora le tabelle dello storico DS.
 - SQL **REVIEW ONLY** `sql/ACC_DS_STORICO_CONSOLIDATO_v1_9_HARDENED_REVIEW_ONLY.sql`: rispetto a v1.8 controlla l'insieme esatto delle tre fasi e rifiuta campi extra nelle mosse `playerId/from/to`.
 - Suite locali shared history, atomic, secure, create e preflight + test statici PASS; ZIP integro. SQL **NON eseguita**; niente test JWT/RLS live, niente UI Supabase live. Nessuna modifica a db, staging o produzione.
+
+## v2.0 — bridge schema frontend → storico DS (31/10/2026)
+- Privati in Library: `ACC_DS_StoricoBridge_PREVIEW_v2_0_PRIVATO.zip`, `ACC_DS_STORICO_BRIDGE_v2_0_REPORT.md`.
+- Nuovo modulo `ds-shared-bridge.js`: snapshot esatto 3 fasi × 20 giocatori, identità stabili, normalizzazione codici e conversione degli ordini rapidi da nomi edifici a `playerId/from/to` per RPC. Adapter opzionale `createValidated` / `recordValidated`, **non invocato dalla UI**. 17 test bridge PASS; regressioni shared, quick, map PASS.
+- **Ancora non condiviso realmente**: SQL v1.9 non eseguito, nessuna sottoscrizione Realtime, test JWT/RLS multiactor da fare. Non interpretare v2.0 come deploy; production, acc-test, staging, Pages e main invariati.
