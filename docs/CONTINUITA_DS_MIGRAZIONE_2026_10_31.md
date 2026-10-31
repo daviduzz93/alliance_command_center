@@ -148,3 +148,9 @@
 - Adapter opzionale `ds-shared-history.js` include load/create/update outcome ma **non è chiamato dal frontend**. La scrittura condivisa ordini non è ancora implementata: serve RPC transazionale per aggiornare expected_plan + append order atomicamente, con controllo revisione e autorizzazione, e test con account Auth reali, incluso isolamento altre alleanze.
 - Regressioni locali PASS: shared adapter 6, storico locale 16, quick 18, live 13, core PASS; ZIP integro. Vecchia funzionalità localStorage v1.2 resta operativa.
 - Non è una v1.3 attiva in produzione. Nessun deploy, nessuna migrazione neppure su acc-test, GitHub main/Pages/staging/produzione invariati.
+
+## Storico atomico DS v1.4 — preview NON installata (31/10/2026)
+- Pacchetto privato in Library: `ACC_DS_StoricoAtomico_PREVIEW_v1_4_PRIVATO.zip` e `ACC_DS_STORICO_ATOMICO_v1_4_REPORT.md`.
+- RPC SQL proposta `public.acc_ds_record_live_order`: lock FOR UPDATE del record evento, controllo revision, autorizzazione ufficiali R4/R5, insert ordine append-only e update expected_plan nella stessa transazione; conflitti rifiutati. Adapter JS `recordOrder` + 9 test mock nuovi, 6 precedenti, 16 storico locale, 18 quick: PASS.
+- **Nessuna modifica a Supabase** (test/prod), nessuna attivazione UI della RPC. Ancora da verificare RLS/JWT e conflitti con due utenti reali, revisioni outcome, vincoli e semantica JSON. Cronologia operativa resta localStorage come v1.2. Non descrivere come sincronizzato.
+- Staging/main/Pages e produzione invariati.
