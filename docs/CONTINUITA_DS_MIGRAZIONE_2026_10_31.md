@@ -166,3 +166,8 @@
 - Script review `sql/ACC_DS_RPC_SICURA_v1_6_REVIEW_ONLY.sql`: revoca UPDATE record / INSERT ordini al client; nuova RPC SECURITY DEFINER con auth.uid + membership R4/R5, lock, revisione, verifica moves per singolo giocatore/fase ed elaborazione expected_plan sul server, log ordine atomico, prevenzione replay e blocco dopo outcome. Nuova RPC `acc_ds_set_battle_outcome` per Vittoria/Sconfitta con verifica concorrenza.
 - Adapter JS usa solo delta nella RPC, esito via RPC; test mock e statici PASS. **Non ancora SQL runtime verificata su PostgreSQL, non applicata a acc-test**. La UI Live resta su localStorage, non sincronizzata. Prima del deploy: test JWT/RLS con due R4 + R1–R3 + alleanza diversa, controlli creazione snapshot, traduzione etichette in codici e integrazione frontend.
 - Nessun deploy, nessuna modifica DB, main, Pages, staging o produzione.
+
+## Storico DS v1.7 — creazione protetta, NON DEPLOYATA
+- Build privata `ACC_DS_StoricoCreazioneProtetta_PREVIEW_v1_7_PRIVATO.zip`, rapporto `ACC_DS_CREAZIONE_PROTETTA_v1_7_REPORT.md`, entrambi in Library.
+- Nuova RPC preparatoria `acc_ds_create_battle` con controllo membro R4/R5, 20 titolari identici nelle tre fasi e `initial_plan=expected_plan` alla creazione; revoca DML dirette sui registri. Adapter `ds-shared-history.js` aggiornato alla RPC, cinque suite shared PASS (static/mock).
+- SQL in `sql/ACC_DS_CREAZIONE_PROTETTA_v1_7_REVIEW_ONLY.sql`, **non applicata neppure ad acc-test**. Integrazione Live ancora locale, nessun test Auth/JWT reale o concorrenza DB; occorre revisione cumulativa v1.3+v1.6+v1.7 prima di installare. Nessun cambiamento a produzione, staging, Pages e main.
