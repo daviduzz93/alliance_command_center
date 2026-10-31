@@ -154,3 +154,9 @@
 - RPC SQL proposta `public.acc_ds_record_live_order`: lock FOR UPDATE del record evento, controllo revision, autorizzazione ufficiali R4/R5, insert ordine append-only e update expected_plan nella stessa transazione; conflitti rifiutati. Adapter JS `recordOrder` + 9 test mock nuovi, 6 precedenti, 16 storico locale, 18 quick: PASS.
 - **Nessuna modifica a Supabase** (test/prod), nessuna attivazione UI della RPC. Ancora da verificare RLS/JWT e conflitti con due utenti reali, revisioni outcome, vincoli e semantica JSON. Cronologia operativa resta localStorage come v1.2. Non descrivere come sincronizzato.
 - Staging/main/Pages e produzione invariati.
+
+## Security gate storico DS v1.5 — PREVIEW NON APPLICATA
+- Build privata `ACC_DS_StoricoSicurezza_PREVIEW_v1_5_PRIVATO.zip`, rapporto `ACC_DS_STORICO_SICUREZZA_v1_5_REPORT.md` in Library.
+- Rilevato blocco critico nella v1.4: grant diretti `UPDATE` a record e `INSERT` a ordini permettono di bypassare la transazione RPC; anche `expected_plan` veniva accettato dal client senza riconciliazione server-side. Non dichiarare sincronizzazione sicura.
+- Hardening SQL di revisione preparato: revoca mutazioni dirette e accesso alla RPC vecchia, intenzionalmente non attiva la funzione live. Test statici e adapter PASS. Va prima riscritta RPC autorizzata, con validazione movimenti, audit RLS, conflitti e test autenticati cross-alliance.
+- Nessuna migrazione applicata neppure su acc-test, nessun deploy. Storico locale ancora operativo. Non applicare SQL v1.4 senza correzioni.
