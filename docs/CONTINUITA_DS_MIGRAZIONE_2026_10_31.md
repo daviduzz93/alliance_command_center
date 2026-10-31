@@ -108,3 +108,11 @@
 - Prima del PNG completo delle tre fasi il client controlla: 20 titolari per fase, dieci riserve distinte, assenza di titolari duplicati o fra riserve, codici incarichi riconosciuti, e stessa identità dei 20 titolari nelle tre fasi. Cambi incarico consentiti, sostituzioni titolari/riserve ancora non modellate e quindi bloccate per prevenire incongruenze. L'export PNG singola fase resta invariato.
 - Test PASS: nuovo validatore 10/10, mappa 121, browser mappa 184, engine Formazioni 9.686, strategie 629, UI 1.684, core/sintassi. ZIP verificato.
 - **Non è una convalida ufficiale backend**; Auth con JWT reali, storico, sostituzioni autorizzate e finalizzazione restano da sviluppare. Supabase, GitHub main, staging e produzione invariati.
+
+## Contromisure rapide DS DEV v0.9 (31/10/2026)
+
+- Nuova candidata **privata**: `ACC_Formazioni_DS_ContromisureRapide_DEV_v0_9_PRIVATO.zip` e report `ACC_DS_CONTROMISURE_RAPIDE_v0_9_REPORT.md` archiviati nella Library ACC. Base v0.8.
+- Pannello officer-only nel laboratorio mappa: lettura manuale della concentrazione avversaria, controllo Nuclear Silo e punteggio; proposta di **fino a due** trasferimenti condizionati da Strikers verso Oil Refinery 1/2, soltanto se verificati sul campo. DS A e DS B trattati separatamente; niente spostamenti automatici, nessuna modifica al piano originale, nessun invio al gioco.
+- Il suggeritore legge la bozza della fase di riferimento; se manca una formazione valida da 20, si blocca; se mancano giocatori mobili, non inventa spostamenti. La reale disponibilità delle raffinerie e le posizioni live non sono note a ACC.
+- Test locali PASS: quick advisor 12/12; mappa unit 121; mappa delta v0.7; validatore v0.8 10; playbook 629; engine Formazioni 9686; calendario 39; core; matrice generale browser 1684. ZIP 72 file, test integrità PASS.
+- Limiti: nuova UI tradotta IT/EN (fallback IT per altre lingue), test Auth/JWT reale e browser specifico ancora necessari. No installazione SQL, no staging, no produzione, GitHub main e Pages invariati.
