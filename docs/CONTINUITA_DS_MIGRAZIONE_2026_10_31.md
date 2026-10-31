@@ -177,3 +177,9 @@
 - `sql/ACC_DS_STORICO_CONSOLIDATO_v1_8_REVIEW_ONLY.sql` consolida tabelle v1.3 e RPC v1.6/v1.7 in una transazione, senza reintrodurre i GRANT diretti INSERT/UPDATE della v1.3 e senza vecchia RPC v1.4 insicura. Esito e ordini previsti con controllo della revisione.
 - Test static/mock adapter PASS: shared-history 6, atomic 9, secure-v16, create-v17; ZIP 91 file integro.
 - **NON ESEGUITA** SQL su PostgreSQL, **NON DEPLOYATA** e NON attiva nella UI. Ancora da validare JSON assignments del frontend, RLS e privilege definer, test JWT multi-utente, concorrenza. LocalStorage Live rimane modalità effettiva. Nessun cambiamento su acc-test, prod, staging o main.
+
+## v1.9 — verifica schema e hardening JSON (31/10/2026)
+- Library privata `ACC_DS_StoricoVerifica_PREVIEW_v1_9_PRIVATO.zip`, report `ACC_DS_STORICO_VERIFICA_v1_9_REPORT.md`.
+- Verificato in sola lettura su acc-test che esiste `has_alliance_role(uuid, alliance_role[])` e NON esistono ancora le tabelle dello storico DS.
+- SQL **REVIEW ONLY** `sql/ACC_DS_STORICO_CONSOLIDATO_v1_9_HARDENED_REVIEW_ONLY.sql`: rispetto a v1.8 controlla l'insieme esatto delle tre fasi e rifiuta campi extra nelle mosse `playerId/from/to`.
+- Suite locali shared history, atomic, secure, create e preflight + test statici PASS; ZIP integro. SQL **NON eseguita**; niente test JWT/RLS live, niente UI Supabase live. Nessuna modifica a db, staging o produzione.
