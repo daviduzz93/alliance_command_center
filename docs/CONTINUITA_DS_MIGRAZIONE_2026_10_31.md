@@ -116,3 +116,12 @@
 - Il suggeritore legge la bozza della fase di riferimento; se manca una formazione valida da 20, si blocca; se mancano giocatori mobili, non inventa spostamenti. La reale disponibilità delle raffinerie e le posizioni live non sono note a ACC.
 - Test locali PASS: quick advisor 12/12; mappa unit 121; mappa delta v0.7; validatore v0.8 10; playbook 629; engine Formazioni 9686; calendario 39; core; matrice generale browser 1684. ZIP 72 file, test integrità PASS.
 - Limiti: nuova UI tradotta IT/EN (fallback IT per altre lingue), test Auth/JWT reale e browser specifico ancora necessari. No installazione SQL, no staging, no produzione, GitHub main e Pages invariati.
+
+## Ordini rapidi DS DEV v1.0 — proposta non operativa (31/10/2026)
+
+- Build **privata** `ACC_Formazioni_DS_OrdiniRapidi_DEV_v1_0_PRIVATO.zip`, rapporto `ACC_DS_ORDINI_RAPIDI_v1_0_REPORT.md` archiviati in Library. Base v0.9; nessun codice privato su GitHub.
+- Schermata Contromisure: checkbox manuale **edificio critico sotto attacco**; sospende le proposte offensive, dà priorità alla verifica difensiva. Motore ora distingue priorità `hold`/`assess`/`intervene`.
+- Nuovo testo chat breve, massimo **200 caratteri**, con domanda di verifica destinazione e messaggio `Altri fermi`; copia abilitata soltanto dopo checkbox manuale di verifica da parte dell'ufficiale. Nessun invio automatico in Last War, nessuna modifica della formazione o dei dati.
+- **Sviluppo volutamente limitato:** al massimo due spostamenti suggeriti da gruppo mobile, non vengono svuotati automaticamente edifici critici. Nessun presunto dato live.
+- Test locali: quick 18/18, mappa 121, strategie 629, calendario 39, UI mock 1684, core e sintassi JS PASS; ZIP 72 file integro. Non ancora test end-to-end browser Auth/JWT. Stringhe nuove IT/EN, fallback IT per altre lingue.
+- Rimangono da progettare: coordinatore operativo live, cronologia decisioni, soglie di presidio configurabili, finalizzazione. Nessun deploy, SQL, cambi acc-test, staging, Pages, main o produzione.
