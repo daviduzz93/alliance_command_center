@@ -125,3 +125,10 @@
 - **Sviluppo volutamente limitato:** al massimo due spostamenti suggeriti da gruppo mobile, non vengono svuotati automaticamente edifici critici. Nessun presunto dato live.
 - Test locali: quick 18/18, mappa 121, strategie 629, calendario 39, UI mock 1684, core e sintassi JS PASS; ZIP 72 file integro. Non ancora test end-to-end browser Auth/JWT. Stringhe nuove IT/EN, fallback IT per altre lingue.
 - Rimangono da progettare: coordinatore operativo live, cronologia decisioni, soglie di presidio configurabili, finalizzazione. Nessun deploy, SQL, cambi acc-test, staging, Pages, main o produzione.
+
+## Live semplice DS DEV v1.1 (31/10/2026)
+
+- Build privata `ACC_Formazioni_DS_LiveSemplice_DEV_v1_1_PRIVATO.zip`, report `ACC_DS_LIVE_SEMPLICE_v1_1_REPORT.md` nella Library ACC.
+- Dalla v1.0: piano iniziale IMMUTABILE, stato locale distinto per DS A/B con copia delle assegnazioni *previste* e cronologia degli ordini **comunicati**. L'R4 verifica, usa «Copia e registra», e viene aggiornato lo stato previsto solo dopo copia riuscita; nessun controllo di effettivo movimento, né iter approvativo tra R4. Ordini obsoleti scartati.
+- Avvertenza: stato SOLO in memoria pagina, non persistente e non condiviso; aggiornamenti si riferiscono alla fase 10–25; ancora non adatto a coordinamento sincrono tra ufficiali. Non confondere ordine comunicato con movimento eseguito.
+- Test: 13 nuovi, quick 18, mappa 121/browser 184, validazione 10, motore 9686, playbook 629, UI 1684. ZIP integro. Nessuna modifica a SQL, Supabase, staging, produzione, main o Pages.
