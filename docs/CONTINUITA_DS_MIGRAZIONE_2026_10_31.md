@@ -226,3 +226,10 @@
 - Corretto `ds-map.js`: se presente client Supabase, viene mostrato solo il pannello condiviso, evitando l'azione locale duplicata; se client assente, il modulo locale è esplicitamente etichettato **NON SINCRONIZZATO**.
 - Pannello shared chiarisce registrazione solo dopo RPC completata, senza affermare spostamenti reali. Nessuna modifica DB, SQL, deploy o accesso produzione. Test v2.5 8 e mappa 121 PASS; test adapter shared e quick PASS.
 - Ancora necessario test E2E con due account R4 autenticati su acc-test, verifica Realtime e situazione offline. Non chiamare la build pronta per DS reale.
+
+## v2.6 — hardening client Realtime, pubblicazione DB bloccata (31/10/2026)
+- Library privata `ACC_DS_RealtimeAffidabile_DEV_v2_6_PRIVATO.zip`, rapporto `ACC_DS_REALTIME_AFFIDABILE_v2_6_REPORT.md`.
+- Modificato `ds-shared-realtime.js`: una sola sottoscrizione alla tabella `acc_ds_battle_records`, refresh da DB dopo SUBSCRIBED/riconnessione, coda di refresh e cleanup; non ascolta più `acc_ds_battle_orders` per evitare doppie notifiche. Restano polling UI 20s e RPC create/order/outcome da v2.4.
+- `acc-test`: verifica in sola lettura mostra `supabase_realtime` esistente ma **nessuna tabella storico pubblicata**. Tentativo di applicare `ALTER PUBLICATION ... ADD TABLE acc_ds_battle_records` tramite migration bloccato dai controlli di sicurezza del tool. **Nessuna modifica DB**; non ritentato aggirando il blocco.
+- Test locali PASS: Realtime con reconnect, shared panel 17, atomic 9, bridge 17, history 6, security, quick 18, JS sintassi, ZIP integrity. Mancano due R4 JWT reali e notifica Realtime end-to-end. Non definire la sincronizzazione istantanea attiva.
+- Nessun deploy o modifica di staging, Pages, main o produzione.
