@@ -194,3 +194,10 @@
 - Aggiunto `ds-shared-realtime.js`: sottoscrizione opzionale ai cambiamenti Postgres di battle_records e battle_orders, segnalazione e ricarica snapshot via `ACCDSSharedHistory.load` con serializzazione dei refresh e cleanup. Non si fida del payload evento e non scrive alcunché.
 - Test PASS: nuovo adapter Realtime, bridge 17, history 6, atomic 9, security/create, quick 18, validazione 10; ZIP integro.
 - **NON ATTIVO:** le tabelle storico su acc-test NON sono installate, SQL v1.9 REVIEW ONLY, nessuna publication Realtime configurata, adapter non invocato dalla UI. Nessun collaudo Auth reale, multiutente o backend. `localStorage` è ancora la modalità operativa. Nessuna modifica a database, staging, main o produzione.
+
+## v2.2 — PRIMA INSTALLAZIONE REALE backend storico su acc-test (31/10/2026)
+- **Applicata** su Supabase test `tehijaphavnemchizzbm` la SQL `ACC_DS_STORICO_CONSOLIDATO_v2_2_TEST_CANDIDATE.sql` (con COMMIT). Sono ora presenti `public.acc_ds_battle_records` e `public.acc_ds_battle_orders`, RLS ON e RPC `acc_ds_create_battle`, `acc_ds_record_live_order`, `acc_ds_set_battle_outcome`.
+- SQL aggiunge validazione JSON rigorosa: root plan solo `phases`, elementi solo `playerId`/`building` stringa, ordini solo `playerId/from/to` stringa.
+- Verifica DB: `authenticated` può SELECT (soggetto a RLS), **non** può INSERT/UPDATE/DELETE direttamente. Eseguiti smoke schema con ROLLBACK prima dell'installazione e flusso DB con ROLLBACK dopo, simulando contesti autenticati officer1/officer2/viewer. Tutti completati senza errori, nessun dato di prova persistito.
+- Build privata Library `ACC_DS_BackendCondiviso_ACC_TEST_v2_2_PRIVATO.zip`; rapporto `ACC_DS_BACKEND_ACC_TEST_v2_2_REPORT.md`.
+- **Limite essenziale**: test con contesto JWT simulato; non ancora due sessioni Auth reali o due connessioni in parallelo. Frontend **non collegato** al DB: Live usa ancora localStorage; Realtime non pubblicato/attivato. Nessun deploy staging/prod, Pages e main invariati.
