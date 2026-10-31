@@ -220,3 +220,9 @@
 - Eliminato doppio pannello Live sulla mappa: quando è presente un client Supabase autenticato si monta **solo** `ACCDSSharedPanel`, con ordini e risultato su acc-test; in assenza di client viene mostrato il vecchio `ACCDSQuick` con avviso evidente **LOCALE / NON SINCRONIZZATO**. Nessun fallback silenzioso a scritture offline in caso di errore condiviso.
 - PASS test nuova modalità esclusiva 8, pannello 17, shared history 6, atomic 9, bridge 17, quick 18, Realtime e sintassi; ZIP verificato.
 - **Da non dichiarare ancora collaudato multi-R4**: manca prova E2E con JWT reali e publication Realtime; polling 20s fallback. Nessuna modifica al database acc-test, staging, produzione, Pages o main.
+
+## v2.5 — unificazione UI Live (31/10/2026)
+- Build privata `ACC_DS_LiveUnificato_DEV_v2_5_PRIVATO.zip` e rapporto `ACC_DS_LIVE_UNIFICATO_v2_5_REPORT.md` conservati in Library. La Library ha assegnato il suffisso `(2)` alle copie caricate per evitare conflitti con file omonimi.
+- Corretto `ds-map.js`: se presente client Supabase, viene mostrato solo il pannello condiviso, evitando l'azione locale duplicata; se client assente, il modulo locale è esplicitamente etichettato **NON SINCRONIZZATO**.
+- Pannello shared chiarisce registrazione solo dopo RPC completata, senza affermare spostamenti reali. Nessuna modifica DB, SQL, deploy o accesso produzione. Test v2.5 8 e mappa 121 PASS; test adapter shared e quick PASS.
+- Ancora necessario test E2E con due account R4 autenticati su acc-test, verifica Realtime e situazione offline. Non chiamare la build pronta per DS reale.
