@@ -171,3 +171,9 @@
 - Build privata `ACC_DS_StoricoCreazioneProtetta_PREVIEW_v1_7_PRIVATO.zip`, rapporto `ACC_DS_CREAZIONE_PROTETTA_v1_7_REPORT.md`, entrambi in Library.
 - Nuova RPC preparatoria `acc_ds_create_battle` con controllo membro R4/R5, 20 titolari identici nelle tre fasi e `initial_plan=expected_plan` alla creazione; revoca DML dirette sui registri. Adapter `ds-shared-history.js` aggiornato alla RPC, cinque suite shared PASS (static/mock).
 - SQL in `sql/ACC_DS_CREAZIONE_PROTETTA_v1_7_REVIEW_ONLY.sql`, **non applicata neppure ad acc-test**. Integrazione Live ancora locale, nessun test Auth/JWT reale o concorrenza DB; occorre revisione cumulativa v1.3+v1.6+v1.7 prima di installare. Nessun cambiamento a produzione, staging, Pages e main.
+
+## Storico DS v1.8 — SQL consolidata REVIEW ONLY
+- Library privata: `ACC_DS_StoricoConsolidato_PREVIEW_v1_8_PRIVATO.zip`, `ACC_DS_STORICO_CONSOLIDATO_v1_8_REPORT.md`.
+- `sql/ACC_DS_STORICO_CONSOLIDATO_v1_8_REVIEW_ONLY.sql` consolida tabelle v1.3 e RPC v1.6/v1.7 in una transazione, senza reintrodurre i GRANT diretti INSERT/UPDATE della v1.3 e senza vecchia RPC v1.4 insicura. Esito e ordini previsti con controllo della revisione.
+- Test static/mock adapter PASS: shared-history 6, atomic 9, secure-v16, create-v17; ZIP 91 file integro.
+- **NON ESEGUITA** SQL su PostgreSQL, **NON DEPLOYATA** e NON attiva nella UI. Ancora da validare JSON assignments del frontend, RLS e privilege definer, test JWT multi-utente, concorrenza. LocalStorage Live rimane modalità effettiva. Nessun cambiamento su acc-test, prod, staging o main.
