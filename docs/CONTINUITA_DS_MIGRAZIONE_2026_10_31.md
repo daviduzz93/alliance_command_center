@@ -101,3 +101,10 @@
 - PNG completo: Fase 1 lista completa; Fase 2 elenco **soli movimenti rispetto a Fase 1**; Fase 3 elenco **soli movimenti rispetto a Fase 2**. Confronto attraverso ID giocatore e codice incarico; Strikers/casse trattati come incarichi mobili. Le mappe delle tre fasi rimangono per orientamento; riserve alla fine.
 - Test PASS: nomi e delta v0.7, map unit 121, map browser 184, tattiche 629, formazioni engine 9686, calendario 39, core, matrice UI 1684. ZIP verificato.
 - Nessun deploy, nessuna scrittura o migrazione Supabase; staging, main, Pages e produzione invariati. Bozza non ufficiale in attesa di finalizzazione e collaudi Auth.
+
+## Validazione piano DS DEV v0.8 — 31 ottobre 2026
+
+- Candidata PRIVATA in Library `ACC_Formazioni_DS_ValidazionePiano_DEV_v0_8_PRIVATO.zip` e report `ACC_DS_VALIDAZIONE_EXPORT_v0_8_REPORT.md`; base v0.7, nessun deploy né modifiche DB.
+- Prima del PNG completo delle tre fasi il client controlla: 20 titolari per fase, dieci riserve distinte, assenza di titolari duplicati o fra riserve, codici incarichi riconosciuti, e stessa identità dei 20 titolari nelle tre fasi. Cambi incarico consentiti, sostituzioni titolari/riserve ancora non modellate e quindi bloccate per prevenire incongruenze. L'export PNG singola fase resta invariato.
+- Test PASS: nuovo validatore 10/10, mappa 121, browser mappa 184, engine Formazioni 9.686, strategie 629, UI 1.684, core/sintassi. ZIP verificato.
+- **Non è una convalida ufficiale backend**; Auth con JWT reali, storico, sostituzioni autorizzate e finalizzazione restano da sviluppare. Supabase, GitHub main, staging e produzione invariati.
