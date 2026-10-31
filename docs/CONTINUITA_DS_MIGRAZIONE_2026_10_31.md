@@ -160,3 +160,9 @@
 - Rilevato blocco critico nella v1.4: grant diretti `UPDATE` a record e `INSERT` a ordini permettono di bypassare la transazione RPC; anche `expected_plan` veniva accettato dal client senza riconciliazione server-side. Non dichiarare sincronizzazione sicura.
 - Hardening SQL di revisione preparato: revoca mutazioni dirette e accesso alla RPC vecchia, intenzionalmente non attiva la funzione live. Test statici e adapter PASS. Va prima riscritta RPC autorizzata, con validazione movimenti, audit RLS, conflitti e test autenticati cross-alliance.
 - Nessuna migrazione applicata neppure su acc-test, nessun deploy. Storico locale ancora operativo. Non applicare SQL v1.4 senza correzioni.
+
+## RPC storico DS v1.6 — REVIEW NON INSTALLATA (31/10/2026)
+- Build PRIVATA Library: `ACC_DS_StoricoRPC_Sicura_PREVIEW_v1_6_PRIVATO.zip`; rapporto `ACC_DS_RPC_SICURA_v1_6_REPORT.md`.
+- Script review `sql/ACC_DS_RPC_SICURA_v1_6_REVIEW_ONLY.sql`: revoca UPDATE record / INSERT ordini al client; nuova RPC SECURITY DEFINER con auth.uid + membership R4/R5, lock, revisione, verifica moves per singolo giocatore/fase ed elaborazione expected_plan sul server, log ordine atomico, prevenzione replay e blocco dopo outcome. Nuova RPC `acc_ds_set_battle_outcome` per Vittoria/Sconfitta con verifica concorrenza.
+- Adapter JS usa solo delta nella RPC, esito via RPC; test mock e statici PASS. **Non ancora SQL runtime verificata su PostgreSQL, non applicata a acc-test**. La UI Live resta su localStorage, non sincronizzata. Prima del deploy: test JWT/RLS con due R4 + R1–R3 + alleanza diversa, controlli creazione snapshot, traduzione etichette in codici e integrazione frontend.
+- Nessun deploy, nessuna modifica DB, main, Pages, staging o produzione.
