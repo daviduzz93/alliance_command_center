@@ -1,6 +1,6 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.29  
+**Revisione documento:** 1.30  
 **Aggiornato al:** 5 novembre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
@@ -9,6 +9,17 @@
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
 
+
+## Importazione reale censimento server — rev. 1.30 (05/11/2026)
+
+- **Applicato esclusivamente ad acc-test:** registro passato da 0 a **2.304 server**, con 2.304 osservazioni della data di apertura e provenienza. Importazione transazionale, insert-only; nessuna cancellazione o sovrascrittura di correzioni esistenti.
+- Fonte: [Last War Hub — Server List](https://lastwarhub.com/en/tracker/server-list/), tabella pubblica letta integralmente tramite browser. Identificativi effettivamente presenti: 3–2308, esclusi 4 e 7; anche 1 e 2 assenti. Nessun identificativo mancante ricostruito. Date riportate: 21/06/2023–07/08/2026.
+- Date provenienti da fonte comunitaria, non da API ufficiale: `verified_at=NULL`, osservazioni `unverified`, stato operativo `unknown`. La presenza nel censimento **non certifica che tutti i server siano attivi oggi**, né che il censimento sia completo rispetto al gioco. Stagioni, eventi, fusi, fusioni e regioni non ricavati automaticamente; campi sconosciuti lasciati NULL.
+- Acquisizione puntuale classificata `manual_only`; nessun aggiornamento automatico o diritto di accesso API dichiarato. Consultate le pagine About/Privacy della fonte.
+- **Verifiche eseguite:** 2.304 ID univoci; integrità del trasferimento controllata (FNV-1a della codifica 2374233173); checksum date/ID sul database 53917405687, corrispondente alla lettura; 2.304 osservazioni di apertura; 4.609 eventi audit per il censimento (fonte + registro + osservazioni). RLS presente, SELECT anon negato, scritture authenticated negate.
+- **Riscontro aggiuntivo server 2010:** data di apertura riportata da Last War Hub 13/12/2025; [LW Spy](https://lw-spy.com/servers/) riporta scansione del 26/10/2026 e 6.171 basi. Salvata una distinta osservazione `recent_presence`: non conferma la data di apertura e non viene trasformata in certificazione dello stato live. Totale osservazioni dopo questo riscontro: 2.305.
+- **Limiti e attività aperte:** verificare freschezza/copertura, attività corrente e date contro ulteriori evidenze; verificare la presentazione dei dati non verificati nella build privata. Nessun test UI dell'app dichiarato in questo intervento.
+- **Pubblicazione:** dati salvati nel database TEST e documentazione aggiornata sul solo branch di test. Nessun deploy app, nuova build ZIP, modifica a main/GitHub Pages o Supabase produzione.
 
 ## Stato intervento push TEST — 05/11/2026
 
