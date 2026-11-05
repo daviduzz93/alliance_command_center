@@ -1,13 +1,25 @@
 # Alliance Command Center (ACC) — Documento tecnico di continuità
 
-**Revisione documento:** 1.28  
-**Aggiornato al:** 31 ottobre 2026 (Europe/Rome)  
+**Revisione documento:** 1.29  
+**Aggiornato al:** 5 novembre 2026 (Europe/Rome)  
 **Stato:** Fase 4, implementazione gestione ranghi R1–R5, ambiente di test  
 **Responsabile prodotto:** Daviduzz  
 **Scopo:** una fonte consultabile e versionata per riprendere lo sviluppo senza perdere decisioni, test, stato delle build o problemi aperti.
 
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
+
+## Audit della candidata v5.33 — rev. 1.29 (05/11/2026)
+
+- Riferimento corrente: ZIP privato v5.33 fornito dall'utente. Il documento 1.28 descrive uno stato precedente: il database TEST contiene ora moduli DS e roster. Non ripetere né applicare automaticamente le vecchie preview SQL.
+- Preparata una candidata cumulativa privata: limiti 20 titolari/10 riserve, riserve facoltative nel generatore, riassegnazione dei giocatori con doppia disponibilità, controlli numerici nelle cinque lingue, calcolo del giorno server al reset UTC−2 e validazione delle date.
+- Test locali: **10/10 PASS**, inclusi 250 scenari deterministici di disponibilità; sintassi **27 file JS PASS**. Questi risultati NON certificano i flussi Auth, UI o backend.
+- Browser Work: lo staging configurato si arresta prima del login. Test autenticati, mobile e matrice R1–R5 non completati. Nessun deploy eseguito.
+- Applicata esclusivamente ad **acc-test** la migrazione `acc_server_registry_audit_foundation`: estensione del registro esistente con fonti, osservazioni, ancore temporali, stagioni, fusioni, audit correzioni e registro aggiornamenti. Utenti ACC in sola lettura; scritture amministrative.
+- Verifiche PostgreSQL con rollback: audit, reset, giorno da riferimento, rifiuto INSERT per authenticated. Sono test di ruolo SQL, NON login JWT reali. Nessuna fixture permanente creata.
+- Copertura server: **0 server importati/verificati, 6 fonti censite**; nessun aggiornamento esterno automatico attivato e nessun dato inventato. Servono acquisizione autorizzata e verifica dei dati.
+- Audit di sicurezza e coerenza DS ancora aperto. Dettagli e proposte conservati esclusivamente nel report privato `ACC_V533_AUDIT_2026_11_05.md`; non pubblicare rilievi tecnici sensibili in questo repository pubblico.
+- Nessuna modifica a main, GitHub Pages o Supabase produzione; nessuna cancellazione di dati esistenti né push inviato. La candidata NON è pubblicata né approvata come release E2E.
 
 ## Collaudo SQL RLS simulato e pacchetto DS v0.2.1 — rev. 1.28 (31/10/2026)
 
