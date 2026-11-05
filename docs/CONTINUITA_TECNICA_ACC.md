@@ -9,6 +9,13 @@
 > **Regola fondamentale:** distinguere sempre ciò che è concordato, ciò che è implementato nel codice, ciò che è applicato al database, ciò che è testato e ciò che è pubblicato. Un test UI simulato non equivale a un test backend reale. Questo documento non contiene password, token, codici invito né chiavi segrete.
 
 
+
+## Stato intervento push TEST — 05/11/2026
+
+- L'utente ha autorizzato la rotazione della credenziale push esclusivamente su acc-test.
+- Progetto e funzione esistente verificati in sola lettura. La gestione dei Secrets non è disponibile nel collegamento corrente; l'accesso richiesto al pannello non è stato completato.
+- Rotazione NON eseguita; nessun nuovo deploy, cambio credenziali o invio push. Autorizzazione conservata: non richiederla nuovamente per lo stesso intervento. Riprendere dalla configurazione sicura dei Secrets, poi aggiornare e verificare la funzione senza invii reali.
+
 ## Audit della candidata v5.33 — rev. 1.29 (05/11/2026)
 
 - Riferimento corrente: ZIP privato v5.33 fornito dall'utente. Il documento 1.28 descrive uno stato precedente: il database TEST contiene ora moduli DS e roster. Non ripetere né applicare automaticamente le vecchie preview SQL.
