@@ -535,3 +535,7 @@ L'utente ha richiesto di **non produrre una build separata** per questo interven
 ---
 
 **Nota di continuità:** al riavvio di una chat, aprire questo file GitHub e verificarne la revisione, poi confrontare direttamente repository e database. In caso di discrepanza, lo stato effettivo del codice e del database ha precedenza; aggiornare il documento segnalando la correzione.
+
+## Collaudo browser del piano DS condiviso · 10 novembre 2026
+
+Sulla v6.45 TEST il 9 novembre un R5 dell’alleanza QA A ha salvato il piano Team A del 13 novembre con un titolare assegnato a Hospital I. Il 10 novembre un secondo utente QA della stessa alleanza ha effettuato il login da browser ed è stato riconosciuto come R4. Dal Laboratorio DS ha aperto Archivio, selezionato il piano del 13 novembre e scelto Modifica piano. Il riepilogo ha restituito 1 titolare, 0 riserve e 1 edificio. In Modifica assegnazioni il giocatore sintetico previsto figurava a Hospital I. **Superato il recupero del piano archiviato tra due account distinti.** Gli accessi sono avvenuti in successione. Restano da verificare il conflitto fra modifiche concorrenti alla bozza, il consenso al collegamento scheda, il cambio alleanza e l’isolamento per rango, e il recapito push su dispositivo QA. Nessuna correzione o distribuzione effettuata in questa prova.
